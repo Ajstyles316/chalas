@@ -1,12 +1,12 @@
 
 import facebook from '../../../assets/svg/facebook.svg'
 import instagram from '../../../assets/svg/instagram.svg'
-import tiktok from '../../../assets/svg/tiktok.svg'
-
+import twitter from '../../../assets/svg/twitter.svg'
+import '../styles/component styles/footer.css'
 export const Footer = () => {
     return (
-        <>
-            <div className="footer-container">
+        <div className="footer-container">
+            <div className="ft-cnt">
                 <div className="services-cnt">
                     <span>Servicios</span>
                     <div className="services">
@@ -28,14 +28,14 @@ export const Footer = () => {
                     <span>@ChalitaOe</span>
                     <div className="social">
                         <img src={instagram} alt="nofurulowe" />
-                        <img src={facebook} alt="nofurulowe" />
-                        <img src={tiktok} alt="nofurulowe" />
+                        <img className='fb' src={facebook} alt="nofurulowe" />
+                        <img src={twitter} alt="nofurulowe" />
                     </div>
                 </div>
             </div>
             <div className="copy-cont">
                 <span>© 2024 Creado por CapySharks Dev SRL</span>
             </div>
-        </>
+        </div>
     )
 }

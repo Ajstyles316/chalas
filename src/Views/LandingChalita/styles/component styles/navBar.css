@@ -10,7 +10,7 @@
         /* z-index: 10000; */
         align-items: center;
         justify-content: center;
-        width: 100%;
+        width: 100vw;
         height: 150px;
         margin: 0;
         padding: 0;
