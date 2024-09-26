@@ -38,15 +38,23 @@
         gap: 20px;
     }
 
-    .opt-cont span{
+    .opt-cont a{
+        color: currentColor;
+        text-decoration: none;
+    }
+
+    .opt-cont button{
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 200px;
+        width: 180px;
         height: 32px;
         font-size: 20px;
         border-radius: 30px;
+        background-color: #fff;
+        border-style: none;
     }
+
 
     .opt-cont :hover{
         background: rgba(217, 217, 217, 1);

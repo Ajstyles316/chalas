@@ -1,12 +1,16 @@
 :root{
     --bg-color: #fff;
     --font-tittles: "Poppins", sans-serif;
-    --font-text: Playfair;
+    --font-text: "Playfair", serif;
     --font-color: rgba(0, 0, 0, 1);
     
 }
 
 body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 0;
     margin: 0;
 }

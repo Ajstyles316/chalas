@@ -10,9 +10,9 @@ export const NavBar = () => {
                     <img src={chalitalg} alt="no furulo we" />
                 </div>
                 <div className="opt-cont">
-                    <span>Inicio</span>
-                    <span>Sobre Nosotros</span>
-                    <span>Contacto</span>
+                    <button><a href="/">Inicio</a></button>
+                    <button><a href="/aboutus">Sobre Nosotros</a></button>
+                    <button><a href="/contact">Contacto</a></button>
                 </div>
                 <div className="bt-cont">
                     <button>Inicio de sesión</button>
