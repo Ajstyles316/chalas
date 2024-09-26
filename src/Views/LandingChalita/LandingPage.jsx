@@ -4,11 +4,10 @@ import { Footer } from "./components/Footer"
 
 export const LandingPage = () => {
     return (
-        <>
+        <div className="ldn-container">
             <NavBar />
             <LandingBody />
             <Footer />
-
-        </>
+        </div>
     )
 }

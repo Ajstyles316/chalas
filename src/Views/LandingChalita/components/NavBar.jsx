@@ -18,6 +18,7 @@ export const NavBar = () => {
                     <button>Inicio de sesión</button>
                 </div>
             </div>
+            <hr />
         </>
     )
 }
