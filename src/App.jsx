@@ -1,9 +1,7 @@
+import './App.css'
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import { LandingHome } from './Views/LandingChalita/views/LandingHome'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import './App.css'
 import { LandingAboutUs } from './Views/LandingChalita/views/LandingAboutUs'
 import { LandingContact } from './Views/LandingChalita/views/LandingContact'
 
