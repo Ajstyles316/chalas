@@ -1,0 +1,34 @@
+/* Style para pantallas de pc */
+
+@media (min-width: 800px){
+    
+    .navbar-container{
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 200px;
+        margin: 0;
+        padding: 0;
+        gap: 300px;
+        font-family: var(--font-tittles);
+    }
+
+    .lg-cont{
+        display: flex;
+        flex-direction: initial;
+        width: 150px;
+        height: 150px;
+        padding-right: 150px;
+    }
+
+    .lg-cont img{
+        width: 100%;
+        
+    }
+
+}
