@@ -1,20 +1,22 @@
-import {parragraphsHome} from './parragraphs'
+import { parragraphsHome } from './parragraphs'
 import lamaG from "../../../assets/img/llama_lentes.png"
 import lamaBan from "../../../assets/img/llama_banio.png"
 import lamaComp from "../../../assets/img/llama_pep.png"
 import '../styles/bodies styles/landingBody.css'
 
-export const LandingHomeBody = () =>{
+export const LandingHomeBody = () => {
     return (
         <>
             <div className="ldn-hm-cont">
                 <h1>ChalitaOe</h1>
                 <div className="msg-first">
-                    <p>
-                        {parragraphsHome.homeP1}
-                    </p>
-                    <div className="lmG-cont">
-                        <img src={lamaG} alt="nofurulowe" />
+                    <div className="lm-one">
+                        <p>
+                            {parragraphsHome.homeP1}
+                        </p>
+                        <div className="lmG-cont">
+                            <img src={lamaG} alt="nofurulowe" />
+                        </div>
                     </div>
                     <div className="msg-flot">
                         <span>Organizar nunca fue tan fácil</span>

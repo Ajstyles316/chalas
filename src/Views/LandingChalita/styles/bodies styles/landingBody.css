@@ -1,13 +1,45 @@
 
 @media (min-width: 800px) {
-    .ldn-container{
+    /* .ldn-container{
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         width: 100vw;
+        padding: 0;
+        margin: 0;
+    } */
+
+    .ldn-hm-cont{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        /* width: 100vw; */
         padding: 0;
         margin: 0;
     }
 
+    .ldn-hm-cont h1{
+        font-family: var(--font-tittles);
+        font-size: 25px;
+    }
+    
+    .lm-one{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 1000px;
+    }
+    
+    .lm-one p{
+        width: 400px;
+        font-size: 20px;
+    }
+
+    .lm-one img{
+        width: 300px;
+        transform: rotate(0deg);
+    }
 
 }
