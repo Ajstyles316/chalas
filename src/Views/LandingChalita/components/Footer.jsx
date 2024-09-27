@@ -27,7 +27,7 @@ export const Footer = () => {
                     <span>Social</span>
                     <span>@ChalitaOe</span>
                     <div className="social">
-                        <img src={instagram} alt="nofurulowe" />
+                        <img src={instagram} alt="nofurulowe"/> 
                         <img className='fb' src={facebook} alt="nofurulowe" />
                         <img src={twitter} alt="nofurulowe" />
                     </div>
