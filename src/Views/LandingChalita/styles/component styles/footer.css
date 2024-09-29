@@ -26,10 +26,6 @@
         font-weight: bold;
     }
 
-
-
-
-
     .company{
         display: flex;
         flex-direction: column;
@@ -39,17 +35,18 @@
     .company span:hover{
         display: flex;
         flex-direction: column;
-        padding-top: 20px;
+        font-weight: bold;
+        cursor: pointer;
     }
-
-
-
-
 
     .social-cnt{
         display: flex;
         flex-direction: column;
         padding-top: 20px;
+    }
+
+    .social-cnt img:hover{
+        cursor: pointer;
     }
 
     .fb{

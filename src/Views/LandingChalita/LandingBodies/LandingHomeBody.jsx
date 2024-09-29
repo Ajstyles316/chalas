@@ -8,30 +8,38 @@ export const LandingHomeBody = () => {
     return (
         <>
             <div className="ldn-hm-cont">
-                <h1>ChalitaOe</h1>
-                <div className="msg-first">
-                    <div className="lm-one">
-                        <p>
-                            {parragraphsHome.homeP1}
-                        </p>
-                        <div className="lmG-cont">
+                <h1>ChalitaOE</h1>
+                <div className="lm-one">
+                    <p>
+                        {parragraphsHome.homeP1}
+                    </p>
+                    <div className="lmG-cont">
+                        <div className="lmImg">
                             <img src={lamaG} alt="nofurulowe" />
                         </div>
-                    </div>
-                    <div className="msg-flot">
-                        <span>Organizar nunca fue tan fácil</span>
-                    </div>
-                    <div className="msgs-bottom">
-                        <div className="msg-bot-one">
-                            {parragraphsHome.homeP2}
-                            <img src={lamaBan} alt="nofurulowe" />
-                        </div>
-                        <div className="msg-bot-two">
-                            {parragraphsHome.homeP3}
-                            <img src={lamaComp} alt="nofurulowe" />
-                        </div>
+                        <div className="bg">.</div>
                     </div>
                 </div>
+                <div className="msg-flot">
+                    <span>Organizar nunca fue tan fácil</span>
+                </div>
+                <div className="msgs-bottom">
+                    <div className="msg-bot-one">
+                        <div className="bg-bot-one">
+                            {parragraphsHome.homeP2}
+                            <button>Sobre Nosotros</button>
+                        </div>
+                        <img src={lamaBan} alt="nofurulowe" />
+                    </div>
+                    <div className="msg-bot-two">
+                        <div className="bg-bot-two">
+                            {parragraphsHome.homeP3}
+                            <button>Contactos</button>
+                        </div>
+                        <img src={lamaComp} alt="nofurulowe" />
+                    </div>
+                </div>
+
             </div>
         </>
     )
