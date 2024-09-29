@@ -121,6 +121,8 @@
         font-size: 18px;
         
     }
+
+    /* refactor img, change position absolute and static position */
     .msg-bot-one img{
         width: 300px;
         height: 300px;
@@ -164,6 +166,7 @@
         font-weight: 600;
     }
 
+    /* refactor img, change position absolute and static position */
     .msg-bot-two img{
         width: 300px;
         height: 300px;
