@@ -1,0 +1,156 @@
+.login-container{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content:space-between;
+    overflow-y:hidden;
+    overflow-x: hidden;
+}
+
+.lm-cont-one{
+    padding: 0;
+    margin: 0;
+}
+
+.lm-cont-two{
+    padding: 0;
+    margin: 0;
+}
+
+.lm-cont-one img{
+    width: 400px;
+    height: 710px;
+}
+
+.lm-cont-two img{
+    width: 400px;
+    height: 710px;
+    transform: scaleX(-1);
+}
+
+.lg-cnt{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 400px;
+    height: 600px;
+}
+
+.lg-img{
+    display: flex;
+    width: 120px;
+    height: 120px;
+    padding: 0;
+    margin: 0;
+}
+
+.lg-cnt h1{
+    color: rgba(161, 58, 17);
+    font-family: var(--font-tittles);
+    padding: 0;
+    margin: 0;
+}
+
+.usr-cnt form{
+    display: flex;
+    flex-direction: column;
+    background: rgba(249, 206, 90);
+    width: 400px;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.usr-cnt span{
+    display: flex;
+    justify-content: start;
+    font-family: var(--font-text);
+    font-weight: 400;
+    font-size: 19px;
+    margin: 10px;
+}
+
+.psw-text{
+    display: flex;
+    gap: 60px;
+}
+
+.usr-cnt input{
+    background: rgba(255, 239, 239, 1);
+    width: 300px;
+    height: 40px;
+    font-size: 20px;
+}
+
+.usr-cnt button{
+    margin: 20px 0;
+    width: 200px;
+    height: 40px;
+    background: rgba(161, 58, 17, 1);
+    color: #fff;
+    font-family: var(--font-tittles);
+    border-radius: 50px;
+}
+
+.usr-cnt button:hover{
+    cursor: pointer;
+}
+
+.usr-cnt a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    color: rgba(161, 58, 17, 1);
+    
+}
+
+.lgn-social{
+    margin-top: 10px;
+    width: 300px;
+    height: 160px;
+    background: rgba(251, 145, 83);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-tittles);
+    font-size: 15px;
+    color: #fff;
+}
+
+.lgn-social button{
+    width: 150px;
+    background: rgba(161, 58, 17, 1);
+    border-radius: 50px;
+    margin: 10px;
+    color: #fff;
+}
+
+.lgn-social button:hover{
+    cursor: pointer;
+}
+
+.lgn-social a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.sc-btn{
+    display: flex;
+    gap: 40px;
+    margin-top: 10px;
+    padding: 0;
+}
+
+.sc-btn img{
+    background-color: #fff;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
