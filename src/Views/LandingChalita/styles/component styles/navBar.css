@@ -79,6 +79,11 @@
         background: rgba(252, 208, 95, 1);
     }
 
+    .bt-cont a{
+        text-decoration: none;
+        color: #000;
+    }
+
     .bt-cont :hover{
         cursor: pointer;
     }

@@ -15,7 +15,7 @@ export const NavBar = () => {
                     <button><a href="/contact">Contacto</a></button>
                 </div>
                 <div className="bt-cont">
-                    <button>Inicio de sesión</button>
+                    <button><a href="/login">Inicio de sesión</a></button>
                 </div>
             </div>
             <hr />
