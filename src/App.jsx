@@ -36,7 +36,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/registerclient' element={<RegisterClient />} />
         <Route path='/registerprovider' element={<RegisterProvider />} />
-        <Route path='/home' element={ user? <HomePage correoEmail={user.email}/> : <Login/>}/>
+        <Route path='/home' element={ user? <HomePage/> : <Login/>}/>
       </Routes>
     </BrowserRouter>
   )

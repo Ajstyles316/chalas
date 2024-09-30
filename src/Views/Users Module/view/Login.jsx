@@ -22,7 +22,7 @@ export const Login = () => {
                 await createUserWithEmailAndPassword(auth, email, password);
             }
             catch(error){
-                alert('Asegúrese que la contraseña tenga mínimo 8 caracteres');
+                alert('Asegúrese que la contraseña tenga mínimo 8');
             }
         }
         else{
@@ -35,9 +35,6 @@ export const Login = () => {
         }
     }
 
-    const registerUser = () =>{
-        
-    }
 
     return (
         <div className="login-container">

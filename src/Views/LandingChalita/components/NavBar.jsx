@@ -15,7 +15,7 @@ export const NavBar = () => {
                     <button><a href="/contact">Contacto</a></button>
                 </div>
                 <div className="bt-cont">
-                    <button><a href="https://chalitaoe.netlify.app/login" >Inicio de sesión</a></button>
+                    <button><a href="/login" >Inicio de sesión</a></button>
                 </div>
             </div>
             <hr />

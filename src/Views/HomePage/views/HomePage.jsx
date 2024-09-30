@@ -5,11 +5,11 @@ import { getAuth, signOut } from 'firebase/auth'
 
 const auth = getAuth(appFirebase)
 
-export const HomePage = ({userEmail}) =>{
+export const HomePage = () =>{
     
     return (
         <>
-            <p>Bienvenido {userEmail}</p>
+            <p>Bienvenido</p>
             <button onClick={()=>signOut(auth)}>Cerrar Sesión</button>
         </>
     )
