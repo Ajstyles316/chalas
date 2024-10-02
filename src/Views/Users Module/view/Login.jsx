@@ -3,7 +3,7 @@ import logoL from '../../../assets/img/appLogo.jpeg'
 import facebook from '../../../assets/svg/facebook.svg'
 import gmail from '../../../assets/svg/gmail.svg'
 import {useState} from 'react'
-import { useNavigate } from 'react-router-dom' // Importa useNavigate
+import { useNavigate } from 'react-router-dom' 
 import appFirebase from '../../../Firebase/config'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import '../styles/login.css'
@@ -12,7 +12,7 @@ const auth = getAuth(appFirebase)
 
 export const Login = () => {
     const [register, setRegister] = useState(false)
-    const navigate = useNavigate(); // Inicializa useNavigate para redirección
+    const navigate = useNavigate(); 
 
     const authentication = async(e) =>{
         e.preventDefault();
@@ -21,7 +21,7 @@ export const Login = () => {
         if(register){
             try{
                 await createUserWithEmailAndPassword(auth, email, password);
-                navigate('/home'); // Redirige al home después de registrarse
+                navigate('/home'); 
             }
             catch(error){
                 alert('Asegúrese que la contraseña tenga mínimo 8 caracteres');
@@ -30,7 +30,7 @@ export const Login = () => {
         else{
             try{
                 await signInWithEmailAndPassword(auth, email, password);
-                navigate('/home'); // Redirige al home después de iniciar sesión
+                navigate('/home'); 
             }
             catch(error){
                 alert('Correo o Contraseña Incorrectos');

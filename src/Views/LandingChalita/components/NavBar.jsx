@@ -1,8 +1,15 @@
-
-import chalitalg from "../../../assets/img/appLogo.jpeg"
-import "../styles/component styles/navBar.css"
+import chalitalg from "../../../assets/img/appLogo.jpeg";
+import { useNavigate } from "react-router-dom"; 
+import "../styles/component styles/navBar.css";
 
 export const NavBar = () => {
+    const navigate = useNavigate(); 
+
+    
+    const handleLoginClick = () => {
+        navigate("/login"); 
+    };
+
     return (
         <>
             <div className="navbar-container">
@@ -10,15 +17,15 @@ export const NavBar = () => {
                     <img src={chalitalg} alt="no furulo we" />
                 </div>
                 <div className="opt-cont">
-                    <button><a href="/">Inicio</a></button>
-                    <button><a href="/aboutus">Sobre Nosotros</a></button>
-                    <button><a href="/contact">Contacto</a></button>
+                    <button onClick={() => navigate("/")}>Inicio</button>
+                    <button onClick={() => navigate("/aboutus")}>Sobre Nosotros</button>
+                    <button onClick={() => navigate("/contact")}>Contacto</button>
                 </div>
                 <div className="bt-cont">
-                    <button><a href="/login" >Inicio de sesión</a></button>
+                    <button onClick={handleLoginClick}>Iniciar Sesión</button> {/* Agrega el onClick aquí */}
                 </div>
             </div>
             <hr />
         </>
-    )
-}
+    );
+};
