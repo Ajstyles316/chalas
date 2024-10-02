@@ -8,6 +8,7 @@ import { Login } from './Views/Users Module/view/Login'
 import { RegisterClient } from './Views/Users Module/view/RegisterClient'
 import { RegisterProvider } from './Views/Users Module/view/RegisterProvider'
 import { HomePage } from './Views/HomePage/views/HomePage'
+import { Admin } from './Views/Users Module/view/Admin'
 
 // !Imports for firebase modules
 import appFirebase from './Firebase/config'
@@ -38,6 +39,7 @@ function App() {
         <Route path='/registerclient' element={<RegisterClient />} />
         <Route path='/registerprovider' element={<RegisterProvider />} />
         <Route path='/home' element={ user ? <HomePage/> : <Login/> }/>
+        <Route path='/admin' element={<Admin/>} />
       </Routes>
     </BrowserRouter>
   )

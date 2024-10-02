@@ -3,6 +3,11 @@
     --font-tittles: "Poppins", sans-serif;
     --font-text: "Playfair", serif;
     --font-color: rgba(0, 0, 0, 1);
+    --primary-color: rgba(161, 58, 17, 1);
+    --secondary-color: rgba(249, 206, 90, 1);
+    --tertiary-color: rgba(251, 145, 83, 1);
+    --background-color: rgba(255, 239, 239, 1);
+    --text-color: #333;
 }
 
 body{

@@ -1,15 +1,13 @@
+import appFirebase from "../../../Firebase/config"
+import { getAuth, signOut } from "firebase/auth"
+import { useNavigate } from "react-router";
 
-import '../Styles/homePage.css'
-import appFirebase from '../../../Firebase/config'
-import { getAuth, signOut } from 'firebase/auth'
-import { useNavigate } from 'react-router'
+const auth = getAuth(appFirebase);
 
-const auth = getAuth(appFirebase)
-
-export const HomePage = () =>{
+export const Admin = () => {
 
     const navigate = useNavigate();
-    const handleSignOut = async() => {
+    const handleSignOut = async () => {
         try {
             await signOut(auth);
             navigate('/'); 
@@ -18,10 +16,9 @@ export const HomePage = () =>{
             alert("Ocurrió un error al cerrar sesión");
         }
     }
-    
     return (
         <>
-            <p>Bienvenido Cliente</p>
+            <p>Bienvenido ADMINISTRADOR!</p>
             <button onClick={handleSignOut}>Cerrar Sesión</button>
         </>
     )
