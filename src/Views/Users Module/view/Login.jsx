@@ -1,17 +1,18 @@
-
 import lamaBig from '../../../assets/img/lamaprubea.png'
 import logoL from '../../../assets/img/appLogo.jpeg'
 import facebook from '../../../assets/svg/facebook.svg'
 import gmail from '../../../assets/svg/gmail.svg'
 import {useState} from 'react'
+import { useNavigate } from 'react-router-dom' // Importa useNavigate
 import appFirebase from '../../../Firebase/config'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import '../styles/login.css'
+
 const auth = getAuth(appFirebase)
 
 export const Login = () => {
-
-    const[register, setRegister] = useState(false)
+    const [register, setRegister] = useState(false)
+    const navigate = useNavigate(); // Inicializa useNavigate para redirección
 
     const authentication = async(e) =>{
         e.preventDefault();
@@ -20,21 +21,22 @@ export const Login = () => {
         if(register){
             try{
                 await createUserWithEmailAndPassword(auth, email, password);
+                navigate('/home'); // Redirige al home después de registrarse
             }
             catch(error){
-                alert('Asegúrese que la contraseña tenga mínimo 8');
+                alert('Asegúrese que la contraseña tenga mínimo 8 caracteres');
             }
         }
         else{
             try{
                 await signInWithEmailAndPassword(auth, email, password);
+                navigate('/home'); // Redirige al home después de iniciar sesión
             }
             catch(error){
                 alert('Correo o Contraseña Incorrectos');
             }
         }
     }
-
 
     return (
         <div className="login-container">
@@ -63,7 +65,7 @@ export const Login = () => {
                         <img src={gmail} alt="Nofurulowe" />
                     </div>
                     <p>¿No tienes una cuenta?</p>
-                    <button onClick={()=>setRegister(!register)}>{register ? 'Registrarse' : 'Iniciar Sesion'}</button> {/*<a href="">Regístrate aquí</a>} */}
+                    <button onClick={()=>setRegister(!register)}>{register ? 'Iniciar Sesion' : 'Registrate'}</button> {/*<a href="">Regístrate aquí</a>} */}
                 </div>
             </div>
             <div className="lm-cont-two">

@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { LandingHome } from './Views/LandingChalita/views/LandingHome'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { LandingAboutUs } from './Views/LandingChalita/views/LandingAboutUs'
@@ -12,34 +12,35 @@ import { HomePage } from './Views/HomePage/views/HomePage'
 // !Imports for firebase modules
 import appFirebase from './Firebase/config'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-
-
 function App() {
   const auth = getAuth(appFirebase);
   const [user, setUser] = useState(null);
-  onAuthStateChanged(auth, (userFirebase) => {
-    if (userFirebase) {
-      setUser(userFirebase);
-    }
-    else {
-      setUser(null);
-    }
-  })
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (userFirebase) => {
+      if (userFirebase) {
+        setUser(userFirebase);
+      } else {
+        setUser(null);
+      }
+    });
+    
+    return () => unsubscribe();
+  }, [auth]);  
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<LandingHome/>} />
         <Route path='/aboutus' element={<LandingAboutUs />} />
-        <Route path='contact' element={<LandingContact />} />
+        <Route path='/contact' element={<LandingContact />} />
         <Route path='/login' element={<Login />} />
         <Route path='/registerclient' element={<RegisterClient />} />
         <Route path='/registerprovider' element={<RegisterProvider />} />
-        <Route path='/home' element={ user? <HomePage/> : <Login/>}/>
+        <Route path='/home' element={ user ? <HomePage/> : <Login/> }/>
       </Routes>
     </BrowserRouter>
   )
 }
 
-export default App
+export default App;
