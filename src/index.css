@@ -22,3 +22,7 @@ body{
     overflow-y: scroll;
 }
 
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+

@@ -27,14 +27,14 @@
         margin: 0;
     }
     
-    .lm-one{
+    .lama-one{
         display: flex;
         justify-content: space-around;
         align-items: center;
         width: 1000px;
     }
     
-    .lm-one p{
+    .lama-one p{
         width: 500px;
         font-size: 30px;
         font-weight: 400;
@@ -55,7 +55,7 @@
     .lmImg{
         width: 150px;
     }
-    .lm-one img{
+    .lama-one img{
         display: flex;
         position: relative;
         width: 500px;

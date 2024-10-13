@@ -9,7 +9,7 @@ export const LandingHomeBody = () => {
         <>
             <div className="ldn-hm-cont">
                 <h1>ChalitaOE</h1>
-                <div className="lm-one">
+                <div className="lama-one">
                     <p>
                         {parragraphsHome.homeP1}
                     </p>
