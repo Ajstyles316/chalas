@@ -1,17 +1,17 @@
 import chalitalg from "../../../assets/img/appLogo.jpeg";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import "../styles/component styles/navBar.css";
 
 export const NavBar = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
-    
+
     const handleLoginClick = () => {
-        navigate("/login"); 
+        navigate("/login");
     };
 
     return (
-        <>
+        <div className="nvb-cont">
             <div className="navbar-container">
                 <div className="lg-cont">
                     <img src={chalitalg} alt="no furulo we" />
@@ -25,7 +25,9 @@ export const NavBar = () => {
                     <button onClick={handleLoginClick}>Iniciar Sesión</button> {/* Agrega el onClick aquí */}
                 </div>
             </div>
-            <hr />
-        </>
+            <div className="hr-cnt">
+                <hr />
+            </div>
+        </div>
     );
 };
