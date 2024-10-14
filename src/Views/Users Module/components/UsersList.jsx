@@ -1,4 +1,4 @@
-import { db } from "../firebase/config"
+import { db } from "../../../Firebase/config" 
 import { useEffect, useState } from "react"
 import { collection, getDocs, query, where } from "firebase/firestore"
 import '../../../styles config/tailwind.css'

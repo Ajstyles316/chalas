@@ -14,6 +14,7 @@ import { Admin } from './Views/Users Module/view/Admin'
 import appFirebase from './Firebase/config'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { Provider } from './Views/Users Module/view/Provider'
+import { UsersList } from './Views/Users Module/components/UsersList'
 function App() {
   const auth = getAuth(appFirebase);
   const [user, setUser] = useState(null);
@@ -42,6 +43,7 @@ function App() {
         <Route path='/registerprovider' element={<RegisterProvider />} />
         <Route path='/home' element={ user ? <HomePage/> : <Login/> }/>
         <Route path='/admin' element={<Admin/>} />
+        <Route path='/userList' element={<UsersList/>}/>
       </Routes>
     </BrowserRouter>
   )
