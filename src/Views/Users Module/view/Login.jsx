@@ -17,10 +17,9 @@ export const Login = () => {
     const [register, setRegister] = useState(false);
     const navigate = useNavigate();
     const [isChecked, setIsChecked] = useState(false);
-    const [name, setName] = useState(''); // Campo para el nombre
-    const [message, setMessage] = useState(''); // Estado para manejar mensajes
-    const [messageType, setMessageType] = useState(''); // Estado para manejar el tipo de mensaje
-
+    const [name, setName] = useState(''); 
+    const [message, setMessage] = useState(''); 
+    const [messageType, setMessageType] = useState(''); 
     const authentication = async (e) => {
         e.preventDefault();
         const email = e.target.email.value;
