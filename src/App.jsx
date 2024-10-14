@@ -13,6 +13,7 @@ import { Admin } from './Views/Users Module/view/Admin'
 // !Imports for firebase modules
 import appFirebase from './Firebase/config'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { Provider } from './Views/Users Module/view/Provider'
 function App() {
   const auth = getAuth(appFirebase);
   const [user, setUser] = useState(null);
@@ -36,6 +37,7 @@ function App() {
         <Route path='/aboutus' element={<LandingAboutUs />} />
         <Route path='/contact' element={<LandingContact />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/provider' element={<Provider />} />
         <Route path='/registerclient' element={<RegisterClient />} />
         <Route path='/registerprovider' element={<RegisterProvider />} />
         <Route path='/home' element={ user ? <HomePage/> : <Login/> }/>

@@ -1,9 +1,14 @@
-import lamaBig from '../../../assets/img/llama_chill.png'
-import logoL from '../../../assets/img/appLogo.jpeg'
+import lamaBig from '../../../assets/img/llama_chill.png';
+import logoL from '../../../assets/img/appLogo.jpeg';
 import React, { useState } from 'react';
-import '../styles/RegisterProvider.css'
+import '../styles/RegisterProvider.css';
+import { useNavigate } from 'react-router';
+import { auth, db } from '../../../Firebase/config';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 export const RegisterProvider = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
@@ -14,7 +19,7 @@ export const RegisterProvider = () => {
         confirmarContrasena: '',
         nuevaContrasena: ''
     });
-    const [maintainPassword, setMaintainPassword] = useState(false);
+    const [mantenerContrasena, setMantenerContrasena] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -24,20 +29,46 @@ export const RegisterProvider = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log(formData);
+
+        const { nombre, apellido, celular, nroCarnet, correo, contrasena, confirmarContrasena } = formData;
+
+        if (contrasena !== confirmarContrasena) {
+            alert("Las contraseñas no coinciden.");
+            return;
+        }
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, correo, contrasena);
+            const user = userCredential.user;
+
+            await setDoc(doc(db, 'users', user.uid), {
+                firstName: nombre,
+                lastName: apellido,
+                phone: celular,
+                idNumber: nroCarnet,
+                email: correo,
+                role: 'provider'
+            });
+
+            alert("Proveedor registrado exitosamente.");
+            navigate('/provider');
+
+        } catch (error) {
+            console.error("Error al registrar el proveedor:", error);
+            alert("Hubo un error al registrar el proveedor.");
+        }
     };
 
     return (
         <div className="registration-container">
             <div className="lm-cnt-one">
-                <img src={lamaBig} alt="NoFurulowe" />
+                <img src={lamaBig} alt="Llama Chill" />
             </div>
             <div className="registration-card">
                 <div className="logo">
-                    <img src={logoL} alt="Chalita Logo" />
+                    <img src={logoL} alt="Logo Chalita" />
                 </div>
                 <h1>Bienvenido Proveedor</h1>
                 <p className="subtitle">Todos los campos son obligatorios*</p>
@@ -70,7 +101,7 @@ export const RegisterProvider = () => {
                         <input
                             type="text"
                             name="nroCarnet"
-                            placeholder="Nro de Carnet"
+                            placeholder="Número de Carnet"
                             value={formData.nroCarnet}
                             onChange={handleInputChange}
                         />
@@ -78,7 +109,7 @@ export const RegisterProvider = () => {
                     <input
                         type="email"
                         name="correo"
-                        placeholder="Correo electronico"
+                        placeholder="Correo Electrónico"
                         value={formData.correo}
                         onChange={handleInputChange}
                     />
@@ -98,18 +129,18 @@ export const RegisterProvider = () => {
                     />
 
                     <p className="info-text">
-                        Tu usuario será tu nombre y apellido. Puedes mantener la misma contraseña que usas en tu correo, si lo prefieres.
+                        Tu nombre de usuario será tu nombre y apellido. Puedes mantener la misma contraseña que utilizas para tu correo si lo prefieres.
                     </p>
 
                     <button
                         type="button"
                         className="maintain-password-btn"
-                        onClick={() => setMaintainPassword(!maintainPassword)}
+                        onClick={() => setMantenerContrasena(!mantenerContrasena)}
                     >
-                        Mantener contraseña
+                        Mantener la misma contraseña
                     </button>
 
-                    {!maintainPassword && (
+                    {!mantenerContrasena && (
                         <input
                             type="password"
                             name="nuevaContrasena"
@@ -120,13 +151,13 @@ export const RegisterProvider = () => {
                     )}
 
                     <button type="submit" className="submit-btn">
-                        Aceptar
+                        Enviar
                     </button>
                 </form>
             </div>
             <div className="lm-cnt-two">
-                <img src={lamaBig} alt="NoFurulowe" />
+                <img src={lamaBig} alt="Llama Chill" />
             </div>
         </div>
     );
-}
+};
