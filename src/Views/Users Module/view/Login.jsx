@@ -6,8 +6,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import appFirebase from '../../../Firebase/config';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore'; 
+import { getFirestore, doc, setDoc } from 'firebase/firestore'; 
 import '../styles/login.css';
+// import '../../../styles config/tailwind.css'
 
 const auth = getAuth(appFirebase);
 const db = getFirestore(appFirebase); 
@@ -16,6 +17,9 @@ export const Login = () => {
     const [register, setRegister] = useState(false);
     const navigate = useNavigate();
     const [isChecked, setIsChecked] = useState(false);
+    const [name, setName] = useState(''); // Campo para el nombre
+    const [message, setMessage] = useState(''); // Estado para manejar mensajes
+    const [messageType, setMessageType] = useState(''); // Estado para manejar el tipo de mensaje
 
     const authentication = async (e) => {
         e.preventDefault();
@@ -24,32 +28,31 @@ export const Login = () => {
 
         if (register) {
             try {
-                await createUserWithEmailAndPassword(auth, email, password);
-                // Después de registrar al usuario, puedes también asignarle un rol por defecto si lo deseas
-                // Por ejemplo, aquí podrías agregar un rol de cliente a la colección 'roles'
+                
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                
+                await setDoc(doc(db, 'users', user.uid), {
+                    name: name, 
+                    email: email,
+                    role: 'client', 
+                    createdAt: new Date().toISOString(), 
+                });
+
                 navigate('/home');
             } catch (error) {
-                alert('Asegúrese que la contraseña tenga mínimo 8 caracteres');
+                setMessage(`Error: ${error.message}`);
+                setMessageType("error");
             }
         } else {
             try {
+               
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                const userDoc = await getDoc(doc(db, 'roles', user.uid)); 
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    if (userData.role === 'admin') {
-                        navigate('/admin'); 
-                    } else {
-                        navigate('/home'); 
-                    }
-                } else {
-                    // Si no tiene rol, se redirige a /home como cliente
-                    navigate('/home');
-                }
+                navigate('/home'); 
             } catch (error) {
-                alert('Correo o Contraseña Incorrectos');
+                setMessage(`Error: ${error.message}`);
+                setMessageType("error");
             }
         }
     };
@@ -68,11 +71,21 @@ export const Login = () => {
                 <h1>Ingresa a ChalitaOE</h1>
                 <div className="usr-cnt">
                     <form onSubmit={authentication}>
-                        <input type="text" placeholder='Correo electrónico' id='email' />
+                        {register && (
+                            <input 
+                                type="text" 
+                                placeholder='Nombre' 
+                                id='name' 
+                                value={name} 
+                                onChange={(e) => setName(e.target.value)} 
+                                required 
+                            />
+                        )}
+                        <input type="text" placeholder='Correo electrónico' id='email' required />
                         <div className="psw-text">
                             <a href="">Olvidaste tu contraseña?</a>
                         </div>
-                        <input type="password" placeholder='Contraseña' id='password' />
+                        <input type="password" placeholder='Contraseña' id='password' required />
                         <div className="human-checkbox-container">
                             <label className="human-checkbox-label">
                                 <input
@@ -80,6 +93,7 @@ export const Login = () => {
                                     checked={isChecked}
                                     onChange={handleCheckboxChange}
                                     className="human-checkbox-input"
+                                    required
                                 />
                                 <span className="human-checkbox-custom">
                                     <span className="human-checkbox-letter">X</span>
@@ -87,7 +101,7 @@ export const Login = () => {
                                 <span className="human-checkbox-text">Eres un Humano</span>
                             </label>
                         </div>
-                        <button disabled={!isChecked}>{register ? "Registrate" : "Iniciar Sesión"}</button>
+                        <button disabled={!isChecked}>{register ? "Regístrate" : "Iniciar Sesión"}</button>
                     </form>
                 </div>
                 <div className="lgn-social">
@@ -97,8 +111,13 @@ export const Login = () => {
                         <img src={gmail} alt="Nofurulowe" />
                     </div>
                     <p>¿No tienes una cuenta?</p>
-                    <button onClick={() => setRegister(!register)}>{register ? 'Iniciar Sesion' : 'Registrate'}</button>
+                    <button onClick={() => setRegister(!register)}>{register ? 'Iniciar Sesión' : 'Regístrate'}</button>
                 </div>
+                {message && (
+                    <div className={`p-2 my-4 text-center ${messageType === 'error' ? 'bg-red-200 text-red-600' : 'bg-green-200 text-green-600'} rounded-md`}>
+                        {message}
+                    </div>
+                )}
                 <h1>La app de eventos sociales</h1>
             </div>
             <div className="lm-cont-two">
