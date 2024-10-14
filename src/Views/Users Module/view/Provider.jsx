@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../styles config/tailwind.css'
+// import '../../../styles config/tailwind.css'
 
 export const Provider = ({ providerName = "Provider" }) => {
   return (
