@@ -28,11 +28,9 @@ export const Login = () => {
 
         if (register) {
             try {
-                
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
-                
                 await setDoc(doc(db, 'users', user.uid), {
                     name: name, 
                     email: email,
@@ -47,7 +45,6 @@ export const Login = () => {
             }
         } else {
             try {
-               
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 navigate('/home'); 
             } catch (error) {
@@ -59,6 +56,10 @@ export const Login = () => {
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
+    };
+
+    const navigateToProviderRegistration = () => {
+        navigate('/registerprovider');
     };
 
     return (
@@ -112,6 +113,10 @@ export const Login = () => {
                     </div>
                     <p>¿No tienes una cuenta?</p>
                     <button onClick={() => setRegister(!register)}>{register ? 'Iniciar Sesión' : 'Regístrate'}</button>
+                </div>
+                <div className="provider-registration">
+                    <p>¿Eres proveedor?</p>
+                    <button onClick={navigateToProviderRegistration}>Regístrate aquí</button>
                 </div>
                 {message && (
                     <div className={`p-2 my-4 text-center ${messageType === 'error' ? 'bg-red-200 text-red-600' : 'bg-green-200 text-green-600'} rounded-md`}>

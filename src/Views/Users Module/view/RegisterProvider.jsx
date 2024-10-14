@@ -1,18 +1,23 @@
-import lamaBig from '../../../assets/img/llama_chill.png'
-import logoL from '../../../assets/img/appLogo.jpeg'
+import lamaBig from '../../../assets/img/llama_chill.png';
+import logoL from '../../../assets/img/appLogo.jpeg';
 import React, { useState } from 'react';
-import '../styles/RegisterProvider.css'
+import '../styles/RegisterProvider.css';
+import { useNavigate } from 'react-router';
+import { auth, db } from '../../../Firebase/config'; // Asegúrate de tener tu configuración de Firebase
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 export const RegisterProvider = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        nombre: '',
-        apellido: '',
-        celular: '',
-        nroCarnet: '',
-        correo: '',
-        contrasena: '',
-        confirmarContrasena: '',
-        nuevaContrasena: ''
+        firstName: '',
+        lastName: '',
+        phone: '',
+        idNumber: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        newPassword: ''
     });
     const [maintainPassword, setMaintainPassword] = useState(false);
 
@@ -24,10 +29,42 @@ export const RegisterProvider = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log(formData);
+
+        const { firstName, lastName, phone, idNumber, email, password, confirmPassword } = formData;
+
+        // Validar si las contraseñas coinciden
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
+
+        try {
+            // Crear el usuario en Firebase Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Guardar los datos del usuario en Firestore
+            await setDoc(doc(db, 'users', user.uid), {
+                firstName: firstName,
+                lastName: lastName,
+                phone: phone,
+                idNumber: idNumber,
+                email: email,
+                role: 'provider'
+            });
+
+            // Mostrar mensaje de éxito
+            alert("Provider registered successfully.");
+
+            // Redirigir a /provider después del registro exitoso
+            navigate('/provider');
+
+        } catch (error) {
+            console.error("Error registering provider:", error);
+            alert("There was an error registering the provider.");
+        }
     };
 
     return (
@@ -39,66 +76,66 @@ export const RegisterProvider = () => {
                 <div className="logo">
                     <img src={logoL} alt="Chalita Logo" />
                 </div>
-                <h1>Bienvenido Proveedor</h1>
-                <p className="subtitle">Todos los campos son obligatorios*</p>
+                <h1>Welcome Provider</h1>
+                <p className="subtitle">All fields are required*</p>
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-row">
                         <input
                             type="text"
-                            name="nombre"
-                            placeholder="Nombre"
-                            value={formData.nombre}
+                            name="firstName"
+                            placeholder="First Name"
+                            value={formData.firstName}
                             onChange={handleInputChange}
                         />
                         <input
                             type="text"
-                            name="apellido"
-                            placeholder="Apellido"
-                            value={formData.apellido}
+                            name="lastName"
+                            placeholder="Last Name"
+                            value={formData.lastName}
                             onChange={handleInputChange}
                         />
                     </div>
                     <div className="form-row">
                         <input
                             type="tel"
-                            name="celular"
-                            placeholder="Celular"
-                            value={formData.celular}
+                            name="phone"
+                            placeholder="Phone"
+                            value={formData.phone}
                             onChange={handleInputChange}
                         />
                         <input
                             type="text"
-                            name="nroCarnet"
-                            placeholder="Nro de Carnet"
-                            value={formData.nroCarnet}
+                            name="idNumber"
+                            placeholder="ID Number"
+                            value={formData.idNumber}
                             onChange={handleInputChange}
                         />
                     </div>
                     <input
                         type="email"
-                        name="correo"
-                        placeholder="Correo electronico"
-                        value={formData.correo}
+                        name="email"
+                        placeholder="Email"
+                        value={formData.email}
                         onChange={handleInputChange}
                     />
                     <input
                         type="password"
-                        name="contrasena"
-                        placeholder="Contraseña"
-                        value={formData.contrasena}
+                        name="password"
+                        placeholder="Password"
+                        value={formData.password}
                         onChange={handleInputChange}
                     />
                     <input
                         type="password"
-                        name="confirmarContrasena"
-                        placeholder="Confirmar Contraseña"
-                        value={formData.confirmarContrasena}
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        value={formData.confirmPassword}
                         onChange={handleInputChange}
                     />
 
                     <p className="info-text">
-                        Tu usuario será tu nombre y apellido. Puedes mantener la misma contraseña que usas en tu correo, si lo prefieres.
+                        Your username will be your first and last name. You can keep the same password you use for your email, if you prefer.
                     </p>
 
                     <button
@@ -106,21 +143,21 @@ export const RegisterProvider = () => {
                         className="maintain-password-btn"
                         onClick={() => setMaintainPassword(!maintainPassword)}
                     >
-                        Mantener contraseña
+                        Keep same password
                     </button>
 
                     {!maintainPassword && (
                         <input
                             type="password"
-                            name="nuevaContrasena"
-                            placeholder="Nueva Contraseña"
-                            value={formData.nuevaContrasena}
+                            name="newPassword"
+                            placeholder="New Password"
+                            value={formData.newPassword}
                             onChange={handleInputChange}
                         />
                     )}
 
                     <button type="submit" className="submit-btn">
-                        Aceptar
+                        Submit
                     </button>
                 </form>
             </div>
@@ -129,4 +166,4 @@ export const RegisterProvider = () => {
             </div>
         </div>
     );
-}
+};
