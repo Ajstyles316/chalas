@@ -3,23 +3,23 @@ import logoL from '../../../assets/img/appLogo.jpeg';
 import React, { useState } from 'react';
 import '../styles/RegisterProvider.css';
 import { useNavigate } from 'react-router';
-import { auth, db } from '../../../Firebase/config'; // Asegúrate de tener tu configuración de Firebase
+import { auth, db } from '../../../Firebase/config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
 export const RegisterProvider = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        phone: '',
-        idNumber: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        newPassword: ''
+        nombre: '',
+        apellido: '',
+        celular: '',
+        nroCarnet: '',
+        correo: '',
+        contrasena: '',
+        confirmarContrasena: '',
+        nuevaContrasena: ''
     });
-    const [maintainPassword, setMaintainPassword] = useState(false);
+    const [mantenerContrasena, setMantenerContrasena] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -32,137 +32,131 @@ export const RegisterProvider = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { firstName, lastName, phone, idNumber, email, password, confirmPassword } = formData;
+        const { nombre, apellido, celular, nroCarnet, correo, contrasena, confirmarContrasena } = formData;
 
-        // Validar si las contraseñas coinciden
-        if (password !== confirmPassword) {
-            alert("Passwords do not match.");
+        if (contrasena !== confirmarContrasena) {
+            alert("Las contraseñas no coinciden.");
             return;
         }
 
         try {
-            // Crear el usuario en Firebase Authentication
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const userCredential = await createUserWithEmailAndPassword(auth, correo, contrasena);
             const user = userCredential.user;
 
-            // Guardar los datos del usuario en Firestore
             await setDoc(doc(db, 'users', user.uid), {
-                firstName: firstName,
-                lastName: lastName,
-                phone: phone,
-                idNumber: idNumber,
-                email: email,
+                firstName: nombre,
+                lastName: apellido,
+                phone: celular,
+                idNumber: nroCarnet,
+                email: correo,
                 role: 'provider'
             });
 
-            // Mostrar mensaje de éxito
-            alert("Provider registered successfully.");
-
-            // Redirigir a /provider después del registro exitoso
+            alert("Proveedor registrado exitosamente.");
             navigate('/provider');
 
         } catch (error) {
-            console.error("Error registering provider:", error);
-            alert("There was an error registering the provider.");
+            console.error("Error al registrar el proveedor:", error);
+            alert("Hubo un error al registrar el proveedor.");
         }
     };
 
     return (
         <div className="registration-container">
             <div className="lm-cnt-one">
-                <img src={lamaBig} alt="NoFurulowe" />
+                <img src={lamaBig} alt="Llama Chill" />
             </div>
             <div className="registration-card">
                 <div className="logo">
-                    <img src={logoL} alt="Chalita Logo" />
+                    <img src={logoL} alt="Logo Chalita" />
                 </div>
-                <h1>Welcome Provider</h1>
-                <p className="subtitle">All fields are required*</p>
+                <h1>Bienvenido Proveedor</h1>
+                <p className="subtitle">Todos los campos son obligatorios*</p>
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-row">
                         <input
                             type="text"
-                            name="firstName"
-                            placeholder="First Name"
-                            value={formData.firstName}
+                            name="nombre"
+                            placeholder="Nombre"
+                            value={formData.nombre}
                             onChange={handleInputChange}
                         />
                         <input
                             type="text"
-                            name="lastName"
-                            placeholder="Last Name"
-                            value={formData.lastName}
+                            name="apellido"
+                            placeholder="Apellido"
+                            value={formData.apellido}
                             onChange={handleInputChange}
                         />
                     </div>
                     <div className="form-row">
                         <input
                             type="tel"
-                            name="phone"
-                            placeholder="Phone"
-                            value={formData.phone}
+                            name="celular"
+                            placeholder="Celular"
+                            value={formData.celular}
                             onChange={handleInputChange}
                         />
                         <input
                             type="text"
-                            name="idNumber"
-                            placeholder="ID Number"
-                            value={formData.idNumber}
+                            name="nroCarnet"
+                            placeholder="Número de Carnet"
+                            value={formData.nroCarnet}
                             onChange={handleInputChange}
                         />
                     </div>
                     <input
                         type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={formData.email}
+                        name="correo"
+                        placeholder="Correo Electrónico"
+                        value={formData.correo}
                         onChange={handleInputChange}
                     />
                     <input
                         type="password"
-                        name="password"
-                        placeholder="Password"
-                        value={formData.password}
+                        name="contrasena"
+                        placeholder="Contraseña"
+                        value={formData.contrasena}
                         onChange={handleInputChange}
                     />
                     <input
                         type="password"
-                        name="confirmPassword"
-                        placeholder="Confirm Password"
-                        value={formData.confirmPassword}
+                        name="confirmarContrasena"
+                        placeholder="Confirmar Contraseña"
+                        value={formData.confirmarContrasena}
                         onChange={handleInputChange}
                     />
 
                     <p className="info-text">
-                        Your username will be your first and last name. You can keep the same password you use for your email, if you prefer.
+                        Tu nombre de usuario será tu nombre y apellido. Puedes mantener la misma contraseña que utilizas para tu correo si lo prefieres.
                     </p>
 
                     <button
                         type="button"
                         className="maintain-password-btn"
-                        onClick={() => setMaintainPassword(!maintainPassword)}
+                        onClick={() => setMantenerContrasena(!mantenerContrasena)}
                     >
-                        Keep same password
+                        Mantener la misma contraseña
                     </button>
 
-                    {!maintainPassword && (
+                    {!mantenerContrasena && (
                         <input
                             type="password"
-                            name="newPassword"
-                            placeholder="New Password"
-                            value={formData.newPassword}
+                            name="nuevaContrasena"
+                            placeholder="Nueva Contraseña"
+                            value={formData.nuevaContrasena}
                             onChange={handleInputChange}
                         />
                     )}
 
                     <button type="submit" className="submit-btn">
-                        Submit
+                        Enviar
                     </button>
                 </form>
             </div>
             <div className="lm-cnt-two">
-                <img src={lamaBig} alt="NoFurulowe" />
+                <img src={lamaBig} alt="Llama Chill" />
             </div>
         </div>
     );
