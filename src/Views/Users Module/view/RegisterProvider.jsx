@@ -49,7 +49,8 @@ export const RegisterProvider = () => {
                 phone: celular,
                 idNumber: nroCarnet,
                 email: correo,
-                role: 'provider'
+                role: 'provider',
+                isActive: true,
             });
 
             alert("Proveedor registrado exitosamente.");

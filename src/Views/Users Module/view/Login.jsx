@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import appFirebase from '../../../Firebase/config';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore'; 
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore'; 
 import '../styles/login.css';
-// import '../../../styles config/tailwind.css'
+import '../../../styles config/tailwind.css'
 
 const auth = getAuth(appFirebase);
 const db = getFirestore(appFirebase); 
@@ -17,9 +17,9 @@ export const Login = () => {
     const [register, setRegister] = useState(false);
     const navigate = useNavigate();
     const [isChecked, setIsChecked] = useState(false);
-    const [name, setName] = useState(''); // Campo para el nombre
-    const [message, setMessage] = useState(''); // Estado para manejar mensajes
-    const [messageType, setMessageType] = useState(''); // Estado para manejar el tipo de mensaje
+    const [name, setName] = useState(''); 
+    const [message, setMessage] = useState(''); 
+    const [messageType, setMessageType] = useState(''); 
 
     const authentication = async (e) => {
         e.preventDefault();
@@ -27,6 +27,7 @@ export const Login = () => {
         const password = e.target.password.value;
 
         if (register) {
+            
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
@@ -36,6 +37,7 @@ export const Login = () => {
                     email: email,
                     role: 'client', 
                     createdAt: new Date().toISOString(), 
+                    isActive: true, 
                 });
 
                 navigate('/home');
@@ -44,9 +46,28 @@ export const Login = () => {
                 setMessageType("error");
             }
         } else {
+            
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                navigate('/home'); 
+                const user = userCredential.user;
+
+                
+                const userDocRef = doc(db, 'users', user.uid);
+                const userDoc = await getDoc(userDocRef);
+
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+
+                    if (userData.isActive) {
+                        navigate('/home'); 
+                    } else {
+                        setMessage("Error: La cuenta está deshabilitada.");
+                        setMessageType("error");
+                    }
+                } else {
+                    setMessage("Error: No se encontró la cuenta.");
+                    setMessageType("error");
+                }
             } catch (error) {
                 setMessage(`Error: ${error.message}`);
                 setMessageType("error");

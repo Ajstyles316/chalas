@@ -1,15 +1,6 @@
-
-
-/* * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-} */
-
 body {
   font-family: var(--font-tittles);
   color: var(--text-color);
-  /* line-height: 1.6; */
 }
 
 .login-container {
@@ -17,17 +8,17 @@ body {
   width: 100vw;
   min-height: 100vh;
   align-items: center;
-  overflow: hidden;
-
+  justify-content: center;
+  background-color: #f7f7f7; /* Fondo suave */
+  padding: 2rem;
 }
 
 .lm-cont-one,
-.lm-cont-two{
+.lm-cont-two {
   display: flex;
   align-items: flex-end;
   width: 600px;
   height: 600px;
-
 }
 
 .lm-cont-one img,
@@ -49,49 +40,39 @@ body {
   width: 400px;
   max-width: 400px;
   padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 .lg-img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   object-fit: contain;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 50%; /* Imágenes redondeadas */
+  border: 3px solid var(--primary-color);
 }
 
 .lg-cnt h1 {
   color: var(--primary-color);
   font-family: var(--font-tittles);
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 1rem;
   text-align: center;
 }
 
-.usr-cnt{
-  display: flex;
-  align-items: center;
+.usr-cnt {
+  width: 100%;
 }
 
 .usr-cnt form {
   display: flex;
   flex-direction: column;
   background: var(--secondary-color);
-  width: 100%;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.usr-cnt span {
-  font-family: var(--font-text);
-  font-weight: 400;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.psw-text {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .usr-cnt input {
@@ -99,12 +80,35 @@ body {
   width: 100%;
   padding: 0.75rem;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   margin-bottom: 1rem;
+  transition: all 0.3s ease; /* Transiciones suaves */
 }
 
-.usr-cnt button{
+.usr-cnt input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(161, 58, 17, 0.3); /* Efecto en el foco */
+}
+
+.psw-text {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.usr-cnt a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.usr-cnt a:hover {
+  color: var(--tertiary-color); /* Efecto hover en links */
+}
+
+.usr-cnt button {
   width: 100%;
   padding: 0.75rem;
   background: var(--primary-color);
@@ -116,24 +120,9 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.lgn-social button {
-  width: 100%;
-  padding: 0.75rem;
-  background: var(--primary-color);
-  color: #fff;
-  font-family: var(--font-tittles);
-  font-size: 1rem;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
-.usr-cnt button:hover{
-  background-color: var(--tertiary-color);
-}
-.lgn-social button:hover {
-  background-color: var(--secondary-color)
+.usr-cnt button:hover {
+  background-color: var(--tertiary-color); /* Cambio de color al hover */
 }
 
 .usr-cnt button:disabled {
@@ -141,20 +130,50 @@ body {
   cursor: not-allowed;
 }
 
-.usr-cnt a {
-  color: var(--primary-color);
-  text-decoration: none;
-  font-size: 0.9rem;
+.human-checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.human-checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.human-checkbox-custom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.human-checkbox-input:checked + .human-checkbox-custom {
+  background-color: var(--secondary-color);
+  border-color: var(--primary-color);
 }
 
 .lgn-social {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   background: var(--tertiary-color);
   border-radius: 10px;
   padding: 1.5rem;
   text-align: center;
   font-family: var(--font-tittles);
   color: #fff;
+}
+
+.lgn-social span {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
 .sc-btn {
@@ -174,75 +193,13 @@ body {
 }
 
 .sc-btn img:hover {
-  transform: scale(1.1);
-}
-
-.human-checkbox-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.human-checkbox-label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-}
-
-.human-checkbox-input {
-  position: absolute;
-  opacity: 0;
-}
-
-.human-checkbox-custom {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background-color: #fff;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-.human-checkbox-letter {
-  font-size: 16px;
-  font-weight: bold;
-  color: #ccc;
-  transition: all 0.3s ease;
-}
-
-.human-checkbox-input:checked + .human-checkbox-custom {
-  background-color: var(--secondary-color);
-  border-color: var(--primary-color);
-}
-
-.human-checkbox-input:checked + .human-checkbox-custom .human-checkbox-letter {
-  color: var(--primary-color);
-}
-
-.human-checkbox-text {
-  margin-left: 8px;
-  font-size: 0.9rem;
-  color: var(--text-color);
-}
-
-.human-checkbox-input:focus + .human-checkbox-custom {
-  box-shadow: 0 0 0 3px rgba(161, 58, 17, 0.3);
+  transform: scale(1.1); /* Efecto hover en iconos */
 }
 
 .provider-registration {
   margin-top: 1rem;
   text-align: center;
   font-family: var(--font-tittles);
-}
-
-.provider-registration p {
-  margin-bottom: 0.5rem;
-  color: var(--text-color);
 }
 
 .provider-registration button {
@@ -260,7 +217,7 @@ body {
 
 .provider-registration button:hover {
   background-color: var(--tertiary-color);
-  color: #fff;
+  color: #fff; /* Cambio de color al hover */
 }
 
 @media (max-width: 1200px) {
