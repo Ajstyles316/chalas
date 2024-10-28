@@ -161,7 +161,7 @@ export const Login = () => {
             <div className="w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16">
                 <img className="w-32 h-32 mx-auto mb-8" src={logoL} alt="ChalitaOE Logo" />
                 <h1 className="text-2xl font-medium text-primary mt-4 mb-12 text-center">
-                    {formType === 'login' ? 'Ingresa a ChalitaOE' : formType === 'register' ? 'Regístrate en ChalitaOE' : 'Recupera tu contraseña'}
+                    {formType === 'login' ? 'Ingresa a ChalitaOE la app de Eventos Sociales' : formType === 'register' ? 'Regístrate en ChalitaOE' : 'Recupera tu contraseña'}
                 </h1>
 
                 {renderForm()}
