@@ -31,7 +31,7 @@ export const ResetPassword = () => {
 
     return (
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-8">
-            <h2 className="text-3xl font-semibold text-blue-600 mb-6 text-center">Recuperar Contraseña</h2>
+            <h2 className="text-3xl font-semibold text-orange-600 mb-6 text-center">Recuperar Contraseña</h2>
             <p className="text-gray-600 mb-4 text-center">
                 Ingresa tu correo electrónico para recibir un enlace de recuperación de contraseña.
             </p>
@@ -46,7 +46,7 @@ export const ResetPassword = () => {
                 />
                 <button
                     type="submit"
-                    className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-200 transition-colors duration-200"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                 >
                     Enviar enlace de recuperación
                 </button>

@@ -3,16 +3,18 @@ import facebook from '../../../assets/svg/facebook.svg';
 import gmail from '../../../assets/svg/gmail.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import appFirebase from '../../../Firebase/config';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import appFirebase, { provider } from '../../../Firebase/config';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup } from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 import '../../../styles config/tailwind.css';
+import { ResetPassword } from '../components/ResetPassword';
 
 const auth = getAuth(appFirebase);
 const db = getFirestore(appFirebase);
 
 export const Login = () => {
     const [formType, setFormType] = useState('login');
+    const [isHuman, setIsHuman] = useState(false);
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -27,7 +29,6 @@ export const Login = () => {
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-
                 await setDoc(doc(db, 'users', user.uid), {
                     name: name,
                     email: email,
@@ -35,7 +36,6 @@ export const Login = () => {
                     createdAt: new Date().toISOString(),
                     isActive: true,
                 });
-
                 navigate('/home');
             } catch (error) {
                 setMessage(`Error: ${error.message}`);
@@ -45,21 +45,13 @@ export const Login = () => {
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-
                 const userDocRef = doc(db, 'users', user.uid);
                 const userDoc = await getDoc(userDocRef);
 
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-
-                    if (userData.isActive) {
-                        navigate('/home');
-                    } else {
-                        setMessage("Error: La cuenta está deshabilitada.");
-                        setMessageType("error");
-                    }
+                if (userDoc.exists() && userDoc.data().isActive) {
+                    navigate('/home');
                 } else {
-                    setMessage("Error: No se encontró la cuenta.");
+                    setMessage("Error: Cuenta deshabilitada o no encontrada.");
                     setMessageType("error");
                 }
             } catch (error) {
@@ -69,122 +61,81 @@ export const Login = () => {
         }
     };
 
-    const handlePasswordReset = async () => {
-        if (!email) {
-            setMessage("Por favor, ingresa tu correo electrónico.");
-            setMessageType("error");
-            return;
-        }
-
+    const handleGoogleSignIn = async () => {
         try {
-            await sendPasswordResetEmail(auth, email);
-            setMessage("Correo de recuperación enviado. Revisa tu bandeja de entrada.");
-            setMessageType("success");
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            const userDocRef = doc(db, 'users', user.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            if (!userDoc.exists()) {
+                await setDoc(userDocRef, {
+                    name: user.displayName,
+                    email: user.email,
+                    role: 'client',
+                    createdAt: new Date().toISOString(),
+                    isActive: true,
+                });
+            }
+            navigate('/home');
         } catch (error) {
             setMessage(`Error: ${error.message}`);
             setMessageType("error");
         }
     };
 
-    const navigateToProviderRegistration = () => {
-        navigate('/registerprovider');
-    };
-
     const renderForm = () => {
-        switch (formType) {
-            case 'login':
-                return (
-                    <form onSubmit={authentication} className="space-y-4">
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
-                            <input
-                                type="email"
-                                id="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
-                            <input
-                                type="password"
-                                id="password"
-                                required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-                            />
-                        </div>
-                        <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                            Iniciar Sesión
-                        </button>
-                    </form>
-                );
-            case 'register':
-                return (
-                    <form onSubmit={authentication} className="space-y-4">
-                        <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre completo</label>
-                            <input
-                                type="text"
-                                id="name"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
-                            <input
-                                type="email"
-                                id="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
-                            <input
-                                type="password"
-                                id="password"
-                                required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-                            />
-                        </div>
-                        <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                            Registrarse
-                        </button>
-                    </form>
-                );
-            case 'forgotPassword':
-                return (
-                    <div className="space-y-4">
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
-                            <input
-                                type="email"
-                                id="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-                            />
-                        </div>
-                        <button onClick={handlePasswordReset} className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                            Recuperar Contraseña
-                        </button>
-                    </div>
-                );
+        if (formType === 'forgotPassword') {
+            return <ResetPassword />;
         }
+
+        return (
+            <form onSubmit={authentication} className="space-y-4">
+                <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
+                    <input
+                        type="password"
+                        id="password"
+                        required
+                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                    />
+                </div>
+                <div className="flex items-center mt-4">
+                    <input
+                        type="checkbox"
+                        id="isHuman"
+                        checked={isHuman}
+                        onChange={(e) => setIsHuman(e.target.checked)}
+                        className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+                    />
+                    <label htmlFor="isHuman" className="ml-2 text-sm text-gray-700">¿Eres un humano?</label>
+                </div>
+                <button
+                    type="submit"
+                    disabled={!isHuman}
+                    className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isHuman ? 'bg-orange-600 hover:bg-orange-700' : 'bg-gray-400 cursor-not-allowed'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500`}
+                >
+                    {formType === 'login' ? 'Iniciar Sesión' : 'Registrarse'}
+                </button>
+            </form>
+        );
     };
 
     return (
         <div className="flex min-h-screen bg-gray-100">
             <div className="w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16">
-                <img className="w-20 h-20 mx-auto mb-5" src={logoL} alt="ChalitaOE Logo" />
+                <img className="w-32 h-32 mx-auto mb-8" src={logoL} alt="ChalitaOE Logo" />
                 <h1 className="text-2xl font-medium text-primary mt-4 mb-12 text-center">
                     {formType === 'login' ? 'Ingresa a ChalitaOE' : formType === 'register' ? 'Regístrate en ChalitaOE' : 'Recupera tu contraseña'}
                 </h1>
@@ -194,69 +145,39 @@ export const Login = () => {
                 {formType === 'login' && (
                     <>
                         <div className="text-center mt-6">
-                            <button onClick={() => setFormType('forgotPassword')} className="font-medium text-purple-600 hover:text-purple-500">
+                            <button onClick={() => setFormType('forgotPassword')} className="font-medium text-orange-600 hover:text-orange-500">
                                 ¿Olvidaste tu contraseña?
                             </button>
                         </div>
 
-                        <div className="mt-6">
-                            <div className="relative">
-                                <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-gray-300"></div>
-                                </div>
-                                <div className="relative flex justify-center text-sm">
-                                    <span className="px-2 bg-white text-gray-500">O continúa con</span>
-                                </div>
-                            </div>
-
-                            <div className="mt-6 grid grid-cols-2 gap-3">
-                                <div>
-                                    <button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                        <img className="h-5 w-5" src={facebook} alt="Facebook" />
-                                    </button>
-                                </div>
-                                <div>
-                                    <button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                        <img className="h-5 w-5" src={gmail} alt="Gmail" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="text-center mt-6">
-                            <p className="text-sm text-gray-600">
-                                ¿No tienes una cuenta?{' '}
-                                <button onClick={() => setFormType('register')} className="font-medium text-purple-600 hover:text-purple-500">
-                                    Regístrate aquí
+                        <div className="mt-6 grid grid-cols-2 gap-3">
+                            <div>
+                                <button onClick={handleGoogleSignIn} className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <img className="w-5 h-5 mr-2" src={gmail} alt="Google Logo" />
+                                    Google
                                 </button>
-                            </p>
+                            </div>
+                            <div>
+                                <button onClick={handleGoogleSignIn} className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <img className="w-5 h-5 mr-2" src={facebook} alt="Facebook Logo" />
+                                    Facebook
+                                </button>
+                            </div>
                         </div>
 
-                        <div className="text-center mt-6">
-                            <button onClick={navigateToProviderRegistration} className="font-medium text-purple-600 hover:text-purple-500">
-                                ¿Eres proveedor? ¡Haz clic aquí!
-                            </button>
+                        <div className="mt-6 text-center">
+                            <span className="font-medium text-gray-500">¿Eres proveedor? <button onClick={() => navigate('/registerprovider')} className="text-orange-600 hover:text-orange-500">Regístrate aquí</button></span>
                         </div>
                     </>
                 )}
 
-                {(formType === 'register' || formType === 'forgotPassword') && (
-                    <div className="text-center mt-6">
-                        <button onClick={() => setFormType('login')} className="font-medium text-purple-600 hover:text-purple-500">
-                            Volver al inicio de sesión
-                        </button>
-                    </div>
-                )}
-
-                {message && (
-                    <div className={`p-2 mt-4 text-center ${messageType === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'} rounded-md`}>
-                        {message}
-                    </div>
-                )}
-
-                <h2 className="text-xl font-medium text-primary mt-6 text-center">
-                    La app de eventos sociales
-                </h2>
+                <div className="text-center mt-6">
+                    {formType === 'login' ? (
+                        <span className="text-gray-500">¿No tienes cuenta? <button onClick={() => setFormType('register')} className="font-medium text-orange-600 hover:text-orange-500">Regístrate</button></span>
+                    ) : (
+                        <span className="text-gray-500">¿Ya tienes cuenta? <button onClick={() => setFormType('login')} className="font-medium text-orange-600 hover:text-orange-500">Inicia sesión</button></span>
+                    )}
+                </div>
             </div>
         </div>
     );
