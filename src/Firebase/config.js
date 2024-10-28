@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { Firestore, getFirestore } from "firebase/firestore";
 import { GoogleAuthProvider } from "firebase/auth";
+import { FacebookAuthProvider } from "firebase/auth/web-extension";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,6 +25,7 @@ const appFirebase = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(appFirebase);
 const auth = getAuth(appFirebase);
 const db = getFirestore(appFirebase);
-const provider = new GoogleAuthProvider();
-export {db, auth, provider};
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
+export {db, auth, googleProvider, facebookProvider};
 export default appFirebase;

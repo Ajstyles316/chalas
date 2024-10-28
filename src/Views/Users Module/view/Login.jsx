@@ -3,7 +3,7 @@ import facebook from '../../../assets/svg/facebook.svg';
 import gmail from '../../../assets/svg/gmail.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import appFirebase, { provider } from '../../../Firebase/config';
+import appFirebase, { googleProvider, facebookProvider } from '../../../Firebase/config';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup } from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 import '../../../styles config/tailwind.css';
@@ -63,7 +63,7 @@ export const Login = () => {
 
     const handleGoogleSignIn = async () => {
         try {
-            const result = await signInWithPopup(auth, provider);
+            const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
             const userDocRef = doc(db, 'users', user.uid);
             const userDoc = await getDoc(userDocRef);
@@ -83,6 +83,30 @@ export const Login = () => {
             setMessageType("error");
         }
     };
+
+    const handleFacebookSignIn = async () => {
+        try{
+            const result = await signInWithPopup(auth, facebookProvider);
+            const user = result.user;
+            const userDocRef = doc(db, 'users', user.uid);
+            const userDoc = await getDoc(userDocRef);
+            
+            if(!user.Doc.exists()){
+                await setDoc(userDocRef,{
+                    name: user.displayName,
+                    email: user.email,
+                    role: 'client',
+                    createdAt: new Date().toISOString(),
+                    isActive: true,
+                });
+            }
+            navigate('/home');
+
+        } catch(error){
+            setMessage(`Error: ${error.message}`);
+            setMessageType("error");
+        }
+    }
 
     const renderForm = () => {
         if (formType === 'forgotPassword') {
@@ -158,7 +182,7 @@ export const Login = () => {
                                 </button>
                             </div>
                             <div>
-                                <button onClick={handleGoogleSignIn} className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <button onClick={handleFacebookSignIn} className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                     <img className="w-5 h-5 mr-2" src={facebook} alt="Facebook Logo" />
                                     Facebook
                                 </button>
