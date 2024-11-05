@@ -91,7 +91,7 @@ export const Login = () => {
             const userDocRef = doc(db, 'users', user.uid);
             const userDoc = await getDoc(userDocRef);
             
-            if(!user.Doc.exists()){
+            if(!userDoc.exists()){
                 await setDoc(userDocRef,{
                     name: user.displayName,
                     email: user.email,

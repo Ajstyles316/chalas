@@ -17,9 +17,18 @@ export const RegisterProvider = () => {
         correo: '',
         contrasena: '',
         confirmarContrasena: '',
-        nuevaContrasena: ''
+        nuevaContrasena: '',
+        tipoEvento: ''  // Nuevo campo para el tipo de evento
     });
     const [mantenerContrasena, setMantenerContrasena] = useState(false);
+    const [infoMessage, setInfoMessage] = useState('');
+
+    const categories = {
+        "Cumples": "XV años, Cumple Infantil, Cumple Casual",
+        "Babys": "Bautizos, Baby Shower, Sex Reveal",
+        "Parejas": "Bodas, Despedida de Soltero, Aniversario",
+        "Fiestas": "Corporativas, Casual"
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -27,12 +36,14 @@ export const RegisterProvider = () => {
             ...prevState,
             [name]: value
         }));
+        if (name === 'tipoEvento') {
+            setInfoMessage(categories[value] || '');
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const { nombre, apellido, celular, nroCarnet, correo, contrasena, confirmarContrasena } = formData;
+        const { nombre, apellido, celular, nroCarnet, correo, contrasena, confirmarContrasena, tipoEvento } = formData;
 
         if (contrasena !== confirmarContrasena) {
             alert("Las contraseñas no coinciden.");
@@ -51,6 +62,7 @@ export const RegisterProvider = () => {
                 email: correo,
                 role: 'provider',
                 isActive: true,
+                eventType: tipoEvento  // Guardamos el tipo de evento en la base de datos
             });
 
             alert("Proveedor registrado exitosamente.");
@@ -128,6 +140,24 @@ export const RegisterProvider = () => {
                         value={formData.confirmarContrasena}
                         onChange={handleInputChange}
                     />
+
+                    {/* Nuevo campo desplegable para el tipo de evento */}
+                    <div className="form-row">
+                        <select
+                            name="tipoEvento"
+                            value={formData.tipoEvento}
+                            onChange={handleInputChange}
+                            className="custom-select"
+                        >
+                            <option value="">Selecciona un tipo de evento</option>
+                            {Object.keys(categories).map(category => (
+                                <option key={category} value={category}>{category}</option>
+                            ))}
+                        </select>
+                    </div>
+                    {infoMessage && (
+                        <p className="info-message">Esta categoría incluye: {infoMessage}</p>
+                    )}
 
                     <p className="info-text">
                         Tu nombre de usuario será tu nombre y apellido. Puedes mantener la misma contraseña que utilizas para tu correo si lo prefieres.

@@ -69,7 +69,7 @@ form {
 
 .form-row {
   display: flex;
-  gap: 0.5rem; /* Reducir el espacio entre los campos */
+  gap: 0.5rem; 
 }
 
 input {
