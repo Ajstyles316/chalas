@@ -184,6 +184,7 @@ export const RegisterProvider = () => {
                     <button type="submit" className="submit-btn">
                         Enviar
                     </button>
+
                 </form>
             </div>
             <div className="lm-cnt-two">
