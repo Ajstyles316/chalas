@@ -11,13 +11,12 @@ import { FacebookAuthProvider } from "firebase/auth/web-extension";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAMi2DfSK7K2maBO1GBahvSqDXxRXTZbLY",
-  authDomain: "chalitaoe-app.firebaseapp.com",
-  projectId: "chalitaoe-app",
-  storageBucket: "chalitaoe-app.appspot.com",
-  messagingSenderId: "824451195246",
-  appId: "1:824451195246:web:392cae32ceeb01d57be17f",
-  measurementId: "G-E3WCSBY17X"
+  apiKey: "AIzaSyCq8phbdWUe2z_HshnYacainqgqLymJAto",
+  authDomain: "chalitaoepro-app.firebaseapp.com",
+  projectId: "chalitaoepro-app",
+  storageBucket: "chalitaoepro-app.firebasestorage.app",
+  messagingSenderId: "654774098786",
+  appId: "1:654774098786:web:a239221160ade6ce106a3b"
 };
 
 // Initialize Firebase
