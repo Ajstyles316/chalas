@@ -9,16 +9,12 @@ export const UsersList = () => {
 
     useEffect(() => {
         const fetchUsers = async () => {
-            const usersCollection = collection(db, 'users');
-            let usersQuery;
+            // Cambiamos la colección según el tipo de usuario seleccionado
+            const collectionName = userType === 'clientes' ? 'client' : 'provider';
+            const usersCollection = collection(db, collectionName);
 
-            if (userType === 'clientes') {
-                usersQuery = query(usersCollection, where('role', '==', 'client'));
-            } else {
-                usersQuery = query(usersCollection, where('role', '==', 'provider'));
-            }
-
-            const userSnapshot = await getDocs(usersQuery);
+            // Consultamos la colección sin condiciones, ya que ya están separados por colección
+            const userSnapshot = await getDocs(usersCollection);
             const userList = userSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             setUsers(userList);
         };
@@ -31,7 +27,8 @@ export const UsersList = () => {
     };
 
     const toggleActiveStatus = async (user) => {
-        const userRef = doc(db, 'users', user.id);
+        const collectionName = userType === 'clientes' ? 'client' : 'provider';
+        const userRef = doc(db, collectionName, user.id);
         await updateDoc(userRef, { isActive: !user.isActive });
         setUsers(prevUsers => prevUsers.map(u => u.id === user.id ? { ...u, isActive: !u.isActive } : u));
     };
