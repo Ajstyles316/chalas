@@ -16,6 +16,7 @@ export const Login = () => {
     const [formType, setFormType] = useState('login');
     const [isHuman, setIsHuman] = useState(false);
     const navigate = useNavigate();
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
