@@ -46,8 +46,8 @@ export const Login = () => {
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-                const userDocRef = doc(db, 'client', user.uid);
-                const userDoc = await getDoc(userDocRef);
+                let userDocRef = doc(db, 'client', user.uid);
+                let userDoc = await getDoc(userDocRef);
 
                 if (userDoc.exists() && userDoc.data().isActive) {
                     navigate('/home');

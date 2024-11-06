@@ -15,14 +15,11 @@ export const LandingHomeBody = () => {
                     </p>
                     <div className="lmG-cont">
                         <div className="relative w-full max-w-md mx-auto p-8">
-                            {/* Background colored div */}
                             <div className="absolute right-0 top-0 w-3/4 h-full bg-[#FF9F87] rounded-lg" />
-
-                            {/* Image container */}
                             <div className="relative z-10">
                                 <img
                                     src={lamaG}
-                                    alt="Ilustración decorativa"
+                                    alt="No furulo we"
                                     className="w-full h-auto max-w-sm"
                                 />
                             </div>
