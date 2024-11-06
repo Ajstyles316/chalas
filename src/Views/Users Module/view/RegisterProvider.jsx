@@ -60,6 +60,7 @@ export const RegisterProvider = () => {
                 role: 'provider',
                 isActive: true,
                 eventType: formData.tipoEvento,
+                createdAt: new Date().toISOString(),
             });
 
             alert("Proveedor registrado exitosamente.");
