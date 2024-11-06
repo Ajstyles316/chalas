@@ -30,7 +30,7 @@ export const Login = () => {
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-                await setDoc(doc(db, 'users', user.uid), {
+                await setDoc(doc(db, 'client', user.uid), {
                     name: name,
                     email: email,
                     role: 'client',
@@ -46,12 +46,30 @@ export const Login = () => {
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-                const userDocRef = doc(db, 'users', user.uid);
+                const userDocRef = doc(db, 'client', user.uid);
                 const userDoc = await getDoc(userDocRef);
 
                 if (userDoc.exists() && userDoc.data().isActive) {
                     navigate('/home');
-                } else {
+                    return;
+                }
+
+                userDocRef = doc(db, 'provider', user.uid);
+                userDoc = await getDoc(userDocRef);
+
+                if (userDoc.exists() && userDoc.data().isActive) {
+                    navigate('/provider'); // Redirige a la vista de proveedor
+                    return;
+                }
+
+                userDocRef = doc(db, 'admin', user.uid);
+                userDoc = await getDoc(userDocRef);
+                if (userDoc.exists() && userDoc.data().isActive) {
+                    navigate('/admin');
+                    return;
+                }
+
+                else {
                     setMessage("Error: Cuenta deshabilitada o no encontrada.");
                     setMessageType("error");
                 }
@@ -66,7 +84,7 @@ export const Login = () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
-            const userDocRef = doc(db, 'users', user.uid);
+            const userDocRef = doc(db, 'client', user.uid);
             const userDoc = await getDoc(userDocRef);
 
             if (!userDoc.exists()) {
@@ -86,14 +104,14 @@ export const Login = () => {
     };
 
     const handleFacebookSignIn = async () => {
-        try{
+        try {
             const result = await signInWithPopup(auth, facebookProvider);
             const user = result.user;
-            const userDocRef = doc(db, 'users', user.uid);
+            const userDocRef = doc(db, 'client', user.uid);
             const userDoc = await getDoc(userDocRef);
-            
-            if(!userDoc.exists()){
-                await setDoc(userDocRef,{
+
+            if (!userDoc.exists()) {
+                await setDoc(userDocRef, {
                     name: user.displayName,
                     email: user.email,
                     role: 'client',
@@ -103,7 +121,7 @@ export const Login = () => {
             }
             navigate('/home');
 
-        } catch(error){
+        } catch (error) {
             setMessage(`Error: ${error.message}`);
             setMessageType("error");
         }
