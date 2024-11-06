@@ -53,7 +53,7 @@ export const Provider = ({ providerName = "Provider" }) => {
               </li>
             ))}
           </ul>
-        </div>
+        </div>  
         
         <footer className="mt-12 text-center text-gray-600">
           <p>¿Necesitas ayuda? Contacta a nuestro equipo de soporte</p>
