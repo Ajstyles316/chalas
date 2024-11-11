@@ -49,6 +49,10 @@
         cursor: pointer;
     }
 
+    .social{
+        display: flex;
+    }
+
     .fb{
         background: #fff;
         width: 30px;

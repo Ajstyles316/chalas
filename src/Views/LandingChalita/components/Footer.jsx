@@ -3,6 +3,7 @@ import facebook from '../../../assets/svg/facebook.svg'
 import instagram from '../../../assets/svg/instagram.svg'
 import twitter from '../../../assets/svg/twitter.svg'
 import '../styles/component styles/footer.css'
+import '../../../styles config/tailwind.css'
 export const Footer = () => {
     return (
         <div className="footer-container">

@@ -38,7 +38,13 @@ export const LandingContactUsBody = () => {
                  Horarios:Lunes - Viernes: 9:30am a 19:00pm<br/>
                     ado: 10:00am a 13:00pm<br/>
                   </p>
-        </div>
-                    </>
+            </div>
+            <span className="flex items-center justify-center">Nuestra ubicación</span>
+            <div className="flex items-center justify-center text-lg">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d337.3872885344611!2d-68.12753677832839!3d-16.509074389956886!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f20623e358e65%3A0x42157ac0bd97364f!2sEDIFICIO%20GUADALQUIVIR%20%232332%20MEZANINE%20OFICINA%20104!5e0!3m2!1ses-419!2sbo!4v1731338578792!5m2!1ses-419!2sbo" width="800" height="450"  loading="lazy" >
+                </iframe>
+            </div>
+
+        </>
     )
 }
