@@ -23,7 +23,7 @@ export const LandingContactUsBody = () => {
                     </div>
                 </div>
             </div>
-
+            <span className="flex items-center justify-center text-3xl p-6 text-[#975F7C] font-bold">Brindanos información sobre el problema</span>
             <Contact />
             <p className="flex items-center justify-center text-lg text-[#975F7C] font-bold">¿Tu queja es importante? ¡Visítanos en nuestras oficinas <br /> de atención al cliente y te ayudaremos personalmente!</p>
             <div className="flex items-center justify-center ">
@@ -39,9 +39,9 @@ export const LandingContactUsBody = () => {
                     ado: 10:00am a 13:00pm<br/>
                   </p>
             </div>
-            <span className="flex items-center justify-center">Nuestra ubicación</span>
+            <span className="flex items-center justify-center text-3xl p-8 text-[#975F7C] font-bold">Nuestra ubicación</span>
             <div className="flex items-center justify-center text-lg">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d337.3872885344611!2d-68.12753677832839!3d-16.509074389956886!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f20623e358e65%3A0x42157ac0bd97364f!2sEDIFICIO%20GUADALQUIVIR%20%232332%20MEZANINE%20OFICINA%20104!5e0!3m2!1ses-419!2sbo!4v1731338578792!5m2!1ses-419!2sbo" width="800" height="450"  loading="lazy" >
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d337.3872885344611!2d-68.12753677832839!3d-16.509074389956886!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f20623e358e65%3A0x42157ac0bd97364f!2sEDIFICIO%20GUADALQUIVIR%20%232332%20MEZANINE%20OFICINA%20104!5e0!3m2!1ses-419!2sbo!4v1731338578792!5m2!1ses-419!2sbo" width="800" height="450"  loading="lazy" className="p-2">
                 </iframe>
             </div>
 
