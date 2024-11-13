@@ -15,7 +15,10 @@ const db = getFirestore(appFirebase);
 export const Login = () => {
     const [formType, setFormType] = useState('login');
     const [isHuman, setIsHuman] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
     const navigate = useNavigate();
+
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -46,11 +49,12 @@ export const Login = () => {
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-                let userDocRef = doc(db, 'client', user.uid);
+
+                let userDocRef = doc(db, 'admin', user.uid);
                 let userDoc = await getDoc(userDocRef);
 
                 if (userDoc.exists() && userDoc.data().isActive) {
-                    navigate('/home');
+                    navigate('/admin');
                     return;
                 }
 
@@ -58,27 +62,36 @@ export const Login = () => {
                 userDoc = await getDoc(userDocRef);
 
                 if (userDoc.exists() && userDoc.data().isActive) {
-                    navigate('/provider'); // Redirige a la vista de proveedor
+                    navigate('/provider');
                     return;
                 }
 
-                userDocRef = doc(db, 'admin', user.uid);
+                userDocRef = doc(db, 'client', user.uid);
                 userDoc = await getDoc(userDocRef);
+
                 if (userDoc.exists() && userDoc.data().isActive) {
-                    navigate('/admin');
+                    navigate('/home');
                     return;
                 }
 
-                else {
-                    setMessage("Error: Cuenta deshabilitada o no encontrada.");
-                    setMessageType("error");
-                }
+                setMessage("Error: Cuenta deshabilitada o no encontrada.");
+                setMessageType("error");
+
             } catch (error) {
-                setMessage(`Error: ${error.message}`);
+                if (error.code === 'auth/user-not-found') {
+                    setMessage("Error: Usuario no existe.");
+                } else if (error.code === 'auth/invalid-credential') {
+                    setMessage("Error: Contraseña incorrecta.");
+                } else if (error.code === 'auth/user-disabled') {
+                    setMessage("Error: Usuario deshabilitado.");
+                } else {
+                    setMessage(`Error: ${error.message}`);
+                }
                 setMessageType("error");
             }
         }
     };
+
 
     const handleGoogleSignIn = async () => {
         try {
@@ -145,14 +158,21 @@ export const Login = () => {
                         className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                     />
                 </div>
-                <div>
+                <div className='relative'>
                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
                     <input
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}  
                         id="password"
                         required
                         className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                     />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                    >
+                        {showPassword ? 'Ocultar' : 'Mostrar'}
+                    </button>
                 </div>
                 <div className="flex items-center mt-4">
                     <input
@@ -183,6 +203,11 @@ export const Login = () => {
                     {formType === 'login' ? 'Ingresa a ChalitaOE la app de Eventos Sociales' : formType === 'register' ? 'Regístrate en ChalitaOE' : 'Recupera tu contraseña'}
                 </h1>
 
+                {message && (
+                    <div className={`mb-4 p-4 text-white rounded ${messageType === "error" ? "bg-red-500" : "bg-green-500"}`}>
+                        {message}
+                    </div>
+                )}
                 {renderForm()}
 
                 {formType === 'login' && (
