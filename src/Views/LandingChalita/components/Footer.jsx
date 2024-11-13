@@ -28,14 +28,15 @@ export const Footer = () => {
                     <span>Social</span>
                     <span>@ChalitaOe</span>
                     <div className="social">
-                        <img src={instagram} alt="nofurulowe"/> 
+                        <img src={instagram} alt="nofurulowe" />
                         <img className='fb' src={facebook} alt="nofurulowe" />
                         <img src={twitter} alt="nofurulowe" />
                     </div>
                 </div>
             </div>
             <div className="copy-cont">
-                <span>© 2024 Creado por <a href="https://main--capysharksdevs.netlify.app/" target="_blank">CapySharks Dev SR</a></span>
+                <span>© 2024 Creado por <a className='font-bold' href="https://main--capysharksdevs.netlify.app/" target="_blank">CapySharks Dev SRL</a> Empresa de Desarrollo de Software
+                </span>
             </div>
         </div>
     )

@@ -31,7 +31,7 @@ export const LandingHomeBody = () => {
                 </div>
                 <div className="msgs-bottom">
                     <div className="msg-bot-one">
-                        <img src={lamaBan} alt="nofurulowe" />
+                        <img src={lamaBan} alt="nofurulowe" className='p-6'/>
                         <div className="bg-bot-one">
                             <p>
                                 {parragraphsHome.homeP2}
@@ -50,7 +50,7 @@ export const LandingHomeBody = () => {
                                 <button>Contactos</button>
                             </div>
                         </div>
-                        <img src={lamaComp} alt="nofurulowe" />
+                        <img src={lamaComp} alt="nofurulowe" className='p-6'/>
                     </div>
                 </div>
 
