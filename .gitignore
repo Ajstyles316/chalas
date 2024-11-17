@@ -1,6 +1,8 @@
 # Logs
 
 .env
+#folder for testing conf
+#testing 
 logs
 *.log
 npm-debug.log*
