@@ -8,6 +8,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, se
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 import '../../../styles config/tailwind.css';
 import { ResetPassword } from '../components/ResetPassword';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const auth = getAuth(appFirebase);
 const db = getFirestore(appFirebase);
@@ -175,14 +176,10 @@ export const Login = () => {
                     </button>
                 </div>
                 <div className="flex items-center mt-4">
-                    <input
-                        type="checkbox"
-                        id="isHuman"
-                        checked={isHuman}
-                        onChange={(e) => setIsHuman(e.target.checked)}
-                        className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
-                    />
-                    <label htmlFor="isHuman" className="ml-2 text-sm text-gray-700">¿Eres un humano?</label>
+                    {
+                        //! Add and .env to this part for sitekey security
+                    }
+                    <ReCAPTCHA sitekey='6Ld134EqAAAAAGDUQXhbFtodSTi8jzJrrwI_bCUz'/>
                 </div>
                 <button
                     type="submit"
