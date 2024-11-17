@@ -177,7 +177,7 @@ export const Login = () => {
                 </div>
                 <div className="flex items-center mt-4">
                     {
-                        //! Add and .env to this part for sitekey security
+                        //! Add .env to this part for sitekey security
                     }
                     <ReCAPTCHA sitekey='6Ld134EqAAAAAGDUQXhbFtodSTi8jzJrrwI_bCUz'/>
                 </div>
