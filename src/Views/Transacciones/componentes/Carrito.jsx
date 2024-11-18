@@ -1,25 +1,33 @@
 import { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { DataContext } from '../context/context';
+import { DataContext } from '../context/context.jsx';
 import '../styles/Carrito.css';
 import CalificarCompra from './Calificacion.jsx';
 import SeleccionarMetodoPago from './MetodoDePago.jsx';
+
 import './carrito2.css';
 import {
+  agregarProductoAlCarrito,
   actualizarProductoEnCarrito,
   eliminarProductoDelCarrito,
   obtenerProductosDelCarrito,
-} from '../services/firebaseFunctions'; // Importa las funciones de Firebase
+} from '../services/firebaseFunctions.js'; // Importa las funciones de Firebase
 
 const Carrito = () => {
-  const { cart: [productosCarrito, setCart], total: [total, setTotal], discountedTotal, discountCode } = useContext(DataContext);
+  const { 
+    cart: [productosCarrito, setCart], 
+    total: [total, setTotal], 
+    discountedTotal, 
+    discountCode 
+  } = useContext(DataContext);
+  
   const [isModalOpen, setModalOpen] = useState(false);
   const [isSelectionOpen, setSelectionOpen] = useState(false);
 
   // Cargar productos del carrito desde Firebase al inicializar el componente
   useEffect(() => {
     const cargarCarritoDesdeFirebase = async () => {
-      const productos = await obtenerProductosDelCarrito();
+      const productos = await obtenerProductosDelCarrito(); // Traer productos desde la colección "cart"
       setCart(productos);
       actualizarTotal(productos);
     };
@@ -28,11 +36,24 @@ const Carrito = () => {
   }, []);
 
   // Función para actualizar el total del carrito
-  const actualizarTotal = (productos = productosCarrito) => {
-    const newTotal = productos.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+  const actualizarTotal = (producto = productosCarrito) => {
+    const newTotal = producto.reduce((acc, producto) => acc + (producto.price * producto.cantidad), 0);
     setTotal(newTotal);
   };
+  const handleCantidadChange = async (e, productoId) => {
+    const cantidad = parseInt(e.target.value, 10);
+    const producto = productosCarrito.find((p) => p.id === productoId);
 
+    if (producto) {
+      setCart((prevCart) =>
+        prevCart.map((producto) =>
+          producto.id === productoId ? { ...producto, cantidad: isNaN(cantidad) ? 1 : cantidad } : producto
+        )
+      );
+      actualizarTotal();
+      await actualizarProductoEnCarrito(productoId, isNaN(cantidad) ? 1 : cantidad);
+    }
+  };
   // Actualizar producto en Firebase y el estado local
   const handleActualizarProducto = async (productoId, cantidad) => {
     if (cantidad < 1) {
@@ -57,20 +78,11 @@ const Carrito = () => {
     actualizarTotal(nuevoCarrito);
   };
 
-  // Agregar o actualizar cantidad del producto localmente y en Firebase
-  const handleCantidadChange = async (e, productoId) => {
-    const cantidad = parseInt(e.target.value, 10);
-    const producto = productosCarrito.find((p) => p.id === productoId);
-
-    if (producto) {
-      setCart((prevCart) =>
-        prevCart.map((producto) =>
-          producto.id === productoId ? { ...producto, cantidad: isNaN(cantidad) ? 1 : cantidad } : producto
-        )
-      );
-      actualizarTotal();
-      await actualizarProductoEnCarrito(productoId, isNaN(cantidad) ? 1 : cantidad);
-    }
+  // Agregar producto al carrito en Firebase y localmente
+  const agregarProducto = (producto) => {
+    agregarProductoAlCarrito(producto); // Agregar a Firebase
+    setCart((prevCart) => [...prevCart, producto]); // Agregar al estado local
+    actualizarTotal([...productosCarrito, producto]);
   };
 
   // Abrir la selección de métodos de pago
@@ -83,11 +95,11 @@ const Carrito = () => {
       <img src="https://cdn-icons-png.flaticon.com/128/2098/2098566.png" alt="Carrito" />
       <div className="carrito-items-container">
         {productosCarrito.length > 0 ? (
-          productosCarrito.map((producto, index) => (
-            <div key={producto.id || index} className="carrito-item">
-              <img src={producto.imagen} alt={producto.name} className="carrito-imagen" />
+          productosCarrito.map((producto) => (
+            <div key={producto.id} className="carrito-item">
+              <img src={producto.imageUrl} alt={producto.name_product} className="carrito-imagen" />
               <div className="carrito-precio">
-                <p>{producto.name}</p>
+                <p>{producto.name_product}</p>
                 <input
                   type="number"
                   min="1"
@@ -95,6 +107,7 @@ const Carrito = () => {
                   onChange={(e) => handleCantidadChange(e, producto.id)}
                   className="input-cantidad"
                 />
+                <p>Precio unitario: {producto.price} Bs.</p>
               </div>
               <div className="carrito-botones">
                 <button

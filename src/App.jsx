@@ -70,7 +70,7 @@ function App() {
         <Route path="/orders" element={<OrdersView />} />
         <Route path="/reports" element={<ReportsView />} />
         <Route path="/events" element={<EventsView />} />
-
+        <Route path="/transacciones" element={<Transacciones />} />
         <Route path="/clienthome" element={<LayoutClient />} />
       </Routes>
     </BrowserRouter>

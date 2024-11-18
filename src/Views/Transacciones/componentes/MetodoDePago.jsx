@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { DataContext } from '../context/context.jsx';
 import PropTypes from 'prop-types';
-import CalificarCompra from '../componentes/Calificacion.jsx';
+import CalificarCompra from './Calificacion.jsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import '../styles/MetodoDePago.css'
@@ -119,7 +119,7 @@ const SeleccionarMetodoPago = ({ carrito, onCerrar }) => {
 
   const handleCerrar = () => {
     setMostrarModal(false);
-    window.location.href = '/views/Transacciones.jsx'; // Reemplaza '/transacciones' con la ruta que apunta a la vista principal  
+    window.location.href = '/ClientProvider'; // Reemplaza '/transacciones' con la ruta que apunta a la vista principal  
   };
   if (mostrarCalificacion) {
     return (

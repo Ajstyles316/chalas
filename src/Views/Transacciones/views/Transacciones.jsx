@@ -1,30 +1,39 @@
-import { useState } from 'react';
-import SeleccionProducto from '../componentes/SeleccionProducto';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Carrito from '../componentes/Carrito';
-import Calificacion from '../componentes/Calificacion'; // Componente de calificación
-import '../styles/Transacciones.css';
-import { DataProvider } from "../context/context";
-const Transacciones = () => {
-  const [mostrarCalificacion, setMostrarCalificacion] = useState(false); // Estado para controlar la vista
 
-  // Función que se llama al confirmar el carrito y pasar a la calificación
+import Calificacion from '../componentes/Calificacion';
+import '../styles/Transacciones.css';
+import { DataProvider } from '../context/context';
+import CodigoDescuento from '../componentes/CodigoDescuento';
+
+const Transacciones = () => {
+  const location = useLocation(); // Captura el estado enviado por navigate
+  const [mostrarCarrito, setMostrarCarrito] = useState(false);
+  const [mostrarCalificacion, setMostrarCalificacion] = useState(false);
+
+  useEffect(() => {
+    console.log('Estado recibido en Transacciones:', location.state);
+    if (location.state?.mostrarCarrito) {
+      setMostrarCarrito(true);
+    }
+  }, [location.state]);
+
   const handleConfirmarCompra = () => {
-    setMostrarCalificacion(true);
+    setMostrarCarrito(false); // Oculta el carrito
+    setMostrarCalificacion(true); // Muestra la calificación
   };
 
   return (
     <DataProvider>
-    <div className='transacciones-container'>
-      {!mostrarCalificacion ? (
-        <>
-          <SeleccionProducto />
+      <div className="transacciones-container">
+      <CodigoDescuento />
+        {mostrarCarrito && !mostrarCalificacion && (
+          
           <Carrito onConfirmar={handleConfirmarCompra} />
-        </>
-      ) : (
-        <Calificacion onConfirmar={() => alert('Calificación confirmada')} />
-      )}
-    </div>
-
+        )}
+        {mostrarCalificacion && <Calificacion onConfirmar={() => alert('Calificación confirmada')} />}
+      </div>
     </DataProvider>
   );
 };
