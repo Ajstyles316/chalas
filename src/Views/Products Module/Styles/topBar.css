@@ -1,0 +1,54 @@
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #6c6c6c;
+    color: white;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.top-bar-title {
+    text-align: center;
+}
+
+.top-bar-title h1 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.top-bar-title span {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 44px;
+}
+
+.user-name {
+    font-size: 14px;
+}
+
+.user-role {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.user-icon {
+    font-size: 20px;
+}
+
+.provider-information {
+    display: flex;
+    flex-direction: column;
+}

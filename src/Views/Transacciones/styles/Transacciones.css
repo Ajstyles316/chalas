@@ -1,0 +1,72 @@
+.transacciones-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Espacio entre las secciones */
+}
+
+/* Estilos para el botón de Código de Descuento */
+.codigoDescuento {
+    background-color: #FCD05F;
+    color: #333;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 70px; /* Separación con la tarjeta de selección */
+    width: 100%; /* Ocupa el ancho de la tarjeta */
+    max-width: 300px; /* Limita el tamaño máximo */
+}
+
+.codigoDescuento img {
+    width: 26px;
+    height: 35px;
+    margin-right: 10px; /* Espaciado entre el icono y el texto */
+}
+
+.codigoDescuento:hover {
+    background-color: #ffd45a;
+}
+
+.codigoDescuento:active {
+    background-color: #f0c000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor para el carrito */
+.carrito-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Asegura que el carrito esté alineado al centro */
+}
+
+/* Media Queries para dispositivos móviles y tabletas */
+@media (max-width: 768px) {
+    .codigoDescuento {
+        font-size: 14px; /* Ajusta el tamaño del texto */
+        padding: 8px 15px;
+        margin-top: 50px; /* Reduce la separación */
+        max-width: 250px; /* Reduce el ancho máximo en pantallas pequeñas */
+    }
+
+    .codigoDescuento img {
+        width: 20px;
+        height: 30px;
+    }
+
+    .transacciones-container {
+        gap: 15px; /* Reduce el espacio entre secciones */
+    }
+
+    .carrito-container {
+        padding: 10px; /* Añade un poco de espacio lateral en pantallas pequeñas */
+    }
+}
