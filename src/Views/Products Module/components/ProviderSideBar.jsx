@@ -3,14 +3,33 @@ import ProductAdministration from "../views/ProductAdministration"; // Importa t
 import "../Styles/providerSideBar.css"; // CSS del ProviderSideBar
 import TopBar from "./TopBar"; // Importa el TopBar
 import LogoApp from "../../../assets/img/appLogo.jpeg";
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from "react-router";
+
+const auth = getAuth();
+
 
 const ProviderSideBar = () => {
+
+  const navigate = useNavigate();
+
+
   const [activeView, setActiveView] = useState("productos");
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
+
+  const handdleSingOut = async () => {
+    try {
+      await signOut(auth);
+      navigate('/')
+    } catch (err) {
+      console.error("Error al cerrar sesión:", error);
+      alert("Ocurrió un error al cerrar sesión");
+    }
+  }
 
   return (
     <div className="admin-container">
@@ -48,6 +67,7 @@ const ProviderSideBar = () => {
                 Opción 4
               </li>
             </ul>
+            <button onClick={handdleSingOut} className="">Cerrar Sesión</button>
           </aside>
         )}
         <main className="content">

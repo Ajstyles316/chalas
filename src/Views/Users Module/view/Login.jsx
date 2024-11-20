@@ -206,120 +206,116 @@ export const Login = () => {
         </div>
         <button
           type="submit"
-          disabled={isHuman}
-          className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-            isHuman
-              ? "bg-orange-600 hover:bg-orange-700"
-              : "bg-gray-400 cursor-not-allowed"
-          } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500`}
+          // disabled={!isHuman}
+          className={'w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700'}
         >
+          
           {formType === "login" ? "Iniciar Sesión" : "Registrarse"}
         </button>
-      </form>
+      </form >
     );
   };
 
-  return (
-    <div className="flex min-h-screen bg-gray-100">
-      <div className="w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16">
-        <img
-          className="w-32 h-32 mx-auto mb-8"
-          src={logoL}
-          alt="ChalitaOE Logo"
-        />
-        <h1 className="text-2xl font-medium text-primary mt-4 mb-12 text-center">
-          {formType === "login"
-            ? "Ingresa a ChalitaOE la app de Eventos Sociales"
-            : formType === "register"
+return (
+  <div className="flex min-h-screen bg-gray-100">
+    <div className="w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16">
+      <img
+        className="w-32 h-32 mx-auto mb-8"
+        src={logoL}
+        alt="ChalitaOE Logo"
+      />
+      <h1 className="text-2xl font-medium text-primary mt-4 mb-12 text-center">
+        {formType === "login"
+          ? "Ingresa a ChalitaOE la app de Eventos Sociales"
+          : formType === "register"
             ? "Regístrate en ChalitaOE"
             : "Recupera tu contraseña"}
-        </h1>
+      </h1>
 
-        {message && (
-          <div
-            className={`mb-4 p-4 text-white rounded ${
-              messageType === "error" ? "bg-red-500" : "bg-green-500"
+      {message && (
+        <div
+          className={`mb-4 p-4 text-white rounded ${messageType === "error" ? "bg-red-500" : "bg-green-500"
             }`}
-          >
-            {message}
-          </div>
-        )}
-        {renderForm()}
-
-        {formType === "login" && (
-          <>
-            <div className="text-center mt-6">
-              <button
-                onClick={() => setFormType("forgotPassword")}
-                className="font-medium text-orange-600 hover:text-orange-500"
-              >
-                ¿Olvidaste tu contraseña?
-              </button>
-            </div>
-
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <div>
-                <button
-                  onClick={handleGoogleSignIn}
-                  className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                >
-                  <img className="w-5 h-5 mr-2" src={gmail} alt="Google Logo" />
-                  Google
-                </button>
-              </div>
-              <div>
-                <button
-                  onClick={handleFacebookSignIn}
-                  className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                >
-                  <img
-                    className="w-5 h-5 mr-2"
-                    src={facebook}
-                    alt="Facebook Logo"
-                  />
-                  Facebook
-                </button>
-              </div>
-            </div>
-
-            <div className="mt-6 text-center">
-              <span className="font-medium text-gray-500">
-                ¿Eres proveedor?{" "}
-                <button
-                  onClick={() => navigate("/registerprovider")}
-                  className="text-orange-600 hover:text-orange-500"
-                >
-                  Regístrate aquí
-                </button>
-              </span>
-            </div>
-          </>
-        )}
-
-        <div className="text-center mt-6">
-          {formType === "login" ? (
-            <span className="text-gray-500">
-              ¿No tienes cuenta?{" "}
-              <button
-                onClick={() => setFormType("register")}
-                className="font-medium text-orange-600 hover:text-orange-500"
-              >
-                Regístrate
-              </button>
-            </span>
-          ) : (
-            <span className="text-gray-500">
-              ¿Ya tienes cuenta?{" "}
-              <button
-                onClick={() => setFormType("login")}
-                className="font-medium text-orange-600 hover:text-orange-500"
-              >
-                Inicia sesión
-              </button>
-            </span>
-          )}
+        >
+          {message}
         </div>
+      )}
+      {renderForm()}
+
+      {formType === "login" && (
+        <>
+          <div className="text-center mt-6">
+            <button
+              onClick={() => setFormType("forgotPassword")}
+              className="font-medium text-orange-600 hover:text-orange-500"
+            >
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            <div>
+              <button
+                onClick={handleGoogleSignIn}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                <img className="w-5 h-5 mr-2" src={gmail} alt="Google Logo" />
+                Google
+              </button>
+            </div>
+            <div>
+              <button
+                onClick={handleFacebookSignIn}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                <img
+                  className="w-5 h-5 mr-2"
+                  src={facebook}
+                  alt="Facebook Logo"
+                />
+                Facebook
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-6 text-center">
+            <span className="font-medium text-gray-500">
+              ¿Eres proveedor?{" "}
+              <button
+                onClick={() => navigate("/registerprovider")}
+                className="text-orange-600 hover:text-orange-500"
+              >
+                Regístrate aquí
+              </button>
+            </span>
+          </div>
+        </>
+      )}
+
+      <div className="text-center mt-6">
+        {formType === "login" ? (
+          <span className="text-gray-500">
+            ¿No tienes cuenta?{" "}
+            <button
+              onClick={() => setFormType("register")}
+              className="font-medium text-orange-600 hover:text-orange-500"
+            >
+              Regístrate
+            </button>
+          </span>
+        ) : (
+          <span className="text-gray-500">
+            ¿Ya tienes cuenta?{" "}
+            <button
+              onClick={() => setFormType("login")}
+              className="font-medium text-orange-600 hover:text-orange-500"
+            >
+              Inicia sesión
+            </button>
+          </span>
+        )}
       </div>
     </div>
-  );
+  </div>
+);
 };
