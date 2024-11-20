@@ -6,39 +6,7 @@
 }
 
 /* Estilos para el botón de Código de Descuento */
-.codigoDescuento {
-    background-color: #FCD05F;
-    color: #333;
-    border: 2px solid #333;
-    border-radius: 12px;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 650px; /* Separación con la tarjeta de selección */
-    width: 100%; /* Ocupa el ancho de la tarjeta */
-    max-width: 300px; /* Limita el tamaño máximo */
-}
 
-.codigoDescuento img {
-    width: 26px;
-    height: 35px;
-    margin-right: 10px; /* Espaciado entre el icono y el texto */
-}
-
-.codigoDescuento:hover {
-    background-color: #ffd45a;
-}
-
-.codigoDescuento:active {
-    background-color: #f0c000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 /* Contenedor para el carrito */
 .carrito-container {

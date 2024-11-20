@@ -4,7 +4,7 @@ import { DataContext } from '../context/context.jsx';
 import '../styles/Carrito.css';
 import CalificarCompra from './Calificacion.jsx';
 import SeleccionarMetodoPago from './MetodoDePago.jsx';
-
+import CodigoDescuento from './CodigoDescuento.jsx';
 import './carrito2.css';
 import {
   agregarProductoAlCarrito,
@@ -140,9 +140,13 @@ const Carrito = () => {
           <h3>Total: {total} Bs.</h3>
         )}
       </div>
-      <button className="btn-aceptar" onClick={handleMetodoPago}>
-        Aceptar
-      </button>
+      <div className="codigo-y-aceptar">
+  <CodigoDescuento /> {/* Componente Código de Descuento */}
+  <button className="btn-aceptar" onClick={handleMetodoPago}>
+    Aceptar
+  </button>
+</div>
+
       {isSelectionOpen && (
         <div className="modal-overlay-medio">
           <div className="modal-content-medio">

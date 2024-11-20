@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Carrito from '../componentes/Carrito';
-
+import Navbar from '../../Products Module/components/NavBarClient';
 import Calificacion from '../componentes/Calificacion';
 import '../styles/Transacciones.css';
 import { DataProvider } from '../context/context';
@@ -25,9 +25,10 @@ const Transacciones = () => {
   };
 
   return (
+    
     <DataProvider>
+      <Navbar/>
       <div className="transacciones-container">
-      <CodigoDescuento />
         {mostrarCarrito && !mostrarCalificacion && (
           
           <Carrito onConfirmar={handleConfirmarCompra} />

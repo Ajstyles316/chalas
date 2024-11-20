@@ -1,3 +1,13 @@
+.codigo-y-aceptar {
+  display: flex;
+  justify-content: space-between; /* Ajusta los botones según tu diseño */
+  align-items: center; /* Alinea verticalmente */
+  gap: 10px; /* Espaciado entre los botones */
+}
+
+.codigo-y-aceptar > * {
+  flex: 1; /* Opcional: para que ambos botones tengan el mismo ancho */
+}
 .carrito-container {
   max-width: 600px;
   margin: 0 auto;
@@ -6,9 +16,42 @@
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   position: absolute;
-  top: 128px; /* Y position */
-  left: 800px; /* X position */
+  top: 210px; /* Y position */
+  left: 750px; /* X position */
   color: #333;
+}
+.codigoDescuento {
+  background-color: #f0c000;
+  color: #333;
+  border: 2px solid #333;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 700px;
+  width: 100%; /* Ocupa el ancho de la tarjeta */
+  max-width: 300px; /* Limita el tamaño máximo */
+}
+
+.codigoDescuento img {
+  width: 26px;
+  height: 35px;
+  margin-right: 10px; /* Espaciado entre el icono y el texto */
+}
+
+.codigoDescuento:hover {
+  background-color: #ffd45a;
+}
+
+.codigoDescuento:active {
+  background-color: #f0c000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .carrito-container img{
   margin-left: 10px; 
@@ -86,7 +129,6 @@
   top: 519px;
   background: #F3C00D;
   color: #333;
-  border: none;
   border-radius: 12px;
   padding: 10px 20px;
   font-size: 1rem;
@@ -94,6 +136,7 @@
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   font-weight: bold;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #333;
 }
 /* Para pantallas pequeñas (móviles) */
 @media (max-width: 600px) {
