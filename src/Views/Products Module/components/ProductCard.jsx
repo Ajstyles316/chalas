@@ -4,6 +4,7 @@ import edit from "../../../assets/svg/edit_icon.svg";
 import trash from "../../../assets/svg/trash_icon.svg";
 import eye from "../../../assets/svg/eye_icon.svg";
 import eye_off from "../../../assets/svg/eye_off_icon.svg";
+import cart from "../../../assets/svg/cart.svg";
 
 const ProductCard = ({
   id,
@@ -17,7 +18,12 @@ const ProductCard = ({
   onDelete,
   onEdit,
   onToggleVisibility,
+  onAddToCart,
 }) => {
+  const handleAddToCart = () => {
+    // Aquí puedes agregar lógica para añadir al carrito antes de redirigir
+    navigate("/transacciones", { state: { mostrarCarrito: true } }); // Redirigir al componente Carrito
+  };
   return (
     <div
       className={`card-container ${!visible ? "invisible-card" : ""}`}
@@ -64,6 +70,19 @@ const ProductCard = ({
           </button>
         </div>
       )}
+      {/* {isClient && (
+        <div className="client-actions">
+          <button
+            className="cart-button-card"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToCart;
+            }}
+          >
+            Agregar
+          </button>
+        </div>
+      )} */}
     </div>
   );
 };
