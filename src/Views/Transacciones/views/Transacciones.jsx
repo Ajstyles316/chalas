@@ -6,7 +6,7 @@ import Calificacion from '../componentes/Calificacion';
 import '../styles/Transacciones.css';
 import { DataProvider } from '../context/context';
 import CodigoDescuento from '../componentes/CodigoDescuento';
-
+import SeleccionProducto from '../componentes/SeleccionProducto'
 const Transacciones = () => {
   const location = useLocation(); // Captura el estado enviado por navigate
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
@@ -29,10 +29,8 @@ const Transacciones = () => {
     <DataProvider>
       <Navbar/>
       <div className="transacciones-container">
-        {mostrarCarrito && !mostrarCalificacion && (
-          
-          <Carrito onConfirmar={handleConfirmarCompra} />
-        )}
+        <SeleccionProducto/>
+        
         {mostrarCalificacion && <Calificacion onConfirmar={() => alert('Calificación confirmada')} />}
       </div>
     </DataProvider>

@@ -16,7 +16,11 @@ export const RegisterProvider = () => {
         correo: '',
         contrasena: '',
         confirmarContrasena: '',
-        tipoEvento: []
+        tipoEvento: [],
+        metodoPago: '',
+        numeroTarjeta: '',
+        vcc: true,
+        fechaVencimiento: '',
     });
 
     const categories = {
@@ -40,13 +44,21 @@ export const RegisterProvider = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { nombre, apellido, celular, nroCarnet, correo, contrasena, confirmarContrasena } = formData;
-
+        const { nombre, apellido, celular, nroCarnet, correo, contrasena, confirmarContrasena, metodoPago, numeroTarjeta, vcc, fechaVencimiento } = formData;
+        if (!vcc) {
+            alert("Debe aceptar la suscripción mensual para continuar.");
+            return;
+        }
         if (contrasena !== confirmarContrasena) {
             alert("Las contraseñas no coinciden.");
             return;
         }
-
+        const today = new Date();
+        const expirationDate = new Date(fechaVencimiento);
+        if (expirationDate <= today) {
+            alert("La fecha de vencimiento de la tarjeta no es válida.");
+            return;
+        }
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, correo, contrasena);
             const user = userCredential.user;
@@ -60,6 +72,12 @@ export const RegisterProvider = () => {
                 role: 'provider',
                 isActive: true,
                 eventType: formData.tipoEvento,
+                payment: {
+                    pay: metodoPago,
+                    target_number: numeroTarjeta.replace(/.(?=.{4})/g, '*'), // Oculta los números excepto los últimos 4
+                    vcc,
+                    datev: fechaVencimiento,
+                },
                 createdAt: new Date().toISOString(),
             });
 
@@ -204,7 +222,66 @@ export const RegisterProvider = () => {
                             ))}
                         </div>
                     </div>
-
+                    <div className="mt-6">
+                        <h3 className="text-lg font-medium text-gray-900 mb-3">Información de Pago</h3>
+                        <div className="space-y-4">
+                            <div>
+                                <label htmlFor="metodoPago" className="block text-sm font-medium text-gray-700">Método de Pago</label>
+                                <select
+                                    id="metodoPago"
+                                    name="metodoPago"
+                                    value={formData.metodoPago}
+                                    onChange={(e) => setFormData({ ...formData, metodoPago: e.target.value })}
+                                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md"
+                                >
+                                    <option value="Visa">Visa</option>
+                                    <option value="MasterCard">MasterCard</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label htmlFor="numeroTarjeta" className="block text-sm font-medium text-gray-700">Número de Tarjeta VCC</label>
+                                <input
+                                    id="numeroTarjeta"
+                                    name="numeroTarjeta"
+                                    type="password"
+                                    placeholder="Número de Tarjeta VCC"
+                                    value={formData.numeroTarjeta}
+                                    onChange={(e) => setFormData({ ...formData, numeroTarjeta: e.target.value })}
+                                    required
+                                    className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="vcc" className="block text-sm font-medium text-gray-700">¿Está de acuerdo con la suscripción mensual de 50 Bs?</label>
+                                <div className="flex items-center mt-2">
+                                    <input
+                                      id="suscripcion"
+                                      name="suscripcion"
+                                      type="checkbox"
+                                      checked={formData.suscripcion}
+                                      onChange={(e) => setFormData({ ...formData, suscripcion: e.target.checked })}
+                                      required
+                                      className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                                      />
+                                    <label htmlFor="suscripcion" className="ml-2 text-sm text-gray-600">
+                                        Acepto realizar el pago mensual.
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label htmlFor="fechaVencimiento" className="block text-sm font-medium text-gray-700">Fecha de Vencimiento</label>
+                                <input
+                                    id="fechaVencimiento"
+                                    name="fechaVencimiento"
+                                    type="month"
+                                    value={formData.fechaVencimiento}
+                                    onChange={(e) => setFormData({ ...formData, fechaVencimiento: e.target.value })}
+                                    required
+                                    className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                />
+                            </div>
+                        </div>
+                    </div>
                     <div>
                         <button
                             type="submit"

@@ -1,172 +1,65 @@
-import { useContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import { DataContext } from '../context/context.jsx';
-import '../styles/Carrito.css';
-import CalificarCompra from './Calificacion.jsx';
-import SeleccionarMetodoPago from './MetodoDePago.jsx';
-import CodigoDescuento from './CodigoDescuento.jsx';
-import './carrito2.css';
-import {
-  agregarProductoAlCarrito,
-  actualizarProductoEnCarrito,
-  eliminarProductoDelCarrito,
-  obtenerProductosDelCarrito,
-} from '../services/firebaseFunctions.js'; // Importa las funciones de Firebase
+import "../styles/Carrito.css"
 
 const Carrito = () => {
-  const { 
-    cart: [productosCarrito, setCart], 
-    total: [total, setTotal], 
-    discountedTotal, 
-    discountCode 
-  } = useContext(DataContext);
-  
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [isSelectionOpen, setSelectionOpen] = useState(false);
+    const { carrito: [productos, setProductos], total: [total] } = useContext(DataContext);
 
-  // Cargar productos del carrito desde Firebase al inicializar el componente
-  useEffect(() => {
-    const cargarCarritoDesdeFirebase = async () => {
-      const productos = await obtenerProductosDelCarrito(); // Traer productos desde la colección "cart"
-      setCart(productos);
-      actualizarTotal(productos);
+    const handleEliminarProducto = (id) => {
+        const nuevosProductos = productos.filter((producto) => producto.id !== id);
+        setProductos(nuevosProductos);
     };
 
-    cargarCarritoDesdeFirebase();
-  }, []);
-
-  // Función para actualizar el total del carrito
-  const actualizarTotal = (producto = productosCarrito) => {
-    const newTotal = producto.reduce((acc, producto) => acc + (producto.price * producto.cantidad), 0);
-    setTotal(newTotal);
-  };
-  const handleCantidadChange = async (e, productoId) => {
-    const cantidad = parseInt(e.target.value, 10);
-    const producto = productosCarrito.find((p) => p.id === productoId);
-
-    if (producto) {
-      setCart((prevCart) =>
-        prevCart.map((producto) =>
-          producto.id === productoId ? { ...producto, cantidad: isNaN(cantidad) ? 1 : cantidad } : producto
-        )
-      );
-      actualizarTotal();
-      await actualizarProductoEnCarrito(productoId, isNaN(cantidad) ? 1 : cantidad);
-    }
-  };
-  // Actualizar producto en Firebase y el estado local
-  const handleActualizarProducto = async (productoId, cantidad) => {
-    if (cantidad < 1) {
-      alert("La cantidad no puede ser menor que 1");
-      return;
-    }
-
-    await actualizarProductoEnCarrito(productoId, cantidad);
-    setCart((prevCart) =>
-      prevCart.map((producto) =>
-        producto.id === productoId ? { ...producto, cantidad } : producto
-      )
-    );
-    actualizarTotal();
-  };
-
-  // Eliminar producto en Firebase y el estado local
-  const handleEliminarProducto = async (productoId) => {
-    await eliminarProductoDelCarrito(productoId);
-    const nuevoCarrito = productosCarrito.filter((producto) => producto.id !== productoId);
-    setCart(nuevoCarrito);
-    actualizarTotal(nuevoCarrito);
-  };
-
-  // Agregar producto al carrito en Firebase y localmente
-  const agregarProducto = (producto) => {
-    agregarProductoAlCarrito(producto); // Agregar a Firebase
-    setCart((prevCart) => [...prevCart, producto]); // Agregar al estado local
-    actualizarTotal([...productosCarrito, producto]);
-  };
-
-  // Abrir la selección de métodos de pago
-  const handleMetodoPago = () => {
-    setSelectionOpen(true);
-  };
-
-  return (
-    <div className="carrito-container">
-      <img src="https://cdn-icons-png.flaticon.com/128/2098/2098566.png" alt="Carrito" />
-      <div className="carrito-items-container">
-        {productosCarrito.length > 0 ? (
-          productosCarrito.map((producto) => (
-            <div key={producto.id} className="carrito-item">
-              <img src={producto.imageUrl} alt={producto.name_product} className="carrito-imagen" />
-              <div className="carrito-precio">
-                <p>{producto.name_product}</p>
-                <input
-                  type="number"
-                  min="1"
-                  value={producto.cantidad}
-                  onChange={(e) => handleCantidadChange(e, producto.id)}
-                  className="input-cantidad"
-                />
-                <p>Precio unitario: {producto.price} Bs.</p>
-              </div>
-              <div className="carrito-botones">
-                <button
-                  onClick={() => handleActualizarProducto(producto.id, producto.cantidad)}
-                  className="btn-actualizar"
-                >
-                  Actualizar
-                </button>
-                <button
-                  onClick={() => handleEliminarProducto(producto.id)}
-                  className="btn-eliminar"
-                >
-                  Eliminar
-                </button>
-              </div>
+    return (
+        <div className="carrito-container">
+            <h2 className="carrito-titulo">Carrito de Compras</h2>
+            {productos.length > 0 ? (
+                productos.map((producto) => (
+                    <div className="carrito-item" key={producto.id}>
+                        <img 
+                            src={producto.imagen} 
+                            alt={producto.nombre} 
+                            className="carrito-imagen" 
+                        />
+                        <div className="carrito-precio">
+                            <p className="carrito-nombre">{producto.nombre}</p>
+                            <p className="carrito-costo">Precio: ${producto.precio}</p>
+                            <input
+                                type="number"
+                                className="input-cantidad"
+                                defaultValue={producto.cantidad}
+                                min="1"
+                                onChange={(e) => {
+                                    const nuevosProductos = productos.map((prod) => {
+                                        if (prod.id === producto.id) {
+                                            prod.cantidad = parseInt(e.target.value);
+                                        }
+                                        return prod;
+                                    });
+                                    setProductos(nuevosProductos);
+                                }}
+                            />
+                        </div>
+                        <button
+                            className="btn-eliminar"
+                            onClick={() => handleEliminarProducto(producto.id)}
+                        >
+                            Eliminar
+                        </button>
+                    </div>
+                ))
+            ) : (
+                <p className="carrito-vacio">Tu carrito está vacío.</p>
+            )}
+            <div className="carrito-total">
+                <p className="total-texto">Total: ${total}</p>
             </div>
-          ))
-        ) : (
-          <p>El carrito está vacío.</p>
-        )}
-      </div>
-      <div className="carrito-total">
-        {discountCode ? (
-          <>
-            <h3>Total Original: {total} Bs.</h3>
-            <h3>Código de Descuento Aplicado: {discountCode}</h3>
-            <h3>Total con Descuento: {discountedTotal} Bs.</h3>
-          </>
-        ) : (
-          <h3>Total: {total} Bs.</h3>
-        )}
-      </div>
-      <div className="codigo-y-aceptar">
-  <CodigoDescuento /> {/* Componente Código de Descuento */}
-  <button className="btn-aceptar" onClick={handleMetodoPago}>
-    Aceptar
-  </button>
-</div>
-
-      {isSelectionOpen && (
-        <div className="modal-overlay-medio">
-          <div className="modal-content-medio">
-            <SeleccionarMetodoPago carrito={productosCarrito} />
-          </div>
+            <div className="codigo-y-aceptar">
+                <button className="btn-codigo">Código de Descuento</button>
+                <button className="btn-aceptar">Aceptar</button>
+            </div>
         </div>
-      )}
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <CalificarCompra carrito={productosCarrito} onConfirmar={() => setModalOpen(false)} />
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-Carrito.propTypes = {
-  onConfirmar: PropTypes.func.isRequired,
+    );
 };
 
 export default Carrito;
