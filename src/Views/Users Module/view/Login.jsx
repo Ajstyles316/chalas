@@ -79,7 +79,7 @@ export const Login = () => {
         userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists() && userDoc.data().isActive) {
-          navigate("/provider");
+          navigate("/supplier");
           return;
         }
 
@@ -202,11 +202,14 @@ export const Login = () => {
           {
             //! Add .env to this part for sitekey security
           }
-          <ReCAPTCHA sitekey="6Ld134EqAAAAAGDUQXhbFtodSTi8jzJrrwI_bCUz" />
+          <ReCAPTCHA
+            sitekey="6Ld134EqAAAAAGDUQXhbFtodSTi8jzJrrwI_bCUz"
+            onChange={() => setIsHuman(true)}
+          />
         </div>
         <button
           type="submit"
-          disabled={isHuman}
+          disabled={!isHuman}
           className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
             isHuman
               ? "bg-orange-600 hover:bg-orange-700"

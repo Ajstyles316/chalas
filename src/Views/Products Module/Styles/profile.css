@@ -1,0 +1,63 @@
+.user-profile {
+    display: flex;
+    position: relative;
+    width: 60px;
+    height: 60px;
+
+}
+
+.user-image {
+    width: 100%;
+    border-radius: 50%;
+    background-color: #000000;
+    border: 2px solid #F28907;
+}
+
+.user-name {
+    display: flex;
+    justify-content: center;
+    color: #000000;
+}
+
+.user-role {
+    display: flex;
+    justify-content: center;
+}
+
+.options {
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 78px;
+    width: 200px;
+    right: 0px;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.options::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: 20px;
+    height: 20px;
+    width: 20px;
+    background: #FFFFFF;
+    transform: rotate(45deg);
+}
+
+.options ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.options ul li {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.options ul li:hover {
+    color: #F28907;
+    cursor: pointer;
+}

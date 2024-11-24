@@ -88,4 +88,78 @@ export const getSupplierData = async (supplierId) => {
   } catch (error) {
     throw new Error("Error al obtener los datos del proveedor y productos: " + error.message);
   }
+  
+};
+
+const uploadImage = async (imageFile, folder = "profile_images") => {
+  try {
+    if (!imageFile) return null;
+    const imageRef = ref(storage, `${folder}/${imageFile.name}`);
+    const snapshot = await uploadBytes(imageRef, imageFile);
+    return await getDownloadURL(snapshot.ref);
+  } catch (error) {
+    console.error("Error al subir la imagen:", error);
+    throw error;
+  }
+};
+
+// Crear un perfil de proveedor
+export const createProfileProvider = async (data, imageFile) => {
+  try {
+    const profileImageUrl = await uploadImage(imageFile, "profile_images");
+
+    const docRef = await addDoc(collection(db, "profileProvider"), {
+      companyName: data.companyName,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      phone: data.phone,
+      zone: data.zone,
+      street: data.street,
+      doorNumber: data.doorNumber,
+      schedule: data.schedule,
+      profileImage: profileImageUrl,
+    });
+
+    console.log("Perfil creado con ID:", docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error al crear el perfil del proveedor:", error);
+    throw error;
+  }
+};
+
+// Actualizar un perfil existente
+export const updateProfileProvider = async (id, updatedData, imageFile) => {
+  try {
+    let updatedImageUrl = updatedData.profileImage;
+
+    if (imageFile) {
+      updatedImageUrl = await uploadImage(imageFile, "profile_images");
+    }
+
+    const profileRef = doc(db, "profileProvider", id);
+    await updateDoc(profileRef, { ...updatedData, profileImage: updatedImageUrl });
+
+    console.log("Perfil actualizado con éxito");
+  } catch (error) {
+    console.error("Error al actualizar el perfil del proveedor:", error);
+    throw error;
+  }
+};
+
+// Obtener perfiles visibles de proveedores (por ejemplo, no eliminados)
+export const getVisibleProfileProviders = async () => {
+  try {
+    const q = query(collection(db, "profileProvider"), where("deleted", "==", false));
+    const querySnapshot = await getDocs(q);
+    const profiles = [];
+    querySnapshot.forEach((doc) => {
+      profiles.push({ id: doc.id, ...doc.data() });
+    });
+    return profiles;
+  } catch (error) {
+    console.error("Error al obtener los perfiles de proveedores:", error);
+    throw error;
+  }
 };

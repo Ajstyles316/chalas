@@ -1,9 +1,10 @@
 .form-container {
     display: flex;
+    flex-direction: column;
     border-radius: 32px;
     background-color: #FDD46B;
     width: 500px;
-    height: 75vh;
+    height: 94vh;
     padding: 28px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -59,4 +60,19 @@ textarea {
     display: flex;
     margin-top: 44px;
     margin-bottom: 44px;
+}
+
+.close-button-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    background-color: #ff4444;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 12px;
 }

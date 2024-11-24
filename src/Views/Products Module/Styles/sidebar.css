@@ -1,13 +1,11 @@
 .admin-container {
     display: flex;
     flex-direction: column;
-    /* Cambia la dirección para acomodar la TopBar */
 }
 
 .admin-content {
     display: flex;
     flex-grow: 1;
-    /* Asegura que crezca para ocupar el espacio disponible */
 }
 
 .sidebar {
@@ -49,12 +47,10 @@
     height: 100vh;
 }
 
-/* Ajustes para la visibilidad del sidebar */
 .admin-container .content {
     transition: margin-left 0.3s;
 }
 
 .sidebar-hidden .sidebar {
     display: none;
-    /* Oculta la barra lateral */
 }

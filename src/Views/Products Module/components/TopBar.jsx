@@ -7,11 +7,10 @@ const TopBar = ({ onToggleSidebar }) => {
   const navigate = useNavigate();
   const auth = getAuth();
 
-  // Función para manejar el logout
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Cerrar sesión con Firebase
-      navigate("/login"); // Redirigir al login
+      await signOut(auth);
+      navigate("/login");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }

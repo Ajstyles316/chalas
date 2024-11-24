@@ -4,8 +4,13 @@ import profileImage from "../assets_test/Enterprise_logo.png";
 import { RatingStars } from "../components/RatingStars";
 import SupplierProducts from "../components/SupplierProducts";
 import ProductCardDetailed from "../components/ProductCardDetailed";
+import { useUser } from "../../../Firebase/UserContext";
+import Navbar from "../components/Navbar";
+
+import { Pencil } from "lucide-react";
 
 const SupplierProfile = () => {
+  const { user, loading, error } = useUser();
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleCardClick = (product) => {
@@ -16,10 +21,28 @@ const SupplierProfile = () => {
     setSelectedProduct(null);
   };
 
+  if (loading) {
+    return <div>Cargando datos del usuario...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!user) {
+    return <div>No se encontró un usuario autenticado.</div>;
+  }
+
   return (
-    <div className="profile-page">
-      <div className="profile-container">
-        <div className="banner-profile"></div>
+    <div className="profile-provider-page">
+      <Navbar />
+      <div className="profile-provider-container">
+        <div className="banner-profile-provider">
+          <button className="provider-edit-button">
+            <Pencil />
+            Editar Perfil
+          </button>
+        </div>
         <div className="content-supplier">
           <div className="profile-info-container">
             <div className="profile-picture-container">
@@ -37,9 +60,11 @@ const SupplierProfile = () => {
           <div className="contact-info">
             <div className="contact-column">
               <h3>Contactos</h3>
-              <p>Mónica Geller</p>
-              <p>monicageller@gmail.com</p>
-              <p>WhatsApp: +59176217335</p>
+              <p>
+                {user.firstName} {user.lastName}
+              </p>
+              <p>{user.email}</p>
+              <p>WhatsApp: {user.phone}</p>
             </div>
             <div className="address-column">
               <h3>Dirección</h3>
@@ -58,10 +83,9 @@ const SupplierProfile = () => {
       </div>
 
       <SupplierProducts onCardClick={handleCardClick} />
-      {}
       {selectedProduct && (
-        <div className="overlay" onClick={handleClose}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="overlay-card" onClick={handleClose}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <ProductCardDetailed {...selectedProduct} />
           </div>
         </div>
