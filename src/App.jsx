@@ -30,6 +30,7 @@ import { ReportsView } from "./Views/Admin/views/ReportsView";
 import { EventsView } from "./Views/Admin/views/EventsView";
 import LayoutClient from "./Views/PagInterfaz/LayoutClient";
 import Transacciones from "./Views/Transacciones/views/Transacciones";
+import { AuthProvider } from "./context/authContext";
 
 function App() {
   const auth = getAuth(appFirebase);
@@ -48,32 +49,34 @@ function App() {
   }, [auth]);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingHome />} />
-        <Route path="/aboutus" element={<LandingAboutUs />} />
-        <Route path="/contact" element={<LandingContact />} />
-        <Route path="/login" element={<Login />} />
-        {/* <Route path="/provider" element={<Provider />} /> */}
-        <Route path="/registerclient" element={<RegisterClient />} />
-        <Route path="/registerprovider" element={<RegisterProvider />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingHome />} />
+          <Route path="/aboutus" element={<LandingAboutUs />} />
+          <Route path="/contact" element={<LandingContact />} />
+          <Route path="/login" element={<Login />} />
+          {/* <Route path="/provider" element={<Provider />} /> */}
+          <Route path="/registerclient" element={<RegisterClient />} />
+          <Route path="/registerprovider" element={<RegisterProvider />} />
 
-        <Route path="/supplier" element={<SupplierProfile />} />
-        <Route path="/ClientProvider" element={<ClientProviderView />} />
-        <Route path="/provider" element={<ProviderSideBar />} />
+          <Route path="/supplier" element={<SupplierProfile />} />
+          <Route path="/ClientProvider" element={<ClientProviderView />} />
+          <Route path="/provider" element={<ProviderSideBar />} />
 
-        <Route path="/admin" element={<AdminLayout />} />
-        <Route path="/userList" element={<UsersList />} />
-        <Route path="/test" element={<Transacciones />} />
+          <Route path="/admin" element={<AdminLayout />} />
+          <Route path="/userList" element={<UsersList />} />
+          <Route path="/test" element={<Transacciones />} />
 
-        <Route path="/clients" element={<UsersView />} />
-        <Route path="/orders" element={<OrdersView />} />
-        <Route path="/reports" element={<ReportsView />} />
-        <Route path="/events" element={<EventsView />} />
-        <Route path="/transacciones" element={<Transacciones />} />
-        <Route path="/clienthome" element={<LayoutClient />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="/clients" element={<UsersView />} />
+          <Route path="/orders" element={<OrdersView />} />
+          <Route path="/reports" element={<ReportsView />} />
+          <Route path="/events" element={<EventsView />} />
+          <Route path="/transacciones" element={<Transacciones />} />
+          <Route path="/clienthome" element={<LayoutClient />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

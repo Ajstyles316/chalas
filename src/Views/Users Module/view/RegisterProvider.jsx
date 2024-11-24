@@ -64,6 +64,7 @@ export const RegisterProvider = () => {
             const user = userCredential.user;
 
             await setDoc(doc(db, 'provider', user.uid), {
+                pid: user.uid,
                 firstName: nombre,
                 lastName: apellido,
                 phone: celular,
