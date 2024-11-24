@@ -10,14 +10,13 @@ const ProductCardDetailed = ({
   imageUrl,
   categories = [],
 }) => {
-  const navigate = useNavigate(); // Hook para navegación
+  const navigate = useNavigate();
 
   const formattedCategories =
     categories.length > 0 ? categories.join(", ") : "Sin categoría";
 
   const handleAddToCart = () => {
-    // Aquí puedes agregar lógica para añadir al carrito antes de redirigir
-    navigate('/transacciones', { state: { mostrarCarrito: true } }); // Redirigir al componente Carrito
+    navigate("/transacciones", { state: { mostrarCarrito: true } });
   };
 
   return (
@@ -34,7 +33,6 @@ const ProductCardDetailed = ({
         </div>
       </div>
       <div className="product-info">
-        {/* Mostrar categorías */}
         <h3 className="product-category">{formattedCategories}</h3>
         <h1 className="product-name">{name_product}</h1>
         <p className="product-supplier">{provider}</p>

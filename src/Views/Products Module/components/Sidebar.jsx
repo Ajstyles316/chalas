@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import ProductAdministration from "../views/ProductAdministration"; // Importa tu componente
-import "../Styles/providerSideBar.css"; // CSS del ProviderSideBar
-import TopBar from "./TopBar"; // Importa el TopBar
+import ProductAdministration from "../views/ProductAdministration";
+import "../Styles/sidebar.css";
+import TopBar from "./TopBar";
 import LogoApp from "../../../assets/img/appLogo.jpeg";
 
-const ProviderSideBar = () => {
+const Sidebar = () => {
   const [activeView, setActiveView] = useState("productos");
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
@@ -61,4 +61,4 @@ const ProviderSideBar = () => {
   );
 };
 
-export default ProviderSideBar;
+export default Sidebar;

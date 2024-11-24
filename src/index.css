@@ -18,6 +18,7 @@ body {
     width: 100vw;
     overflow-x: hidden;
     overflow-y: scroll;
+    background-color: #fff;
 }
 
 /* @tailwind base;

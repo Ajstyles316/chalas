@@ -35,7 +35,7 @@ const ProductForm = ({ product, onClose }) => {
         await updateProduct(product.id, productData);
         console.log("Producto actualizado con éxito");
       } else {
-        await createProduct(productData, imageFile);
+        await createProduct(productData);
         console.log("Producto registrado con éxito");
       }
       onClose();
@@ -45,6 +45,7 @@ const ProductForm = ({ product, onClose }) => {
   };
 
   const uploadImage = async (file) => {
+    // Implementación del manejo de imágenes
     return file;
   };
 
@@ -56,10 +57,15 @@ const ProductForm = ({ product, onClose }) => {
 
   return (
     <div className="form-container">
+      <button className="close-button-form" onClick={onClose}>
+        X
+      </button>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="name-product">Nombre del producto</label>
         <input type="text" {...register("name_product", { required: true })} />
-        {errors.name_product && <span>El nombre de producto es requerido</span>}
+        {errors.name_product && (
+          <span>El nombre del producto es requerido</span>
+        )}
 
         <label htmlFor="description">Descripción</label>
         <textarea {...register("description")} />

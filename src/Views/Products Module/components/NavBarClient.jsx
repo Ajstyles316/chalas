@@ -18,8 +18,8 @@ const NavBarClient = () => {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
+    <nav className="navbar-1">
+      <div className="navbar-container-1">
         {/* Botón de Inicio */}
         <button
           className="navbar-button"
