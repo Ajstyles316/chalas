@@ -1,0 +1,60 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    /* Cambia la dirección para acomodar la TopBar */
+}
+
+.admin-content {
+    display: flex;
+    flex-grow: 1;
+    /* Asegura que crezca para ocupar el espacio disponible */
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #FB9153;
+    color: #FFFFFF;
+    padding: 20px;
+    height: 100vh;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-menu li {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sidebar-menu li:hover,
+.sidebar-menu .active {
+    background-color: #444;
+    border-radius: 8px;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #FDD46B;
+    height: 100vh;
+}
+
+/* Ajustes para la visibilidad del sidebar */
+.admin-container .content {
+    transition: margin-left 0.3s;
+}
+
+.sidebar-hidden .sidebar {
+    display: none;
+    /* Oculta la barra lateral */
+}

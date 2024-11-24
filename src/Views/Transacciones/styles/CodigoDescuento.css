@@ -1,0 +1,46 @@
+.input-codigo {
+  padding: 10px;
+  margin: 10px 0;
+  width: 90%;
+}
+.input-text{
+  width: 90%;
+}
+.btn-aplicar {
+  background-color: #ffcc00;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-aplicar:hover {
+  background-color: #ffdd33;
+}
+.transacciones {
+  width: 400px;
+    padding: 20px;
+    border-radius: 15px; /* Bordes redondeados */
+    background: linear-gradient(to bottom, #ffcc66, #ff9966); /* Degradado */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin: auto;
+}
+
+.btn-generar {
+  background-color: #4285f4; /* Azul */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-generar:hover {
+  background-color: #357ae8; /* Azul más oscuro */
+}
+
+.codigo-generado {
+  margin-top: 20px;
+}
