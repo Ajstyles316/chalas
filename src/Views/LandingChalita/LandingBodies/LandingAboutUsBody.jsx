@@ -1,7 +1,7 @@
 import React from 'react';
 import lamaPutada from '../../../assets/img/llama_putada.png';
 import lamaAngry from '../../../assets/img/llama_angry.png';
-import lamaBanio from '../../../assets/img/llama_banio.png';
+import lamaBanio from '../../../assets/img/llama_audifono.png';
 import lamaEsquizo from '../../../assets/img/llama_esquizo.png';
 import lamaStupid from '../../../assets/img/llama_stupid.png';
 import lamahistory from '../../../assets/img/llama_bufanda.png';
@@ -11,7 +11,7 @@ export const LandingAboutUsBody = () => {
   const teamMembers = [
     { name: 'Alina Ruiz', role: 'CEO', image: lamaPutada },
     { name: 'Jorge Llave', role: 'CTO', image: lamaAngry },
-    { name: 'Fabricio Choque', role: 'Diseñadora UX', image: lamaBanio },
+    { name: 'Fabricio Choque', role: 'Diseñador UX', image: lamaBanio },
     { name: 'Jose Fox Ontiveros', role: 'Desarrollador Full Stack', image: lamaEsquizo },
     { name: 'Kevin Morales', role: 'Gerente de Marketing', image: lamaStupid },
   ];

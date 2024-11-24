@@ -30,7 +30,7 @@ const CodigoDescuento = () => {
 
       if (descuento.valid) {
         setDescuentoAplicado(descuento.desc); // Guardar el descuento
-        setMensaje(`Código aceptado. Descuento: ${descuento.desc * 100}%`);
+        setMensaje(`Código aceptado. Descuento: ${descuento.desc * 75}%`);
       } else {
         setMensaje('El código no es válido.');
       }
@@ -72,7 +72,7 @@ const CodigoDescuento = () => {
       )}
       <div className="codigo-descuento-resumen">
         <p>Subtotal: {subtotal.toFixed(2)} Bs</p>
-        <p>Descuento: {descuentoAplicado * 100}%</p>
+        <p>Descuento: {descuentoAplicado * 75}%</p>
         <p>Total: {totalConDescuento.toFixed(2)} Bs</p>
       </div>
     </div>

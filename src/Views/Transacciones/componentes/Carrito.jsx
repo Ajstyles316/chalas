@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { CartContext } from '../context/context';
-import { collection, addDoc, doc, updateDoc, getDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, updateDoc} from 'firebase/firestore';
 import { db } from '../../../Firebase/config';
 import '../styles/Carrito.css';
 import CalificarCompra from './Calificacion';
@@ -21,7 +21,7 @@ const Carrito = () => {
     try {
       for (const producto of cart) {
         // Asignar un precio predeterminado si no existe
-        const precioFinal = producto.price || 100;
+        const precioFinal = producto.price || 75;
 
         const docRef = await addDoc(collection(db, 'cart'), {
           cant: producto.cantidad,
@@ -47,12 +47,21 @@ const Carrito = () => {
     try {
       const productoRef = doc(db, 'cart', id);
       await updateDoc(productoRef, { cant: nuevaCantidad });
-      alert('Cantidad actualizada en Firebase.');
+  
+      // Actualiza el carrito local después de la actualización en Firebase
+      context.setCart(prevCart =>
+        prevCart.map(producto =>
+          producto.id === id ? { ...producto, cantidad: nuevaCantidad } : producto
+        )
+      );
+  
+      alert('Cantidad actualizada correctamente.');
     } catch (error) {
       console.error('Error actualizando cantidad:', error);
       alert('Hubo un error al actualizar la cantidad.');
     }
   };
+  
 
   return (
     <div className="carrito-container">
@@ -68,40 +77,32 @@ const Carrito = () => {
                   <p>Cantidad:</p>
                 {/* Input para modificar la cantidad */}
                 <input
-                  type="number"
-                  min="1"
-                  value={producto.cantidad}
-                  onChange={(e) => {
-                    // Actualiza el valor de la cantidad localmente
-                    const nuevaCantidad = parseInt(e.target.value, 10);
-                    if (!isNaN(nuevaCantidad) && nuevaCantidad > 0) {
-                      producto.cantidad = nuevaCantidad; // Modifica el estado local
-                    } else {
-                      alert('Por favor, introduce un número válido.');
-                    }
+                type="number"
+                min="1"
+                value={producto.cantidad}
+                onChange={(e) => {
+                  const nuevaCantidad = parseInt(e.target.value, 10);
+                  if (!isNaN(nuevaCantidad) && nuevaCantidad > 0) {
+                    context.setCart(prevCart =>
+                      prevCart.map(p =>
+                        p.id === producto.id ? { ...p, cantidad: nuevaCantidad } : p
+                      )
+                    );
+                  } else {
+                    alert('Por favor, introduce un número válido.');
+                  }
                   }}
                 />
-                  <p>Precio: {producto.price || 100} Bs.</p>
+
+                  <p>Precio: {producto.price || 75} Bs.</p>
                   <div className="carrito-actions">
                     <button className="eliminar-btn" onClick={() => removeFromCart(producto.id)}>
                       Eliminar
                     </button>
-                    <button
-                      className="actualizar-btn"
-                      onClick={() => {
-                        const nuevaCantidad = parseInt(
-                          prompt(`Ingresa la nueva cantidad para ${producto.name_product}:`, producto.cantidad),
-                          10
-                        );
-                        if (!isNaN(nuevaCantidad) && nuevaCantidad > 0) {
-                          actualizarCantidadEnFirebase(producto.id, nuevaCantidad);
-                        } else {
-                          alert('Por favor, introduce un número válido.');
-                        }
+                    <button className="actualizar-btn" onClick={() => {
+                      actualizarCantidadEnFirebase(producto.id, producto.cantidad);
                       }}
-                    >
-                      Actualizar cantidad
-                    </button>
+                    > Actualizar cantidad </button>
                   </div>
                 </div>
               </div>

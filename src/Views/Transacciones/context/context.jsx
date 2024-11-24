@@ -5,7 +5,7 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
-  const DEFAULT_PRICE = 100;
+  const DEFAULT_PRICE = 75;
   // Agregar un producto al carrito o incrementar su cantidad
   const addToCart = (product) => {
     setCart((prevCart) => {
@@ -33,7 +33,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getSubtotal }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getSubtotal, setCart }}>
       {children}
     </CartContext.Provider>
   );

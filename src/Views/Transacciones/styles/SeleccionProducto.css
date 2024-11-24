@@ -21,7 +21,7 @@
 
 .arrow-btn {
   font-size: 24px;
-  background-color: #007bff;
+  background-color: #f1c54a;
   color: white;
   border: none;
   border-radius: 50%;
@@ -44,21 +44,20 @@
   align-items: center;
   justify-content: center;
 }
-
+.product-name h3{
+  margin: 0;
+  text-align:var(#28a745);
+}
 .product-price p {
   font-size: 20px;
   margin: 5px 0;
   color: black;
 }
 .product-description{
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 0;
 }
 .product-name h3 {
   margin: 0;
-  display: flex;
-  flex-direction: column;
 }
 
 .boton-container-trac {

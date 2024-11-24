@@ -37,7 +37,7 @@ const SeleccionProducto = () => {
   return (
     <div className="transacciones">
       <div className="titulo-container">
-        <h2>Selección de Producto</h2>
+        <h2>¿Quieres escoger algún otro Producto?</h2>
       </div>
 
       {productos.length > 0 ? (
