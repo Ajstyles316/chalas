@@ -87,9 +87,6 @@ const CalificarCompra = ({ onConfirmar }) => {
       <button style={styles.btnConfirmar} onClick={handleConfirmar}>
         Confirmar
       </button>
-      <button style={styles.btnCerrar} onClick={onConfirmar}>
-        Cerrar
-      </button>
     </div>
   );
 };
