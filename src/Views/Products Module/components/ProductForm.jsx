@@ -20,6 +20,7 @@ const ProductForm = ({ product, onClose }) => {
     if (product) {
       setValue("name_product", product.name_product);
       setValue("description", product.description);
+      setValue("price", product.price || ""); // Establecer el valor del precio
       setCategories(product.categories || []);
     }
   }, [product, setValue]);
@@ -45,7 +46,6 @@ const ProductForm = ({ product, onClose }) => {
   };
 
   const uploadImage = async (file) => {
-    // Implementación del manejo de imágenes
     return file;
   };
 
@@ -69,6 +69,14 @@ const ProductForm = ({ product, onClose }) => {
 
         <label htmlFor="description">Descripción</label>
         <textarea {...register("description")} />
+
+        <label htmlFor="price">Precio</label>
+        <input
+          type="number"
+          step="1.00"
+          {...register("price", { required: true })}
+        />
+        {errors.price && <span>El precio es requerido</span>}
 
         <label htmlFor="categories">Categorías</label>
         <CategoryTag

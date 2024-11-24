@@ -3,6 +3,7 @@ import "../Styles/supplierProfile.css";
 import profileImage from "../assets_test/Enterprise_logo.png";
 import { RatingStars } from "../components/RatingStars";
 import SupplierProducts from "../components/SupplierProducts";
+import { useNavigate } from "react-router-dom";
 import ProductCardDetailed from "../components/ProductCardDetailed";
 import { useUser } from "../../../Firebase/UserContext";
 import Navbar from "../components/Navbar";
@@ -12,6 +13,7 @@ import { Pencil } from "lucide-react";
 const SupplierProfile = () => {
   const { user, loading, error } = useUser();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigate = useNavigate();
 
   const handleCardClick = (product) => {
     setSelectedProduct(product);
@@ -19,6 +21,10 @@ const SupplierProfile = () => {
 
   const handleClose = () => {
     setSelectedProduct(null);
+  };
+
+  const handleEditProfile = () => {
+    navigate("/edit-profile");
   };
 
   if (loading) {
@@ -38,7 +44,7 @@ const SupplierProfile = () => {
       <Navbar />
       <div className="profile-provider-container">
         <div className="banner-profile-provider">
-          <button className="provider-edit-button">
+          <button onClick={handleEditProfile} className="provider-edit-button">
             <Pencil />
             Editar Perfil
           </button>

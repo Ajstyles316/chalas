@@ -7,11 +7,10 @@ const NavBarClient = () => {
   const navigate = useNavigate();
   const auth = getAuth();
 
-  // Función para manejar el logout
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Cerrar sesión con Firebase
-      navigate("/login"); // Redirigir al login
+      await signOut(auth);
+      navigate("/login");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
@@ -20,22 +19,16 @@ const NavBarClient = () => {
   return (
     <nav className="navbar-1">
       <div className="navbar-container-1">
-        {/* Botón de Inicio */}
         <button
           className="navbar-button"
-          onClick={() => navigate("/clienthome")} // Redirigir a la página de inicio
+          onClick={() => navigate("/clienthome")}
         >
           Inicio
         </button>
 
-        {/* Logo */}
         <div className="navbar-logo">ChalitaOE</div>
 
-        {/* Botón de Cerrar sesión */}
-        <button
-          className="navbar-button logout-button"
-          onClick={handleLogout} // Llamar a la función de logout
-        >
+        <button className="navbar-button logout-button" onClick={handleLogout}>
           Cerrar sesión
         </button>
       </div>
