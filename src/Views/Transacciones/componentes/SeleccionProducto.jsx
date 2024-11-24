@@ -71,7 +71,7 @@ const SeleccionProducto = () => {
             <p>{productos[selectedProduct].description}</p>
           </div>
           <div className="product-price">
-            <p>{productos[selectedProduct]?.precio || '75-150'} Bs.</p>
+            <p>{productos[selectedProduct]?.precio || '75'} Bs.</p>
           </div>
         </div>
       )}

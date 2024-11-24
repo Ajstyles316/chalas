@@ -3,7 +3,7 @@ import gracias from "../imagenes/Icon.png";
 import PropTypes from "prop-types";
 import { guardarCalificacion } from "../services/firebaseFunctions";
 
-const CalificarCompra = ({ carrito, onConfirmar }) => {
+const CalificarCompra = ({ onConfirmar }) => {
   const [starc, setCalificacion] = useState(0);
 
   const handleStarClick = (rating) => {
@@ -15,10 +15,11 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
       alert("Por favor, califica tu experiencia antes de confirmar.");
       return;
     }
-
+  
     await guardarCalificacion(starc);
-    onConfirmar();
+    onConfirmar(); // Llama para cerrar el modal después de guardar
   };
+  
 
   const styles = {
     container: {

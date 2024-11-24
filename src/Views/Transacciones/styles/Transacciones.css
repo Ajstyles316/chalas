@@ -1,39 +1,36 @@
 .vista-transacciones {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
-    background-color: #f4f4f4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.seccion-productos,
+.seccion-carrito,
+.seccion-descuento {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.seccion-descuento {
+  text-align: center; /* Centrar el contenido del descuento */
+}
+
+@media (max-width: 768px) {
+  .vista-transacciones {
+    flex-direction: column;
+    align-items: center;
   }
-  
+
   .seccion-productos,
-  .seccion-carrito {
-    flex: 1;
-    min-width: 300px;
-    max-width: 600px;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  .seccion-carrito,
+  .seccion-descuento {
+    max-width: 100%;
   }
-  
-  .seccion-productos {
-    order: 1;
-  }
-  
-  .seccion-carrito {
-    order: 2;
-  }
-  
-  @media (max-width: 768px) {
-    .vista-transacciones {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .seccion-productos,
-    .seccion-carrito {
-      max-width: 100%;
-    }
-  }
-  
+}
