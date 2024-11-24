@@ -1,176 +1,147 @@
-.codigo-y-aceptar {
-  display: flex;
-  justify-content: space-between; /* Ajusta los botones según tu diseño */
-  align-items: center; /* Alinea verticalmente */
-  gap: 10px; /* Espaciado entre los botones */
-}
-
-.codigo-y-aceptar > * {
-  flex: 1; /* Opcional: para que ambos botones tengan el mismo ancho */
-}
 .carrito-container {
-  max-width: 600px;
-  margin: 0 auto;
   padding: 20px;
-  background: #FCD05F;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  position: absolute;
-  top: 210px; /* Y position */
-  left: 750px; /* X position */
-  color: #333;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 900px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
 }
-.codigoDescuento {
-  background-color: #f0c000;
-  color: #333;
-  border: 2px solid #333;
-  border-radius: 12px;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
+
+.carrito-container h2 {
   text-align: center;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.carrito-items {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  left: 700px;
-  width: 100%; /* Ocupa el ancho de la tarjeta */
-  max-width: 300px; /* Limita el tamaño máximo */
-}
-
-.codigoDescuento img {
-  width: 26px;
-  height: 35px;
-  margin-right: 10px; /* Espaciado entre el icono y el texto */
-}
-
-.codigoDescuento:hover {
-  background-color: #ffd45a;
-}
-
-.codigoDescuento:active {
-  background-color: #f0c000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.carrito-container img{
-  margin-left: 10px; 
-  width: 39px;
-  height: 44px;
-}
-.carrito-titulo {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-  color: #333;
-}
-
-.carrito-items-container {
-  max-height: 400px; /* Define una altura máxima para el contenedor */
-  overflow-y: auto;  /* Permite el scroll vertical */
-  margin-bottom: 20px;
-  width: 490px;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .carrito-item {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
-  padding: 10px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.carrito-imagen {
+.carrito-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.carrito-item img {
   width: 80px;
-  height: 60px;
+  height: 80px;
+  border-radius: 8px;
   object-fit: cover;
-  margin-right: 15px;
-  border-radius: 5px;
+  border: 2px solid #ddd;
 }
 
-.carrito-precio {
-  margin-right: auto;
+.carrito-details {
+  flex: 1;
+  margin-left: 15px;
 }
-.carrito-precio input{
-  width: 50px;
+
+.carrito-details h4 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
 }
-.carrito-botones {
+
+.carrito-details p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.carrito-actions {
   display: flex;
   gap: 10px;
-  flex-direction: column;
 }
 
-.btn-actualizar {
-  background: #3FFA3B;
+.carrito-actions button {
+  padding: 8px 12px;
+  font-size: 14px;
   border: none;
-  padding: 5px 10px;
-  color: #fff;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.btn-eliminar {
-  background: #FA3B3B;
+.carrito-actions button:hover {
+  opacity: 0.9;
+}
+
+.eliminar-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 12px 25px;
   border: none;
-  padding: 5px 10px;
-  color: #fff;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  text-align: center;
+  transition: background-color 0.3s;
 }
 
-.btn-aceptar {
-  width: 147px;
-  height: 53.85px;
-  left: 820px;
-  align-items: center;
-  top: 519px;
-  background: #F3C00D;
+.actualizar-btn {
+  background-color: #ffc107;
   color: #333;
-  border-radius: 12px;
-  padding: 10px 20px;
-  font-size: 1rem;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  font-weight: bold;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 2px solid #333;
+  margin-top: 20px;
+  display: block;
+  text-align: center;
+  transition: background-color 0.3s;
 }
-/* Para pantallas pequeñas (móviles) */
-@media (max-width: 600px) {
-  .carrito-container {
-    padding: 15px;
-  }
 
+.carrito-save {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.carrito-save:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 768px) {
   .carrito-item {
-    flex-direction: column; /* Elementos en columna en móviles */
-    text-align: center; /* Centrar texto y botones */
+    flex-direction: column;
+    text-align: center;
   }
 
-  .carrito-precio {
-    margin: 10px 0;
+  .carrito-details {
+    margin-left: 0;
+    margin-top: 10px;
   }
 
-  .btn-aceptar {
-    width: 100%; /* Ocupa todo el ancho disponible */
-    padding: 12px;
-  }
-}
-
-/* Para pantallas medianas (tablets) */
-@media (min-width: 601px) and (max-width: 1024px) {
-  .carrito-container {
-    max-width: 600px;
+  .carrito-actions {
+    justify-content: center;
   }
 
-  .carrito-items-container {
-    width: 100%;
-  }
-
-  .btn-aceptar {
-    width: 100%;
-    max-width: 200px; /* Aumentamos un poco el ancho en tablets */
+  .carrito-item img {
+    width: 100px;
+    height: 100px;
   }
 }

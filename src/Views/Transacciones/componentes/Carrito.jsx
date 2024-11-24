@@ -1,65 +1,100 @@
 import { useContext } from 'react';
-import { DataContext } from '../context/context.jsx';
-import "../styles/Carrito.css"
+import { CartContext } from '../context/context';
+import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../../Firebase/config';
+import '../styles/Carrito.css';
 
 const Carrito = () => {
-    const { carrito: [productos, setProductos], total: [total] } = useContext(DataContext);
+  const context = useContext(CartContext);
 
-    const handleEliminarProducto = (id) => {
-        const nuevosProductos = productos.filter((producto) => producto.id !== id);
-        setProductos(nuevosProductos);
-    };
-
-    return (
-        <div className="carrito-container">
-            <h2 className="carrito-titulo">Carrito de Compras</h2>
-            {productos.length > 0 ? (
-                productos.map((producto) => (
-                    <div className="carrito-item" key={producto.id}>
-                        <img 
-                            src={producto.imagen} 
-                            alt={producto.nombre} 
-                            className="carrito-imagen" 
-                        />
-                        <div className="carrito-precio">
-                            <p className="carrito-nombre">{producto.nombre}</p>
-                            <p className="carrito-costo">Precio: ${producto.precio}</p>
-                            <input
-                                type="number"
-                                className="input-cantidad"
-                                defaultValue={producto.cantidad}
-                                min="1"
-                                onChange={(e) => {
-                                    const nuevosProductos = productos.map((prod) => {
-                                        if (prod.id === producto.id) {
-                                            prod.cantidad = parseInt(e.target.value);
-                                        }
-                                        return prod;
-                                    });
-                                    setProductos(nuevosProductos);
-                                }}
-                            />
-                        </div>
-                        <button
-                            className="btn-eliminar"
-                            onClick={() => handleEliminarProducto(producto.id)}
-                        >
-                            Eliminar
-                        </button>
-                    </div>
-                ))
-            ) : (
-                <p className="carrito-vacio">Tu carrito está vacío.</p>
-            )}
-            <div className="carrito-total">
-                <p className="total-texto">Total: ${total}</p>
-            </div>
-            <div className="codigo-y-aceptar">
-                <button className="btn-codigo">Código de Descuento</button>
-                <button className="btn-aceptar">Aceptar</button>
-            </div>
-        </div>
+  if (!context) {
+    console.error(
+      'CartContext no está disponible. Asegúrate de envolver tu componente en el proveedor de CartContext.'
     );
+    return <p>Hubo un error al cargar el carrito. Por favor, inténtalo de nuevo más tarde.</p>;
+  }
+
+  const { cart, removeFromCart } = context;
+
+  const guardarEnFirebase = async () => {
+    try {
+      for (const producto of cart) {
+        // Asignar un precio predeterminado si no existe
+        const precioFinal = producto.price || 100;
+
+        const docRef = await addDoc(collection(db, 'cart'), {
+          cant: producto.cantidad,
+          imgURL: producto.imageUrl,
+          name_product: producto.name_product,
+          price: precioFinal,
+        });
+        console.log(`Producto guardado con ID: ${docRef.id}`);
+      }
+      alert('Transacción Exitosa.');
+    } catch (error) {
+      console.error('Error guardando el carrito:', error);
+      alert('Hubo un error al guardar el carrito.');
+    }
+  };
+
+  const actualizarCantidadEnFirebase = async (id, nuevaCantidad) => {
+    try {
+      const productoRef = doc(db, 'cart', id);
+      await updateDoc(productoRef, { cant: nuevaCantidad });
+      alert('Cantidad actualizada en Firebase.');
+    } catch (error) {
+      console.error('Error actualizando cantidad:', error);
+      alert('Hubo un error al actualizar la cantidad.');
+    }
+  };
+
+  return (
+    <div className="carrito-container">
+      <h2>Carrito</h2>
+      {cart.length > 0 ? (
+        <>
+          <div className="carrito-items">
+            {cart.map((producto, index) => (
+              <div className="carrito-item" key={index}>
+                <img src={producto.imageUrl} alt={producto.name_product || 'Producto'} />
+                <div className="carrito-details">
+                  <h4>{producto.name_product || 'Producto sin nombre'}</h4>
+                  <p>Cantidad: {producto.cantidad || 1}</p>
+                  <p>Precio: {producto.price || 100} Bs.</p>
+                  <div className="carrito-actions">
+                    <button className="eliminar-btn" onClick={() => removeFromCart(producto.id)}>
+                      Eliminar
+                    </button>
+                    <button
+                      className="actualizar-btn"
+                      onClick={() => {
+                        const nuevaCantidad = parseInt(
+                          prompt(`Ingresa la nueva cantidad para ${producto.name_product}:`, producto.cantidad),
+                          10
+                        );
+                        if (!isNaN(nuevaCantidad) && nuevaCantidad > 0) {
+                          actualizarCantidadEnFirebase(producto.id, nuevaCantidad);
+                        } else {
+                          alert('Por favor, introduce un número válido.');
+                        }
+                      }}
+                    >
+                      Actualizar cantidad
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className="carrito-save" onClick={guardarEnFirebase}>
+            Aceptar
+          </button>
+        </>
+      ) : (
+        <p>El carrito está vacío.</p>
+      )}
+    </div>
+  );
 };
 
 export default Carrito;

@@ -1,14 +1,14 @@
 import { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/SeleccionProducto.css';
-import { DataContext } from '../context/context';
+import { CartContext } from '../context/context';
 import { collection, getDocs } from "firebase/firestore"; 
 import { db } from '../../../Firebase/config';
 
 const SeleccionProducto = () => {
   const [productos, setProductos] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(0);
-  const { addToCart } = useContext(DataContext);
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const fetchProductos = async () => {
