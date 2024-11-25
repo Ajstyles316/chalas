@@ -37,7 +37,7 @@ const SeleccionProducto = () => {
   return (
     <div className="transacciones">
       <div className="titulo-container">
-        <h2>¿Quieres escoger algún otro Producto?</h2>
+        <h2>¿Quieres escoger algún Producto?</h2>
       </div>
 
       {productos.length > 0 ? (
@@ -71,7 +71,7 @@ const SeleccionProducto = () => {
             <p>{productos[selectedProduct].description}</p>
           </div>
           <div className="product-price">
-            <p>{productos[selectedProduct]?.precio || '75'} Bs.</p>
+          <p>Precio: Bs. {productos[selectedProduct]?.price || "No disponible"}</p>
           </div>
         </div>
       )}

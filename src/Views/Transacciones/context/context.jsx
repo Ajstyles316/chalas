@@ -4,36 +4,57 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const [totalItems, setTotalItems] = useState(0);
-  const DEFAULT_PRICE = 75;
+
   // Agregar un producto al carrito o incrementar su cantidad
   const addToCart = (product) => {
     setCart((prevCart) => {
       const existingProduct = prevCart.find((item) => item.id === product.id);
       if (existingProduct) {
+        // Incrementar la cantidad si el producto ya está en el carrito
         return prevCart.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, cantidad: item.cantidad + 1 }
             : item
         );
       }
-      return [...prevCart, { ...product, quantity: 1 }];
+      // Agregar un nuevo producto al carrito
+      return [...prevCart, { ...product, cantidad: 1 }];
     });
-    setTotalItems((prevTotal) => prevTotal + 1);
   };
+  
 
   // Eliminar un producto del carrito
   const removeFromCart = (productId) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
-  // Obtener el subtotal (cantidad * precio de todos los productos)
+  // Calcular el subtotal dinámicamente
   const getSubtotal = () => {
-    return totalItems * DEFAULT_PRICE; // Multiplica el precio predeterminado por el total de productos
+    return cart.reduce((subtotal, item) => {
+      return subtotal + item.price * item.cantidad; // Sumar precio * cantidad de cada producto
+    }, 0);
+  };
+
+  // Actualizar la cantidad de un producto en el carrito
+  const updateProductQuantity = (productId, nuevaCantidad) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === productId ? { ...item, cantidad: nuevaCantidad } : item
+      )
+    );
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getSubtotal, setCart }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        getSubtotal,
+        updateProductQuantity,
+        setCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

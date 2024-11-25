@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where } from "firebase/firestore";
 import '../styles/CodigoDescuento.css'; // Importa el archivo CSS
 import { useCart } from '../context/context';
+
 const CodigoDescuento = () => {
   const [codigo, setCodigo] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [descuentoAplicado, setDescuentoAplicado] = useState(0); // Valor del descuento
-  const { getSubtotal } = useCart();
+  const { getSubtotal, cart } = useCart(); // Asegúrate de obtener el carrito para escuchar cambios
   const db = getFirestore();
 
   const verificarCodigo = async () => {
@@ -30,7 +31,7 @@ const CodigoDescuento = () => {
 
       if (descuento.valid) {
         setDescuentoAplicado(descuento.desc); // Guardar el descuento
-        setMensaje(`Código aceptado. Descuento: ${descuento.desc * 75}%`);
+        setMensaje(`Código aceptado. Descuento: ${(descuento.desc * 100).toFixed(2)}%`);
       } else {
         setMensaje('El código no es válido.');
       }
@@ -40,8 +41,16 @@ const CodigoDescuento = () => {
     }
   };
 
-  const subtotal = getSubtotal(); // Obtener subtotal del carrito
-  const totalConDescuento = subtotal - subtotal * descuentoAplicado; // Calcular el total
+  // Obtener el subtotal dinámicamente
+  const subtotal = getSubtotal() || 0; 
+  const totalConDescuento = descuentoAplicado > 0 
+    ? subtotal - subtotal * descuentoAplicado 
+    : subtotal; 
+
+  // Escuchar cambios en el carrito para recalcular
+  useEffect(() => {
+    // Esto garantiza que se recalculen el subtotal y el total cuando cambien los productos.
+  }, [cart]);
 
   return (
     <div className="codigo-descuento-container">
@@ -72,7 +81,7 @@ const CodigoDescuento = () => {
       )}
       <div className="codigo-descuento-resumen">
         <p>Subtotal: {subtotal.toFixed(2)} Bs</p>
-        <p>Descuento: {descuentoAplicado * 75}%</p>
+        <p>Descuento: {(descuentoAplicado * 100).toFixed(2)}%</p>
         <p>Total: {totalConDescuento.toFixed(2)} Bs</p>
       </div>
     </div>
