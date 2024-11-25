@@ -51,8 +51,8 @@ export const Navbar = () => {
         to="/"
         className="navlink font-bold sm:text-3xl xl:text-3xl hover:text-gray-900 uppercase text-left m-0 leading-none flex items-center gap-3"
       >
-        <img className="w-20 h-20" src="/llama.png" alt="Logo" />
-        <p>Chalita Oe</p>
+        <img className="w-20 h-20" src="src\Views\Admin\layouts\icons\ADMINLLAMA.png" alt="Logo" />
+        <p>ChalitaOe Administrador</p>
       </NavLink>
 
       <div className="flex items-center gap-3 relative">

@@ -4,29 +4,30 @@ import { ReportsIcon } from "./icons/ReportsIcon";
 import { UsersIcon } from "./icons/UsersIcon";
 import { EventsIcon } from "./icons/EventsIcon";
 
+// Configuración de los ítems de la barra lateral
 const itemsFromSideBar = [
   {
     id: 1,
     name: "Clientes",
-    icon: <UsersIcon />,
+    icon: <UsersIcon className="w-6 h-6" />, // Tamaño de ícono ajustado
     to: "/",
   },
   {
     id: 2,
     name: "Órdenes",
-    icon: <OrdersIcon />,
+    icon: <OrdersIcon className="w-6 h-6" />, // Tamaño de ícono ajustado
     to: "/orders",
   },
   {
     id: 3,
     name: "Eventos",
-    icon: <EventsIcon />,
+    icon: <EventsIcon className="w-6 h-6" />, // Tamaño de ícono ajustado
     to: "/events",
   },
   {
     id: 4,
     name: "Reportes",
-    icon: <ReportsIcon />,
+    icon: <ReportsIcon className="w-6 h-6" />, // Tamaño de ícono ajustado
     to: "/reports",
   },
 ];
@@ -72,7 +73,7 @@ export const Sidebar = () => {
             to="/logout"
           >
             <svg
-              className="w-6 h-6"
+              className="w-6 h-6" // Tamaño ajustado para el ícono
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
