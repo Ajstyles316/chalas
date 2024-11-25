@@ -24,6 +24,7 @@
     margin-top: 20px;
     padding: 36px;
     justify-items: center;
+    overflow-x: scroll;
 }
 
 @media (max-width: 1200px) {
