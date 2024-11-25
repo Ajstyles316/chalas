@@ -22,24 +22,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const signup = async (email, password, role, additionalData = {}) => {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    const userData = {
-      uid: user.uid,
-      email: email,
-      role: role,
-      createdAt: new Date().toISOString(),
-      isActive: true,
-      ...additionalData,
-    };
-
-    await setDoc(doc(db, role, user.uid), userData);
-
-    return user;
-  };
-
+  
   const registerProvider = async (providerData) => {
     const {
       nombre,
@@ -57,17 +40,19 @@ export function AuthProvider({ children }) {
       vcc,
       fechaVencimiento,
     } = providerData;
-
+  
+    
     if (contrasena !== confirmarContrasena) {
       throw new Error("Las contraseñas no coinciden.");
     }
-
+  
     const today = new Date();
     const expirationDate = new Date(fechaVencimiento);
     if (expirationDate <= today) {
       throw new Error("La fecha de vencimiento de la tarjeta no es válida.");
     }
-
+  
+    
     const additionalData = {
       firstName: nombre,
       lastName: apellido,
@@ -75,16 +60,32 @@ export function AuthProvider({ children }) {
       address: direccion,
       phone: celular,
       idNumber: nroCarnet,
-      eventType: tipoEvento,
+      eventType: tipoEvento, 
       payment: {
-        pay: metodoPago,
-        target_number: numeroTarjeta.replace(/.(?=.{4})/g, "*"), // Oculta los números excepto los últimos 4
+        pay: metodoPago || "",
+        target_number: numeroTarjeta.replace(/.(?=.{4})/g, "*"),
+        vcc: true,
         datev: fechaVencimiento,
       },
+      email: correo,
+      role: "provider",
+      uid: null, // Se asigna después
+      createdAt: new Date().toISOString(),
+      isActive: true,
     };
-
-    return signup(correo, contrasena, "provider", additionalData);
+  
+    
+    const userCredential = await createUserWithEmailAndPassword(auth, correo, contrasena);
+    const user = userCredential.user;
+  
+    additionalData.uid = user.uid;
+  
+    
+    await setDoc(doc(db, "provider", user.uid), additionalData);
+  
+    return user;
   };
+  
 
   const login = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -186,7 +187,6 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        signup,
         registerProvider,
         login,
         register,

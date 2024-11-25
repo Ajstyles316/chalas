@@ -6,7 +6,7 @@ import '../styles/RegisterProvider.css';
 
 export const RegisterProvider = () => {
     const navigate = useNavigate();
-    const { signup, addProviderData } = useAuth(); // Usa las funciones del contexto
+    const { registerProvider, addProviderData } = useAuth(); // Usa las funciones del contexto
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
@@ -20,6 +20,7 @@ export const RegisterProvider = () => {
         tipoEvento: [],
         metodoPago: '',
         numeroTarjeta: '',
+        vcc: false,
         fechaVencimiento: '',
     });
 
@@ -43,73 +44,37 @@ export const RegisterProvider = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const {
-            nombre,
-            apellido,
-            tiendaNombre,
-            direccion,
-            celular,
-            nroCarnet,
-            correo,
-            contrasena,
-            confirmarContrasena,
-            metodoPago,
-            numeroTarjeta,
-            vcc,
-            fechaVencimiento,
-        } = formData;
+    e.preventDefault();
 
-        if (!vcc) {
-            alert('Debe aceptar la suscripción mensual para continuar.');
-            return;
-        }
+    if (!formData.vcc) {
+        alert('Debe aceptar la suscripción mensual para continuar.');
+        return;
+    }
 
-        if (contrasena !== confirmarContrasena) {
-            alert('Las contraseñas no coinciden.');
-            return;
-        }
+    if (formData.contrasena !== formData.confirmarContrasena) {
+        alert('Las contraseñas no coinciden.');
+        return;
+    }
 
-        const today = new Date();
-        const expirationDate = new Date(fechaVencimiento);
-        if (expirationDate <= today) {
-            alert('La fecha de vencimiento de la tarjeta no es válida.');
-            return;
-        }
+    const today = new Date();
+    const expirationDate = new Date(formData.fechaVencimiento);
+    if (expirationDate <= today) {
+        alert('La fecha de vencimiento de la tarjeta no es válida.');
+        return;
+    }
 
-        try {
-            // Crea el usuario utilizando el contexto
-            const user = await signup(correo, contrasena);
+    try {
+        
+        await registerProvider(formData);
 
-            // Añade datos adicionales del proveedor
-            await addProviderData(user.uid, {
-                pid: user.uid,
-                firstName: nombre,
-                lastName: apellido,
-                storeName: tiendaNombre,
-                address: direccion,
-                phone: celular,
-                idNumber: nroCarnet,
-                email: correo,
-                role: 'provider',
-                isActive: true,
-                eventType: formData.tipoEvento,
-                payment: {
-                    pay: metodoPago,
-                    target_number: numeroTarjeta.replace(/.(?=.{4})/g, '*'), // Oculta los números excepto los últimos 4
-                    vcc,
-                    datev: fechaVencimiento,
-                },
-                createdAt: new Date().toISOString(),
-            });
+        alert('Proveedor registrado exitosamente.');
+        navigate('/provider');
+    } catch (error) {
+        console.error('Error al registrar el proveedor:', error);
+        alert('Hubo un error al registrar el proveedor.');
+    }
+};
 
-            alert('Proveedor registrado exitosamente.');
-            navigate('/provider');
-        } catch (error) {
-            console.error('Error al registrar el proveedor:', error);
-            alert('Hubo un error al registrar el proveedor.');
-        }
-    };
 
     return (
         <div className="w-screen min-h-screen flex items-center justify-center gap-12 p-4 bg-gradient-to-b from-amber-100 to-orange-300">
@@ -162,6 +127,19 @@ export const RegisterProvider = () => {
                                 placeholder="Nombre de la tienda"
                                 value={formData.tiendaNombre}
                                 onChange={(e) => setFormData({ ...formData, tiendaNombre: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="direccion" className="sr-only">Direccion</label>
+                            <input
+                                id="direccion"
+                                name="direccion"
+                                type="text"
+                                required
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+                                placeholder="Direccion de la tienda"
+                                value={formData.direccion}
+                                onChange={(e) => setFormData({ ...formData, direccion: e.target.value })}
                             />
                         </div>
                         <div>
@@ -294,7 +272,7 @@ export const RegisterProvider = () => {
                                         name="suscripcion"
                                         type="checkbox"
                                         checked={formData.suscripcion}
-                                        onChange={(e) => setFormData({ ...formData, suscripcion: e.target.checked })}
+                                        onChange={(e) => setFormData({ ...formData, vcc: e.target.checked })}
                                         required
                                         className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
                                     />
