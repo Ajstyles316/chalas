@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../../Firebase/config";
 import { useForm } from "react-hook-form";
 import { createProduct, updateProduct } from "../../../Firebase/api.js";
 import "../Styles/productForm.css";
-import CategoryTag from "./CategoryTag.jsx";
+import CategoryTag from "./CategoryTag.jsx"; // Ajusta la ruta de acuerdo a tu estructura de carpetas
 
 const ProductForm = ({ product, onClose }) => {
   const {
@@ -20,38 +22,57 @@ const ProductForm = ({ product, onClose }) => {
     if (product) {
       setValue("name_product", product.name_product);
       setValue("description", product.description);
+      setValue("price", product.price || "");
       setCategories(product.categories || []);
     }
   }, [product, setValue]);
 
   const onSubmit = async (data) => {
     try {
+      // Subir la imagen si se proporcionó un archivo nuevo
+      const imageUrl = imageFile
+        ? await uploadImage(imageFile)
+        : product?.imageUrl;
+
       const productData = {
         ...data,
         categories,
-        imageUrl: imageFile ? await uploadImage(imageFile) : product?.imageUrl,
+        imageUrl, // Guardar solo la URL de la imagen
       };
+
       if (product) {
+        // Actualizar el producto existente
         await updateProduct(product.id, productData);
         console.log("Producto actualizado con éxito");
       } else {
-        await createProduct(productData);
+        // Crear un nuevo producto
+        await createProduct(productData, imageFile);
         console.log("Producto registrado con éxito");
       }
+
       onClose();
     } catch (e) {
       console.error("Error al registrar o actualizar el producto:", e);
     }
   };
 
-  const uploadImage = async (file) => {
-    // Implementación del manejo de imágenes
-    return file;
-  };
-
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setImageFile(e.target.files[0]);
+    }
+  };
+
+  const uploadImage = async (file) => {
+    if (!file) return null;
+
+    try {
+      const imageRef = ref(storage, `product_images/${file.name}`);
+      const snapshot = await uploadBytes(imageRef, file);
+      const imageUrl = await getDownloadURL(snapshot.ref);
+      return imageUrl;
+    } catch (error) {
+      console.error("Error al subir la imagen:", error);
+      throw error;
     }
   };
 
@@ -69,6 +90,14 @@ const ProductForm = ({ product, onClose }) => {
 
         <label htmlFor="description">Descripción</label>
         <textarea {...register("description")} />
+
+        <label htmlFor="price">Precio</label>
+        <input
+          type="number"
+          step="1.00"
+          {...register("price", { required: true })}
+        />
+        {errors.price && <span>El precio es requerido</span>}
 
         <label htmlFor="categories">Categorías</label>
         <CategoryTag

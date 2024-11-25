@@ -3,169 +3,83 @@ import facebook from "../../../assets/svg/facebook.svg";
 import gmail from "../../../assets/svg/gmail.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import appFirebase, {
-  googleProvider,
-  facebookProvider,
-} from "../../../Firebase/config";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signInWithPopup,
-} from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import "../../../styles config/tailwind.css";
 import { ResetPassword } from "../components/ResetPassword";
 import ReCAPTCHA from "react-google-recaptcha";
-
-const auth = getAuth(appFirebase);
-const db = getFirestore(appFirebase);
+import { useAuth } from "../../../context/AuthContext";
+import { UserTerms } from "../components/UserTerms";
+import { SlControlPause } from "react-icons/sl";
 
 export const Login = () => {
+  const { login, register, signInWithGoogle, signInWithFacebook, resetPassword } = useAuth();
   const [formType, setFormType] = useState("login");
   const [isHuman, setIsHuman] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  const navigate = useNavigate();
-
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+
+  const navigate = useNavigate();
 
   const authentication = async (e) => {
     e.preventDefault();
     const password = e.target.password.value;
 
-    if (formType === "register") {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        const user = userCredential.user;
-        await setDoc(doc(db, "client", user.uid), {
-          name: name,
-          email: email,
-          role: "client",
-          createdAt: new Date().toISOString(),
-          isActive: true,
-        });
+    try {
+      if (formType === "register") {
+        await register(email, password);
         navigate("/clienthome");
-      } catch (error) {
-        setMessage(`Error: ${error.message}`);
-        setMessageType("error");
-      }
-    } else {
-      try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        const user = userCredential.user;
+        console.log('login god')
 
-        let userDocRef = doc(db, "admin", user.uid);
-        let userDoc = await getDoc(userDocRef);
+      } else {
+        const userData = await login(email, password);
 
-        if (userDoc.exists() && userDoc.data().isActive) {
-          navigate("/admin");
-          return;
-        }
-
-        userDocRef = doc(db, "provider", user.uid);
-        userDoc = await getDoc(userDocRef);
-
-        if (userDoc.exists() && userDoc.data().isActive) {
-          navigate("/supplier");
-          return;
-        }
-
-        userDocRef = doc(db, "client", user.uid);
-        userDoc = await getDoc(userDocRef);
-
-        if (userDoc.exists() && userDoc.data().isActive) {
+        if (userData.role === 'client') {
           navigate("/clienthome");
-          return;
+        } else if (userData.role === 'provider') {
+          navigate("/supplier");
+        } else if (userData.role === 'admin') {
+          navigate("/admin");
         }
-
-        setMessage("Error: Cuenta deshabilitada o no encontrada.");
-        setMessageType("error");
-      } catch (error) {
-        if (error.code === "auth/user-not-found") {
-          setMessage("Error: Usuario no existe.");
-        } else if (error.code === "auth/invalid-credential") {
-          setMessage("Error: Contraseña incorrecta.");
-        } else if (error.code === "auth/user-disabled") {
-          setMessage("Error: Usuario deshabilitado.");
-        } else {
-          setMessage(`Error: ${error.message}`);
-        }
-        setMessageType("error");
       }
+    } catch (error) {
+      setMessage(error.message);
+      setMessageType("error");
+      console.log(error)
     }
   };
 
   const handleGoogleSignIn = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      const userDocRef = doc(db, "client", user.uid);
-      const userDoc = await getDoc(userDocRef);
-
-      if (!userDoc.exists()) {
-        await setDoc(userDocRef, {
-          name: user.displayName,
-          email: user.email,
-          role: "client",
-          createdAt: new Date().toISOString(),
-          isActive: true,
-        });
-      }
+      await signInWithGoogle();
       navigate("/clienthome");
     } catch (error) {
-      setMessage(`Error: ${error.message}`);
+      setMessage(error.message);
       setMessageType("error");
     }
   };
 
   const handleFacebookSignIn = async () => {
     try {
-      const result = await signInWithPopup(auth, facebookProvider);
-      const user = result.user;
-      const userDocRef = doc(db, "client", user.uid);
-      const userDoc = await getDoc(userDocRef);
-
-      if (!userDoc.exists()) {
-        await setDoc(userDocRef, {
-          name: user.displayName,
-          email: user.email,
-          role: "client",
-          createdAt: new Date().toISOString(),
-          isActive: true,
-        });
-      }
-      navigate("/home");
+      await signInWithFacebook();
+      navigate("/clienthome");
     } catch (error) {
-      setMessage(`Error: ${error.message}`);
+      setMessage(error.message);
       setMessageType("error");
     }
   };
 
   const renderForm = () => {
     if (formType === "forgotPassword") {
-      return <ResetPassword />;
+      return <ResetPassword resetPassword={resetPassword} />;
     }
 
     return (
       <form onSubmit={authentication} className="space-y-4">
         <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
             Correo electrónico
           </label>
           <input
@@ -178,10 +92,7 @@ export const Login = () => {
           />
         </div>
         <div className="relative">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
             Contraseña
           </label>
           <input
@@ -199,50 +110,54 @@ export const Login = () => {
           </button>
         </div>
         <div className="flex items-center mt-4">
-          {
-            //! Add .env to this part for sitekey security
-          }
-          <ReCAPTCHA
-            sitekey="6Ld134EqAAAAAGDUQXhbFtodSTi8jzJrrwI_bCUz"
-            onChange={() => setIsHuman(true)}
+          <ReCAPTCHA sitekey="6Ld134EqAAAAAGDUQXhbFtodSTi8jzJrrwI_bCUz" onChange={() => setIsHuman(true)} />
+        </div>
+        <div className="flex items-center mt-4">
+          <input
+            required
+            type="checkbox"
+            id="terms"
+            checked={isChecked}
+            onChange={() => setIsChecked(!isChecked)}
+            className="h-6 w-6  rounded-sm text-orange-600 m-2 "
           />
+          <button
+            type="button"
+            onClick={() => setShowTerms(true)} // Abre el modal con términos si es necesario
+            className="text-orange-600 underline hover:text-orange-500"
+          >
+            Términos y Condiciones
+          </button>
         </div>
         <button
           type="submit"
           disabled={!isHuman}
-          className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-            isHuman
-              ? "bg-orange-600 hover:bg-orange-700"
-              : "bg-gray-400 cursor-not-allowed"
-          } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500`}
+          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700"
         >
           {formType === "login" ? "Iniciar Sesión" : "Registrarse"}
         </button>
+        {showTerms && <UserTerms />}
       </form>
+
     );
   };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       <div className="w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16">
-        <img
-          className="w-32 h-32 mx-auto mb-8"
-          src={logoL}
-          alt="ChalitaOE Logo"
-        />
+        <img className="w-32 h-32 mx-auto mb-8" src={logoL} alt="ChalitaOE Logo" />
         <h1 className="text-2xl font-medium text-primary mt-4 mb-12 text-center">
           {formType === "login"
             ? "Ingresa a ChalitaOE la app de Eventos Sociales"
             : formType === "register"
-            ? "Regístrate en ChalitaOE"
-            : "Recupera tu contraseña"}
+              ? "Regístrate en ChalitaOE"
+              : "Recupera tu contraseña"}
         </h1>
 
         {message && (
           <div
-            className={`mb-4 p-4 text-white rounded ${
-              messageType === "error" ? "bg-red-500" : "bg-green-500"
-            }`}
+            className={`mb-4 p-4 text-white rounded ${messageType === "error" ? "bg-red-500" : "bg-green-500"
+              }`}
           >
             {message}
           </div>
@@ -275,11 +190,7 @@ export const Login = () => {
                   onClick={handleFacebookSignIn}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  <img
-                    className="w-5 h-5 mr-2"
-                    src={facebook}
-                    alt="Facebook Logo"
-                  />
+                  <img className="w-5 h-5 mr-2" src={facebook} alt="Facebook Logo" />
                   Facebook
                 </button>
               </div>

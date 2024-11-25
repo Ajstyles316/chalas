@@ -7,32 +7,31 @@ import { LandingContact } from "./Views/LandingChalita/views/LandingContact";
 import { Login } from "./Views/Users Module/view/Login";
 import { RegisterClient } from "./Views/Users Module/view/RegisterClient";
 import { RegisterProvider } from "./Views/Users Module/view/RegisterProvider";
-import { HomePage } from "./Views/HomePage/views/HomePage";
-import { Admin } from "./Views/Users Module/view/Admin";
+
 import SupplierProfile from "./Views/Products Module/views/SupplierProfile";
 
 // !Imports for firebase modules
 import appFirebase from "./Firebase/config";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { Provider } from "./Views/Users Module/view/Provider";
 import { UsersList } from "./Views/Users Module/components/UsersList";
 
-import SupplierProductsClient from "./Views/Products Module/components/SupplierProductsClient";
+
 import ClientProviderView from "./Views/Products Module/views/ClientProviderView";
-import ProductAdministration from "./Views/Products Module/views/ProductAdministration";
+
 import Sidebar from "./Views/Products Module/components/Sidebar";
 import { AdminLayout } from "./Views/Admin/layouts/AdminLayout";
-import { Layout } from "./Views/administrador/Layout";
-import { AdminRouter } from "./Views/Admin/router/AdminRouter";
 import { OrdersView } from "./Views/Admin/views/OrdersView";
 import { UsersView } from "./Views/Admin/views/UsersView";
 import { ReportsView } from "./Views/Admin/views/ReportsView";
 import { EventsView } from "./Views/Admin/views/EventsView";
-import LayoutClient from "./Views/PagInterfaz/LayoutClient";
+import ClientOld from "./Views/PagInterfaz/LayoutClient";
+import LayoutClient from "./Views/Client/Client";
 import Transacciones from "./Views/Transacciones/views/Transacciones";
-import Navbar from "./Views/Products Module/components/Navbar";
 import { UserProvider } from "./Firebase/UserContext";
 import ProfileForm from "./Views/Products Module/components/ProfileForm";
+import { AuthProvider } from "./context/AuthContext";
+import { ProtectedRoutes } from "./security/ProtectedRoutes";
+import UnauthorizedView from "./Views/Users Module/view/UnauthorizedView";
 
 function App() {
   const auth = getAuth(appFirebase);
@@ -50,35 +49,56 @@ function App() {
     return () => unsubscribe();
   }, [auth]);
 
+
   return (
-    <BrowserRouter>
-      <UserProvider>
+    <AuthProvider>
+      <BrowserRouter>
+        <UserProvider>
         <Routes>
+          {/* PUBLICO */}
+          <Route path="/unauthorized" element={<UnauthorizedView />} />
           <Route path="/" element={<LandingHome />} />
           <Route path="/aboutus" element={<LandingAboutUs />} />
           <Route path="/contact" element={<LandingContact />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/provider" element={<Provider />} /> */}
-          <Route path="/registerclient" element={<RegisterClient />} />
           <Route path="/registerprovider" element={<RegisterProvider />} />
-
-          <Route path="/supplier" element={<SupplierProfile />} />
           <Route path="/ClientProvider" element={<ClientProviderView />} />
+
+
+          {/* PROVVEDORORES */}
+          {/* <Route element={<ProtectedRoutes allowedRoles={['provider']} />}> */}
+          <Route path="/supplier" element={<SupplierProfile />} />
           <Route path="/DashboardProvider" element={<Sidebar />} />
+          <Route path="/edit-profile" element={<ProfileForm />} />
+          {/* </Route> */}
 
-          <Route path="/admin" element={<AdminLayout />} />
-          <Route path="/userList" element={<UsersList />} />
-          <Route path="/test" element={<ProfileForm />} />
+          {/* ADMINROUTES */}
+          {/* <Route element={<ProtectedRoutes allowedRoles={['admin']} />}> */}
+            <Route path="/admin" element={<AdminLayout />} />
+            <Route path="/userList" element={<UsersList />} />
+            <Route path="/clients" element={<UsersView />} />
+            <Route path="/orders" element={<OrdersView />} />
+            <Route path="/reports" element={<ReportsView />} />
+            <Route path="/events" element={<EventsView />} />
+          {/* </Route> */}
 
-          <Route path="/clients" element={<UsersView />} />
-          <Route path="/orders" element={<OrdersView />} />
-          <Route path="/reports" element={<ReportsView />} />
-          <Route path="/events" element={<EventsView />} />
-          <Route path="/transacciones" element={<Transacciones />} />
-          <Route path="/clienthome" element={<LayoutClient />} />
+          {/* </ProtectedRoutes> */}
+
+
+
+          {/* Rutas protegidas para CLIENTES y ADMIN */}
+
+            <Route path="/clienthome" element={<LayoutClient />} />
+            <Route path="/transacciones" element={<Transacciones />} />
+
+
+
+
         </Routes>
-      </UserProvider>
-    </BrowserRouter>
+
+        </UserProvider>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

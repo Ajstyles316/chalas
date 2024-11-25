@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getUserData } from "./users"; // Asegúrate de que esta función esté definida correctamente.
+import { getUserData } from "./users"; // Asumo que getUserData es una función para obtener los datos del usuario desde Firebase
 
 const UserContext = createContext();
 
@@ -15,22 +15,28 @@ export const UserProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         try {
-          const userData = await getUserData(firebaseUser.uid); // Obtener los datos del usuario
-          setUser(userData); // Guardar los datos del usuario en el estado
+          const userData = await getUserData(firebaseUser.uid);
+          setUser(userData);
         } catch (err) {
           setError(err);
         }
       } else {
-        setUser(null); // No hay usuario autenticado
+        setUser(null);
       }
       setLoading(false);
     });
 
-    return () => unsubscribe(); // Limpiar el observador cuando el componente se desmonte
+    return () => unsubscribe();
   }, [auth]);
 
+  // Función para cargar los datos del usuario manualmente
+  const fetchUserData = async (cachedUser) => {
+    setUser(cachedUser); // Cargar los datos desde localStorage
+    setLoading(false);
+  };
+
   return (
-    <UserContext.Provider value={{ user, loading, error }}>
+    <UserContext.Provider value={{ user, loading, error, fetchUserData }}>
       {children}
     </UserContext.Provider>
   );

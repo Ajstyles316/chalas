@@ -1,62 +1,82 @@
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "../../../../Firebase/config";
 
-export const UserCard = ({
-  id,
-  name,
-  email,
-  status,
-  lastActivity,
-  role,
-  setUsers,
-}) => {
-  const handleToggleStatus = async () => {
-    try {
-      const userDoc = await getDoc(doc(db, "users", id));
-      const userFB = userDoc.data();
-      console.log(userFB);
-      const res = await setDoc(doc(db, "users", userFB.uid), {
-        ...userFB,
-        isActive: !userFB.isActive,
-      });
+export const UserCard = ({ id, name, email, status, lastActivity, role, setUsers }) => {
 
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.name === name ? { ...user, isActive: !user.isActive } : user
-        )
-      );
-    } catch (e) {
-      console.error(e);
-    }
-  };
+	
+console.log(name)
+	const handleToggleStatus = async () => {
+		try {
+			if(role === "client"){
+				const clientDoc = await getDoc(doc(db, 'client', id))
+				const clientFB = clientDoc.data()
+				
+				const res = await setDoc(doc(db, 'client', clientFB.uid), {
+					...clientFB,
+					isActive: !clientFB.isActive,
+				})
+				
 
-  return (
-    <tr className="bg-white border-b hover:bg-gray-50 fade-in">
-      <th
-        scope="row"
-        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap capitalize"
-      >
-        {name}
-      </th>
+			}else if(role==="provider"){
+				const providerDoc = await getDoc(doc(db, 'provider', id))
+				const providerFB = providerDoc.data()
+				console.log(providerFB);
+				const res = await setDoc(doc(db, 'provider', providerFB.uid), {
+					...providerFB,
+					isActive: !providerFB.isActive,
+				})
+				
+				
 
-      <td className="px-6 py-4">{email}</td>
+			} 
+			setUsers((prevUsers) =>
+				prevUsers.map((user) =>
+					user.uid === id
+						? { ...user, isActive: !user.isActive }
+						: user
+				)
+			);
+			
+			
 
-      <td className="px-6 py-4">{lastActivity}</td>
 
-      <td className="px-6 py-4">
-        <button
-          onClick={handleToggleStatus}
-          className={`px-3 py-1 text-xs font-semibold rounded-full cursor-pointer ${
-            !status
-              ? "bg-green-100 text-green-800 hover:bg-green-200"
-              : "bg-red-100 text-red-800 hover:bg-red-200"
-          }`}
-        >
-          {status ? "Deshabilitar" : "Habilitar"}
-        </button>
-      </td>
 
-      <td className="px-6 py-4 capitalize">{role}</td>
-    </tr>
-  );
+
+
+
+			
+
+
+		} catch (e) {
+			console.error(e);
+		}
+	};
+
+	return (
+		<tr className="bg-white border-b hover:bg-gray-50 fade-in">
+			<th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap capitalize">
+				{name}
+			</th>
+
+			<td className="px-6 py-4">{email}</td>
+
+			<td className="px-6 py-4">{lastActivity}</td>
+
+			<td className="px-6 py-4">
+				<button
+					onClick={handleToggleStatus}
+					className={`px-3 py-1 text-xs font-semibold rounded-full cursor-pointer ${!status
+						? "bg-green-100 text-green-800 hover:bg-green-200"
+						: "bg-red-100 text-red-800 hover:bg-red-200"
+						}`}
+				>
+					{status ? "Deshabilitar" : "Habilitar"}
+				</button>
+			</td>
+
+			<td className="px-6 py-4 capitalize">{role}</td>
+
+		</tr>
+	);
 };
+

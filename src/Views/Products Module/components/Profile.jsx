@@ -41,9 +41,13 @@ const Profile = () => {
   };
 
   const menuItems = [
-    { label: "Mi perfil", icon: <User /> },
+    {
+      label: "Mi perfil",
+      icon: <User />,
+      onClick: () => navigate("/supplier"),
+    },
     { label: "Configuración", icon: <Settings /> },
-    { label: "Cerrar sesión", icon: <LogOut />, onClick: handleLogout }, // Agregar la función para cerrar sesión
+    { label: "Cerrar sesión", icon: <LogOut />, onClick: handleLogout },
   ];
 
   if (loading) {

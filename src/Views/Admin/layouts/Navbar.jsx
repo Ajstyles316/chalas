@@ -1,15 +1,20 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { FiUser, FiLogOut } from "react-icons/fi";
-import LogoLlama from "../../../assets/img/llama_bufanda.png";
+import { FiUser, FiLogOut } from "react-icons/fi"; 
+import { useNavigate } from "react-router-dom";
+import { signOut, getAuth } from "firebase/auth";
+// Usaremos iconos de react-icons
 
 export const Navbar = () => {
+
+  const navigate = useNavigate();
+  const auth = getAuth();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileFormVisible, setIsProfileFormVisible] = useState(false);
-  const [adminEmail, setAdminEmail] = useState("admin@chalitaoe.com"); // Correo inicial del administrador
+  const [adminEmail, setAdminEmail] = useState("adminoe@chalitaoe.com"); // Correo inicial del administrador
   const [password, setPassword] = useState(""); // Contraseña actual
-  const [isLogoutConfirmationVisible, setIsLogoutConfirmationVisible] =
-    useState(false);
+  const [isLogoutConfirmationVisible, setIsLogoutConfirmationVisible] = useState(false);
 
   // Función para alternar el menú
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
@@ -22,38 +27,44 @@ export const Navbar = () => {
 
   // Función para manejar el cierre de sesión
   const handleLogout = () => {
-    setIsLogoutConfirmationVisible(true); // Muestra el cuadro de confirmación
-    setIsMenuOpen(false); // Cierra el menú al pedir confirmación
-  };
+  setIsLogoutConfirmationVisible(true); // Muestra el cuadro de confirmación
+   // Cierra el menú al pedir confirmación
+};
 
-  // Función para confirmar el cierre de sesión
-  const confirmLogout = () => {
-    setIsLogoutConfirmationVisible(false); // Oculta la confirmación
-    console.log("Cerrando sesión...");
-    // Aquí podrías agregar la lógica real para cerrar sesión, por ejemplo:
-    // redirigir al login o borrar datos de sesión
-  };
+// Función para confirmar el cierre de sesión
+const confirmLogout = async() => {
+  setIsLogoutConfirmationVisible(false); // Oculta la confirmación
+  try {
+    await signOut(auth);
+    navigate('/');
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error);
+    alert("Ocurrió un error al cerrar sesión");
+  }
+  // Aquí podrías agregar la lógica real para cerrar sesión, por ejemplo:
+  // redirigir al login o borrar datos de sesión
+};
 
-  // Función para cancelar el cierre de sesión
-  const cancelLogout = () => {
-    setIsLogoutConfirmationVisible(false); // Cancela la confirmación
-  };
+// Función para cancelar el cierre de sesión
+const cancelLogout = () => {
+  setIsLogoutConfirmationVisible(false); // Cancela la confirmación
+};
 
-  // Función para manejar los cambios del formulario
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Nuevo correo del administrador:", adminEmail);
-    console.log("Contraseña ingresada:", password);
-    setIsProfileFormVisible(false); // Cierra el formulario después de guardar
-  };
+// Función para manejar los cambios del formulario
+const handleSubmit = (e) => {
+  e.preventDefault();
+  console.log("Nuevo correo del administrador:", adminEmail);
+  console.log("Contraseña ingresada:", password);
+  setIsProfileFormVisible(false); // Cierra el formulario después de guardar
+};
 
   return (
     <header className="flex bg-white px-3 h-16 xl:h-20 2xl:h-24 shadow-md w-full sm:px-10 xl:px-40 items-center fixed z-10 justify-between">
       <NavLink
-        to="/clienthome"
+        to="/"
         className="navlink font-bold sm:text-3xl xl:text-3xl hover:text-gray-900 uppercase text-left m-0 leading-none flex items-center gap-3"
       >
-        <img className="w-20 h-20" src={LogoLlama} alt="Logo" />
+        <img className="w-20 h-20" src="/llama.png" alt="Logo" />
         <p>Chalita Oe</p>
       </NavLink>
 
@@ -72,50 +83,43 @@ export const Navbar = () => {
           aria-hidden="true"
         >
           {/* Círculo exterior en naranja */}
-          <circle cx="12" cy="12" r="10" fill="#FF5722" />{" "}
-          {/* Color naranja de fondo */}
+          <circle cx="12" cy="12" r="10" fill="#FF5722" /> {/* Color naranja de fondo */}
           {/* Cabeza (círculo dentro del cuerpo) */}
-          <circle cx="12" cy="8" r="4" fill="#FFC107" />{" "}
-          {/* Color amarillo para la cabeza */}
+          <circle cx="12" cy="8" r="4" fill="#FFC107" /> {/* Color amarillo para la cabeza */}
           {/* Cuerpo */}
-          <path d="M12 12c2 2 2 6 2 6H10s0-4 2-6z" fill="#FF5722" />{" "}
-          {/* Cuerpo en color naranja */}
+          <path d="M12 12c2 2 2 6 2 6H10s0-4 2-6z" fill="#FF5722" /> {/* Cuerpo en color naranja */}
         </svg>
 
-        {/* Menú desplegable del perfil */}
-        {isMenuOpen && (
-          <div className="absolute top-full right-0 mt-2 w-40 bg-white shadow-lg rounded-lg border p-3 transition-all ease-in-out duration-300">
-            <ul className="text-gray-700">
-              <li
-                onClick={showProfileForm}
-                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-md transition-all"
-              >
-                <FiUser className="text-xl text-gray-600" /> Ver perfil
-              </li>
-              <li
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-md transition-all"
-              >
-                <FiLogOut className="text-xl text-gray-600" /> Cerrar sesión
-              </li>
-            </ul>
-          </div>
-        )}
+      {/* Menú desplegable del perfil */}
+      {isMenuOpen && (
+        <div className="absolute top-full right-0 mt-2 w-40 bg-white shadow-lg rounded-lg border p-3 transition-all ease-in-out duration-300">
+          <ul className="text-gray-700">
+            <li
+              onClick={showProfileForm}
+              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-md transition-all"
+            >
+              <FiUser className="text-xl text-gray-600" /> Ver perfil
+            </li>
+            <li
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-md transition-all"
+            >
+              <FiLogOut className="text-xl text-gray-600" /> Cerrar sesión
+            </li>
+          </ul>
+        </div>
+      )}
 
-        {/* Correo del administrador */}
-        <p className="hidden sm:block">{adminEmail}</p>
-      </div>
+      {/* Correo del administrador */}
+      <p className="hidden sm:block">{adminEmail}</p>
+    </div>
 
       {/* Formulario de perfil */}
       {isProfileFormVisible && (
         <div className="absolute top-20 left-1/2 transform -translate-x-1/2 mt-3 w-72 bg-white shadow-lg rounded-lg border p-6 transition-all ease-in-out duration-300">
-          <h3 className="font-semibold text-lg mb-3 text-gray-700">
-            Editar Perfil
-          </h3>
+          <h3 className="font-semibold text-lg mb-3 text-gray-700">Editar Perfil</h3>
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-            <label className="text-sm text-gray-600">
-              Correo del administrador
-            </label>
+            <label className="text-sm text-gray-600">Correo del administrador</label>
             <input
               type="email"
               value={adminEmail}
@@ -144,9 +148,7 @@ export const Navbar = () => {
       {/* Confirmación de cierre de sesión */}
       {isLogoutConfirmationVisible && (
         <div className="absolute top-20 left-1/2 transform -translate-x-1/2 mt-3 w-72 bg-white shadow-lg rounded-lg border p-6 transition-all ease-in-out duration-300">
-          <h3 className="font-semibold text-lg mb-3 text-gray-700">
-            ¿Estás seguro?
-          </h3>
+          <h3 className="font-semibold text-lg mb-3 text-gray-700">¿Estás seguro?</h3>
           <p className="text-sm text-gray-600 mb-3">¿Quieres cerrar sesión?</p>
           <div className="flex justify-between">
             <button
@@ -166,4 +168,4 @@ export const Navbar = () => {
       )}
     </header>
   );
-};
+}; 
