@@ -32,6 +32,7 @@ import LayoutClient from "./Views/PagInterfaz/LayoutClient";
 import Transacciones from "./Views/Transacciones/views/Transacciones";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoutes } from "./security/ProtectedRoutes";
+import UnauthorizedView from "./Views/Users Module/view/UnauthorizedView";
 
 function App() {
   const auth = getAuth(appFirebase);
@@ -55,6 +56,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingHome />} />
           <Route path="/aboutus" element={<LandingAboutUs />} />
+          <Route path="/unauthorized" element={<UnauthorizedView />} />
           <Route path="/contact" element={<LandingContact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registerclient" element={<RegisterClient />} />
@@ -73,10 +75,7 @@ function App() {
           <Route path="/reports" element={<ReportsView />} />
           <Route path="/events" element={<EventsView />} />
           <Route path="/transacciones" element={<Transacciones />} />
-          <Route path="/clienthome" element={
-            <ProtectedRoutes>
-              <LayoutClient />
-            </ProtectedRoutes>} />
+          <Route path="/clienthome" element={<LayoutClient />}/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

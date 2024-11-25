@@ -90,19 +90,24 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-
-    const roles = ["admin", "provider", "client"];
+  
+    console.log("Usuario autenticado:", user.uid);
+  
+    const roles = ['admin', 'provider', 'client'];
     for (const role of roles) {
       const userDocRef = doc(db, role, user.uid);
       const userDoc = await getDoc(userDocRef);
-
+  
       if (userDoc.exists() && userDoc.data().isActive) {
+        console.log("Usuario encontrado en la colección:", role);
         return { user, role };
       }
     }
-
+  
+    console.log("Usuario no encontrado o deshabilitado.");
     throw new Error("Cuenta deshabilitada o no encontrada.");
   };
+  
 
   const loginWithGoogle = async () => {
     const googleProvider = new GoogleAuthProvider();
@@ -177,12 +182,31 @@ export function AuthProvider({ children }) {
   
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const roles = ["admin", "provider", "client"];
+        let userRole = null;
+  
+        for (const role of roles) {
+          const userDocRef = doc(db, role, currentUser.uid);
+          const userDoc = await getDoc(userDocRef);
+  
+          if (userDoc.exists()) {
+            userRole = role;
+            break;
+          }
+        }
+  
+        setUser({ ...currentUser, role: userRole }); // Agrega el rol al estado del usuario
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
+  
     return unsubscribe;
   }, []);
+  
 
   return (
     <AuthContext.Provider

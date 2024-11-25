@@ -8,6 +8,7 @@ import { ResetPassword } from "../components/ResetPassword";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useAuth } from "../../../context/AuthContext";
 import { UserTerms } from "../components/UserTerms";
+import { SlControlPause } from "react-icons/sl";
 
 export const Login = () => {
   const { login, register, signInWithGoogle, signInWithFacebook, resetPassword } = useAuth();
@@ -30,12 +31,23 @@ export const Login = () => {
       if (formType === "register") {
         await register(email, password);
         navigate("/clienthome");
+        console.log('login god')
+
       } else {
-        await login(email, password);
+        const userData = await login(email, password);
+
+        if (userData.role === 'client') {
+          navigate("/clienthome");
+        } else if (userData.role === 'provider') {
+          navigate("/provider");
+        } else if (userData.role === 'admin') {
+          navigate("/admin");
+        }
       }
     } catch (error) {
       setMessage(error.message);
       setMessageType("error");
+      console.log(error)
     }
   };
 
@@ -116,7 +128,7 @@ export const Login = () => {
           >
             Términos y Condiciones
           </button>
-        </div>  
+        </div>
         <button
           type="submit"
           disabled={!isHuman}
