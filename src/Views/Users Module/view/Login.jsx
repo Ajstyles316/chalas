@@ -79,7 +79,7 @@ export const Login = () => {
         userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists() && userDoc.data().isActive) {
-          navigate("/supplier");
+          navigate("/DashboardProvider");
           return;
         }
 
