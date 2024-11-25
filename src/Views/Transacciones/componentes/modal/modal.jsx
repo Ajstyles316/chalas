@@ -1,40 +1,25 @@
-import React from "react";
-import "./modal.css";
+import PropTypes from 'prop-types';
+import './modal.css'; // Archivo CSS para estilizar el modal
 
-const Modal = ({ isOpen, onClose, onSubmit }) => {
-  const [codigo, setCodigo] = React.useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(codigo);
-    setCodigo("");
-  };
-
-  if (!isOpen) return null;
-
+const Calificacion = ({ onConfirmar }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Ingresa tu Código de Descuento</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={codigo}
-            onChange={(e) => setCodigo(e.target.value)}
-            placeholder="Código de descuento"
-            required
-            // className='input-codigo' AñADIR CLASSNAME Y NO UTILIZAR NOMBRES DE TARGET SEMATNICOSs
-          />
-          <div className="modal-buttons">
-            <button type="submit">Aplicar</button>
-            <button type="button" onClick={onClose}>
-              Cerrar
-            </button>
-          </div>
-        </form>
+        <h2>¡Gracias por tu compra!</h2>
+        <p>Por favor, califica tu experiencia.</p>
+        <div className="modal-actions">
+          <button className="modal-close" onClick={onConfirmar}>
+            Cerrar
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Modal;
+// Validación de propiedades
+Calificacion.propTypes = {
+  onConfirmar: PropTypes.func.isRequired, // onConfirmar debe ser una función
+};
+
+export default Calificacion;
