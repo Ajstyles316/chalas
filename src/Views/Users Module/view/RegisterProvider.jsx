@@ -87,7 +87,7 @@ export const RegisterProvider = () => {
             });
 
             alert("Proveedor registrado exitosamente.");
-            navigate('/provider');
+            navigate('/supplier');
         } catch (error) {
             console.error("Error al registrar el proveedor:", error);
             alert("Hubo un error al registrar el proveedor.");
