@@ -45,6 +45,8 @@ export function AuthProvider({ children }) {
       nombre,
       apellido,
       celular,
+      tiendaNombre,
+      direccion,
       nroCarnet,
       correo,
       contrasena,
@@ -69,6 +71,8 @@ export function AuthProvider({ children }) {
     const additionalData = {
       firstName: nombre,
       lastName: apellido,
+      storeName: tiendaNombre,
+      address: direccion,
       phone: celular,
       idNumber: nroCarnet,
       eventType: tipoEvento,
