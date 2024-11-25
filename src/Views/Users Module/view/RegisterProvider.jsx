@@ -135,7 +135,7 @@ export const RegisterProvider = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="apellido" className="sr-only">Apellido</label>
+                            <label htmlFor="tiendaNombre" className="sr-only">Nombre de la Tienda</label>
                             <input
                                 id="tiendaNombre"
                                 name="tiendaNombre"
@@ -148,7 +148,7 @@ export const RegisterProvider = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="apellido" className="sr-only">Apellido</label>
+                            <label htmlFor="direccion" className="sr-only">Direccion</label>
                             <input
                                 id="direccion"
                                 name="direccion"
