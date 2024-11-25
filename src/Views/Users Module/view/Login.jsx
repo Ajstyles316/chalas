@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import "../../../styles config/tailwind.css";
 import { ResetPassword } from "../components/ResetPassword";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useAuth } from "../../../context/authContext";
+import { useAuth } from "../../../context/AuthContext";
+import { UserTerms } from "../components/UserTerms";
 
 export const Login = () => {
   const { login, register, signInWithGoogle, signInWithFacebook, resetPassword } = useAuth();
@@ -16,6 +17,8 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
 
   const navigate = useNavigate();
 
@@ -97,6 +100,24 @@ export const Login = () => {
         <div className="flex items-center mt-4">
           <ReCAPTCHA sitekey="6Ld134EqAAAAAGDUQXhbFtodSTi8jzJrrwI_bCUz" onChange={() => setIsHuman(true)} />
         </div>
+        <div className="flex items-center mt-4">
+          <input
+            required
+            type="checkbox"
+            id="terms"
+            checked={isChecked}
+            onChange={() => setIsChecked(!isChecked)}
+            className="h-6 w-6  rounded-sm text-orange-600 m-2 "
+          />
+          <button
+            type="button"
+            onClick={() => setShowTerms(true)} // Abre el modal con términos si es necesario
+            className="text-orange-600 underline hover:text-orange-500"
+          >
+            Términos y Condiciones
+          </button>
+        </div>
+
         <button
           type="submit"
           disabled={!isHuman}
@@ -104,7 +125,9 @@ export const Login = () => {
         >
           {formType === "login" ? "Iniciar Sesión" : "Registrarse"}
         </button>
+        {showTerms && <UserTerms />}
       </form>
+
     );
   };
 
@@ -116,15 +139,14 @@ export const Login = () => {
           {formType === "login"
             ? "Ingresa a ChalitaOE la app de Eventos Sociales"
             : formType === "register"
-            ? "Regístrate en ChalitaOE"
-            : "Recupera tu contraseña"}
+              ? "Regístrate en ChalitaOE"
+              : "Recupera tu contraseña"}
         </h1>
 
         {message && (
           <div
-            className={`mb-4 p-4 text-white rounded ${
-              messageType === "error" ? "bg-red-500" : "bg-green-500"
-            }`}
+            className={`mb-4 p-4 text-white rounded ${messageType === "error" ? "bg-red-500" : "bg-green-500"
+              }`}
           >
             {message}
           </div>

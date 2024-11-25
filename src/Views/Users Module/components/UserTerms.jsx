@@ -40,7 +40,7 @@ export const UserTerms = ({ onAccept = () => { } }) => {
                         onClick={handleAccept}
                         disabled={!accepted}
                         className={`w-full py-2 px-4 rounded ${accepted
-                            ? 'bg-blue-500 text-white hover:bg-blue-600'
+                            ? 'bg-orange-600 hover:underline text-white '
                             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                             }`}
                     >
