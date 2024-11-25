@@ -22,7 +22,7 @@ function Hit({ hit }) {
 }
 const Header = () => {
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const auth = getAuth();
 
   const [hasText, setHasText] = useState(false);
