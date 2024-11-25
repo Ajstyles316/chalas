@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where } from "firebase/firestore";
 import '../styles/CodigoDescuento.css'; // Importa el archivo CSS
@@ -35,6 +36,7 @@ const CodigoDescuento = () => {
       } else {
         setMensaje('El código no es válido.');
       }
+      alert('Compra Exitosa.');
     } catch (error) {
       setMensaje('Error al verificar el código.');
       console.error(error);
@@ -86,6 +88,11 @@ const CodigoDescuento = () => {
       </div>
     </div>
   );
+};
+
+// Validación de propiedades
+CodigoDescuento.propTypes = {
+  codigoDescuento: PropTypes.string, // Si se usa como string, puede ser opcional
 };
 
 export default CodigoDescuento;
