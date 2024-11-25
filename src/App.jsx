@@ -7,30 +7,25 @@ import { LandingContact } from "./Views/LandingChalita/views/LandingContact";
 import { Login } from "./Views/Users Module/view/Login";
 import { RegisterClient } from "./Views/Users Module/view/RegisterClient";
 import { RegisterProvider } from "./Views/Users Module/view/RegisterProvider";
-import { HomePage } from "./Views/HomePage/views/HomePage";
-import { Admin } from "./Views/Users Module/view/Admin";
+
 import SupplierProfile from "./Views/Products Module/views/SupplierProfile";
 
 // !Imports for firebase modules
 import appFirebase from "./Firebase/config";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { Provider } from "./Views/Users Module/view/Provider";
 import { UsersList } from "./Views/Users Module/components/UsersList";
 
-import SupplierProductsClient from "./Views/Products Module/components/SupplierProductsClient";
+
 import ClientProviderView from "./Views/Products Module/views/ClientProviderView";
-import ProductAdministration from "./Views/Products Module/views/ProductAdministration";
+
 import Sidebar from "./Views/Products Module/components/Sidebar";
 import { AdminLayout } from "./Views/Admin/layouts/AdminLayout";
-import { Layout } from "./Views/administrador/Layout";
-import { AdminRouter } from "./Views/Admin/router/AdminRouter";
 import { OrdersView } from "./Views/Admin/views/OrdersView";
 import { UsersView } from "./Views/Admin/views/UsersView";
 import { ReportsView } from "./Views/Admin/views/ReportsView";
 import { EventsView } from "./Views/Admin/views/EventsView";
 import LayoutClient from "./Views/PagInterfaz/LayoutClient";
 import Transacciones from "./Views/Transacciones/views/Transacciones";
-import Navbar from "./Views/Products Module/components/Navbar";
 import { UserProvider } from "./Firebase/UserContext";
 import ProfileForm from "./Views/Products Module/components/ProfileForm";
 
@@ -50,6 +45,7 @@ function App() {
     return () => unsubscribe();
   }, [auth]);
 
+  
   return (
     <BrowserRouter>
       <UserProvider>

@@ -9,7 +9,7 @@ const itemsFromSideBar = [
     id: 1,
     name: "Clientes",
     icon: <UsersIcon />,
-    to: "/clients",
+    to: "/",
   },
   {
     id: 2,
