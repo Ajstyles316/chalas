@@ -24,7 +24,8 @@ import { OrdersView } from "./Views/Admin/views/OrdersView";
 import { UsersView } from "./Views/Admin/views/UsersView";
 import { ReportsView } from "./Views/Admin/views/ReportsView";
 import { EventsView } from "./Views/Admin/views/EventsView";
-import LayoutClient from "./Views/PagInterfaz/LayoutClient";
+import ClientOld from "./Views/PagInterfaz/LayoutClient";
+import LayoutClient from "./Views/Client/Client";
 import Transacciones from "./Views/Transacciones/views/Transacciones";
 import { UserProvider } from "./Firebase/UserContext";
 import ProfileForm from "./Views/Products Module/components/ProfileForm";
@@ -45,7 +46,7 @@ function App() {
     return () => unsubscribe();
   }, [auth]);
 
-  
+
   return (
     <BrowserRouter>
       <UserProvider>
@@ -72,6 +73,7 @@ function App() {
           <Route path="/events" element={<EventsView />} />
           <Route path="/transacciones" element={<Transacciones />} />
           <Route path="/clienthome" element={<LayoutClient />} />
+          <Route path="/clientold" element={<ClientOld />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>
