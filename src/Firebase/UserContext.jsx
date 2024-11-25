@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getUserData } from "./users";
+import { getUserData } from "./users"; // Asumo que getUserData es una función para obtener los datos del usuario desde Firebase
 
 const UserContext = createContext();
 
@@ -29,8 +29,14 @@ export const UserProvider = ({ children }) => {
     return () => unsubscribe();
   }, [auth]);
 
+  // Función para cargar los datos del usuario manualmente
+  const fetchUserData = async (cachedUser) => {
+    setUser(cachedUser); // Cargar los datos desde localStorage
+    setLoading(false);
+  };
+
   return (
-    <UserContext.Provider value={{ user, loading, error }}>
+    <UserContext.Provider value={{ user, loading, error, fetchUserData }}>
       {children}
     </UserContext.Provider>
   );
