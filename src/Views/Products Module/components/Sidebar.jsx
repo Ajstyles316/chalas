@@ -1,19 +1,10 @@
 import React, { useState } from "react";
-import ProductAdministration from "../views/ProductAdministration"; // Importa tu componente
-import "../Styles/providerSideBar.css"; // CSS del ProviderSideBar
-import TopBar from "./TopBar"; // Importa el TopBar
+import ProductAdministration from "../views/ProductAdministration";
+import "../Styles/sidebar.css";
+import Navbar from "./Navbar"; // Reemplazado TopBar por Navbar
 import LogoApp from "../../../assets/img/appLogo.jpeg";
-import { getAuth, signOut } from "firebase/auth";
-import { useNavigate } from "react-router";
 
-const auth = getAuth();
-
-
-const ProviderSideBar = () => {
-
-  const navigate = useNavigate();
-
-
+const Sidebar = () => {
   const [activeView, setActiveView] = useState("productos");
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
@@ -21,26 +12,17 @@ const ProviderSideBar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
 
-  const handdleSingOut = async () => {
-    try {
-      await signOut(auth);
-      navigate('/')
-    } catch (err) {
-      console.error("Error al cerrar sesión:", error);
-      alert("Ocurrió un error al cerrar sesión");
-    }
-  }
-
   return (
     <div className="admin-container">
-      <TopBar onToggleSidebar={toggleSidebar} /> {/* Barra superior */}
-      <div className="admin-content">
+      <Navbar onToggleSidebar={toggleSidebar} />{" "}
+      {/* Pasamos la función al Navbar */}
+      <div
+        className={`admin-content ${
+          isSidebarVisible ? "sidebar-visible" : "sidebar-hidden"
+        }`}
+      >
         {isSidebarVisible && (
           <aside className="sidebar">
-            <div className="sidebar-header">
-              <img src={LogoApp} alt="Logo de la aplicación" />
-              <h2>Panel de administración de productos</h2>
-            </div>
             <ul className="sidebar-menu">
               <li
                 className={activeView === "productos" ? "active" : ""}
@@ -49,8 +31,8 @@ const ProviderSideBar = () => {
                 Productos
               </li>
               <li
-                className={activeView === "opcion2" ? "active" : ""}
-                onClick={() => setActiveView("opcion2")}
+                className={activeView === "Perfil" ? "active" : ""}
+                onClick={() => setActiveView("Perfil")}
               >
                 Opción 2
               </li>
@@ -67,7 +49,6 @@ const ProviderSideBar = () => {
                 Opción 4
               </li>
             </ul>
-            <button onClick={handdleSingOut} className="">Cerrar Sesión</button>
           </aside>
         )}
         <main className="content">
@@ -81,4 +62,4 @@ const ProviderSideBar = () => {
   );
 };
 
-export default ProviderSideBar;
+export default Sidebar;

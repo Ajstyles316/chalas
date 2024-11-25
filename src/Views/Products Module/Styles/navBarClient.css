@@ -1,4 +1,4 @@
-.navbar {
+.navbar-1 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,7 +8,7 @@
     border-bottom: 1px solid #eaeaea;
 }
 
-.navbar-container {
+.navbar-container-1 {
     width: 90%;
     max-width: 1200px;
     display: flex;

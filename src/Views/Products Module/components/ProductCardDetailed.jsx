@@ -11,33 +11,29 @@ const ProductCardDetailed = ({
   imageUrl,
   categories = [],
 }) => {
-  const navigate = useNavigate(); // Hook para navegación
-
-  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const formattedCategories =
     categories.length > 0 ? categories.join(", ") : "Sin categoría";
 
   const handleAddToCart = () => {
-    // Aquí puedes agregar lógica para añadir al carrito antes de redirigir
-    navigate('/transacciones', { state: { mostrarCarrito: true } }); // Redirigir al componente Carrito
+    navigate("/transacciones", { state: { mostrarCarrito: true } });
   };
 
   return (
     <div className="product-card-detailed">
-      <div className="product-info">
-        <div className="product-image">
-          <img
-            className="image-product-detailed"
-            src={imageUrl || "https://via.placeholder.com/150"}
-            alt={name_product}
-          />
-          <div className="image-indicators">
-            <span className="indicator active"></span>
-            <span className="indicator"></span>
-          </div>
+      <div className="product-image">
+        <img
+          className="image-product-detailed"
+          src={imageUrl || "https://via.placeholder.com/150"}
+          alt={name_product}
+        />
+        <div className="image-indicators">
+          <span className="indicator active"></span>
+          <span className="indicator"></span>
         </div>
-        {/* Mostrar categorías */}
+      </div>
+      <div className="product-info">
         <h3 className="product-category">{formattedCategories}</h3>
         <h1 className="product-name">{name_product}</h1>
         <p className="product-supplier">{provider}</p>

@@ -1,22 +1,27 @@
 .admin-container {
     display: flex;
     flex-direction: column;
-    /* Cambia la dirección para acomodar la TopBar */
+    position: relative;
 }
 
 .admin-content {
     display: flex;
     flex-grow: 1;
-    /* Asegura que crezca para ocupar el espacio disponible */
+    transition: margin-left 0.3s ease;
+    /* Transición suave cuando el sidebar se muestra/oculta */
 }
 
 .sidebar {
+    position: absolute;
+    top: 94px;
     width: 250px;
-    background-color: #FB9153;
+    background-color: #BFA380;
     color: #FFFFFF;
     padding: 20px;
-    height: 100vh;
+    height: 88vh;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    /* Transición para el sidebar */
 }
 
 .sidebar-header {
@@ -46,15 +51,21 @@
     flex-grow: 1;
     padding: 20px;
     background-color: #FDD46B;
-    height: 100vh;
+    height: 88vh;
+    transition: margin-left 0.3s ease;
 }
 
-/* Ajustes para la visibilidad del sidebar */
-.admin-container .content {
-    transition: margin-left 0.3s;
+.sidebar-hidden .content {
+    margin-left: 0;
+    margin-top: 96px;
+}
+
+.sidebar-visible .content {
+    margin-left: 250px;
+    margin-top: 96px;
 }
 
 .sidebar-hidden .sidebar {
     display: none;
-    /* Oculta la barra lateral */
+    /* Ocultar el sidebar cuando está en el estado 'hidden' */
 }

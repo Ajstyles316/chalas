@@ -13,7 +13,6 @@ const SupplierProducts = ({ onCardClick }) => {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isClient, setIsClient] = useState(false);
 
   const fetchProducts = async () => {
     try {
@@ -58,14 +57,14 @@ const SupplierProducts = ({ onCardClick }) => {
     }
   };
 
-  const handleCloseForm = () => {
+  const handleFormClose = () => {
     setShowForm(false);
     setSelectedProduct(null);
     fetchProducts();
   };
 
   if (loading) {
-    return <div>Cargando productos...</div>;
+    return <div className="loading-message">Cargando productos...</div>;
   }
 
   return (
@@ -77,10 +76,7 @@ const SupplierProducts = ({ onCardClick }) => {
       {showForm && (
         <div className="overlay">
           <div className="modal">
-            <button className="close-button" onClick={handleCloseForm}>
-              X
-            </button>
-            <ProductForm product={selectedProduct} onClose={handleCloseForm} />
+            <ProductForm product={selectedProduct} onClose={handleFormClose} />
           </div>
         </div>
       )}
@@ -89,7 +85,6 @@ const SupplierProducts = ({ onCardClick }) => {
           <ProductCard
             key={product.id}
             {...product}
-            isClient={isClient} // Pasar isClient a ProductCard
             onClick={() => onCardClick(product)}
             onDelete={() => handleDeleteProduct(product.id)}
             onEdit={() => handleEditProduct(product)}

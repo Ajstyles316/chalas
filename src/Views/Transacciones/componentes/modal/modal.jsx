@@ -1,16 +1,16 @@
-import React from 'react';
-import './modal.css';
+import React from "react";
+import "./modal.css";
 
 const Modal = ({ isOpen, onClose, onSubmit }) => {
-  const [codigo, setCodigo] = React.useState('');
+  const [codigo, setCodigo] = React.useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(codigo); 
-    setCodigo('');
+    onSubmit(codigo);
+    setCodigo("");
   };
 
-  if (!isOpen) return null; 
+  if (!isOpen) return null;
 
   return (
     <div className="modal-overlay">
@@ -23,10 +23,13 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
             onChange={(e) => setCodigo(e.target.value)}
             placeholder="Código de descuento"
             required
+            // className='input-codigo' AñADIR CLASSNAME Y NO UTILIZAR NOMBRES DE TARGET SEMATNICOSs
           />
           <div className="modal-buttons">
             <button type="submit">Aplicar</button>
-            <button type="button" onClick={onClose}>Cerrar</button>
+            <button type="button" onClick={onClose}>
+              Cerrar
+            </button>
           </div>
         </form>
       </div>

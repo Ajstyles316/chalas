@@ -21,8 +21,7 @@ const ProductCard = ({
   onAddToCart,
 }) => {
   const handleAddToCart = () => {
-    // Aquí puedes agregar lógica para añadir al carrito antes de redirigir
-    navigate("/transacciones", { state: { mostrarCarrito: true } }); // Redirigir al componente Carrito
+    navigate("/transacciones", { state: { mostrarCarrito: true } });
   };
   return (
     <div

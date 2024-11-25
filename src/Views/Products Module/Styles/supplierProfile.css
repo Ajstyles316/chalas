@@ -1,4 +1,4 @@
-.profile-page {
+.profile-provider-page {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -7,23 +7,39 @@
     overflow-y: auto;
 }
 
-.profile-container {
+.profile-provider-container {
     display: flex;
     flex-direction: column;
     width: 80%;
-    margin: 60px auto;
+    margin: 120px auto;
     border-radius: 20px;
     overflow: hidden;
     background-color: #FFFFFF;
     position: relative;
 }
 
-.banner-profile {
+.banner-profile-provider {
     width: 100%;
     height: 320px;
     margin: 0 auto;
-    background-color: #FDD46B;
+    background-color: #D9CBBA;
     position: relative;
+}
+
+.provider-edit-button {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 54px;
+    left: 80%;
+    gap: 12px;
+    width: 170px;
+    height: 60px;
+    margin-left: 36px;
+    background-color: #FB9153;
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
 }
 
 .content-supplier {
@@ -140,7 +156,7 @@
 }
 
 
-.overlay {
+.overlay-card {
     position: fixed;
     top: 0;
     left: 0;
