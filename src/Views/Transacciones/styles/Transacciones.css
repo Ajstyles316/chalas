@@ -1,0 +1,40 @@
+.transacciones-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Espacio entre las secciones */
+}
+
+/* Estilos para el botón de Código de Descuento */
+
+
+/* Contenedor para el carrito */
+.carrito-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Asegura que el carrito esté alineado al centro */
+}
+
+/* Media Queries para dispositivos móviles y tabletas */
+@media (max-width: 768px) {
+    .codigoDescuento {
+        font-size: 14px; /* Ajusta el tamaño del texto */
+        padding: 8px 15px;
+        margin-top: 50px; /* Reduce la separación */
+        max-width: 250px; /* Reduce el ancho máximo en pantallas pequeñas */
+    }
+
+    .codigoDescuento img {
+        width: 20px;
+        height: 30px;
+    }
+
+    .transacciones-container {
+        gap: 15px; /* Reduce el espacio entre secciones */
+    }
+
+    .carrito-container {
+        padding: 10px; /* Añade un poco de espacio lateral en pantallas pequeñas */
+    }
+}
