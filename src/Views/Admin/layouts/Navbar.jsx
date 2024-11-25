@@ -1,10 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { FiUser, FiLogOut } from "react-icons/fi"; // Usaremos iconos de react-icons
+import { FiUser, FiLogOut } from "react-icons/fi"; 
+import { useNavigate } from "react-router-dom";
+import { signOut, getAuth } from "firebase/auth";
+// Usaremos iconos de react-icons
 
 export const Navbar = () => {
 
   const navigate = useNavigate();
+  const auth = getAuth();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileFormVisible, setIsProfileFormVisible] = useState(false);
