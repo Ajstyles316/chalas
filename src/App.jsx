@@ -29,6 +29,9 @@ import LayoutClient from "./Views/Client/Client";
 import Transacciones from "./Views/Transacciones/views/Transacciones";
 import { UserProvider } from "./Firebase/UserContext";
 import ProfileForm from "./Views/Products Module/components/ProfileForm";
+import { AuthProvider } from "./context/AuthContext";
+import { ProtectedRoutes } from "./security/ProtectedRoutes";
+import UnauthorizedView from "./Views/Users Module/view/UnauthorizedView";
 
 function App() {
   const auth = getAuth(appFirebase);
@@ -48,35 +51,54 @@ function App() {
 
 
   return (
-    <BrowserRouter>
-      <UserProvider>
+    <AuthProvider>
+      <BrowserRouter>
+        <UserProvider>
         <Routes>
+          {/* PUBLICO */}
+          <Route path="/unauthorized" element={<UnauthorizedView />} />
           <Route path="/" element={<LandingHome />} />
           <Route path="/aboutus" element={<LandingAboutUs />} />
           <Route path="/contact" element={<LandingContact />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/provider" element={<Provider />} /> */}
-          <Route path="/registerclient" element={<RegisterClient />} />
           <Route path="/registerprovider" element={<RegisterProvider />} />
-
-          <Route path="/supplier" element={<SupplierProfile />} />
           <Route path="/ClientProvider" element={<ClientProviderView />} />
+
+
+          {/* PROVVEDORORES */}
+          {/* <Route element={<ProtectedRoutes allowedRoles={['provider']} />}> */}
+          <Route path="/supplier" element={<SupplierProfile />} />
           <Route path="/DashboardProvider" element={<Sidebar />} />
-
-          <Route path="/admin" element={<AdminLayout />} />
-          <Route path="/userList" element={<UsersList />} />
           <Route path="/edit-profile" element={<ProfileForm />} />
+          {/* </Route> */}
 
-          <Route path="/clients" element={<UsersView />} />
-          <Route path="/orders" element={<OrdersView />} />
-          <Route path="/reports" element={<ReportsView />} />
-          <Route path="/events" element={<EventsView />} />
-          <Route path="/transacciones" element={<Transacciones />} />
-          <Route path="/clienthome" element={<LayoutClient />} />
-          <Route path="/clientold" element={<ClientOld />} />
+          {/* ADMINROUTES */}
+          {/* <Route element={<ProtectedRoutes allowedRoles={['admin']} />}> */}
+            <Route path="/admin" element={<AdminLayout />} />
+            <Route path="/userList" element={<UsersList />} />
+            <Route path="/clients" element={<UsersView />} />
+            <Route path="/orders" element={<OrdersView />} />
+            <Route path="/reports" element={<ReportsView />} />
+            <Route path="/events" element={<EventsView />} />
+          {/* </Route> */}
+
+          {/* </ProtectedRoutes> */}
+
+
+
+          {/* Rutas protegidas para CLIENTES y ADMIN */}
+
+            <Route path="/clienthome" element={<LayoutClient />} />
+            <Route path="/transacciones" element={<Transacciones />} />
+
+
+
+
         </Routes>
-      </UserProvider>
-    </BrowserRouter>
+
+        </UserProvider>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

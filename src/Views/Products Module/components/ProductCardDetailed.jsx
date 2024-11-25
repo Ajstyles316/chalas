@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/productCardDetailed.css";
 import { RatingStars } from "./RatingStars";
+import { useState } from "react";
 
 const ProductCardDetailed = ({
   name_product,
