@@ -22,7 +22,7 @@ const Carrito = () => {
   // Generar un código de descuento aleatorio y agregarlo a Firebase
   const generarCodigoDescuento = async () => {
     const codigo = 'DESC' + Math.random().toString(36).substring(2, 8).toUpperCase(); // Código aleatorio
-    const descuento = Math.random() * 0.5; // Genera un porcentaje de descuento entre 0 y 50%
+    const descuento = Math.random() * 0.2; // Genera un porcentaje de descuento entre 0 y 50%
 
     try {
       await addDoc(collection(db, 'descount'), {
@@ -73,7 +73,6 @@ const Carrito = () => {
             : producto
         )
       );
-      alert('Cantidad actualizada correctamente.');
     } catch (error) {
       console.error('Error actualizando cantidad:', error);
       alert('Hubo un error al actualizar la cantidad.');
