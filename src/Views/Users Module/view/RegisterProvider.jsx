@@ -13,6 +13,7 @@ export const RegisterProvider = () => {
         apellido: '',
         celular: '',
         tiendaNombre: '',
+        direccion: '',
         nroCarnet: '',
         correo: '',
         contrasena: '',
@@ -45,7 +46,7 @@ export const RegisterProvider = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { nombre, apellido, tiendaNombre, celular, nroCarnet, correo, contrasena, confirmarContrasena, metodoPago, numeroTarjeta, vcc, fechaVencimiento } = formData;
+        const { nombre, apellido, tiendaNombre,direccion, celular, nroCarnet, correo, contrasena, confirmarContrasena, metodoPago, numeroTarjeta, vcc, fechaVencimiento } = formData;
         if (!vcc) {
             alert("Debe aceptar la suscripción mensual para continuar.");
             return;
@@ -69,6 +70,7 @@ export const RegisterProvider = () => {
                 firstName: nombre,
                 lastName: apellido,
                 storeName: tiendaNombre,
+                address:direccion,
                 phone: celular,
                 idNumber: nroCarnet,
                 email: correo,
@@ -143,6 +145,19 @@ export const RegisterProvider = () => {
                                 placeholder="Nombre de la tienda"
                                 value={formData.tiendaNombre}
                                 onChange={(e) => setFormData({ ...formData, tiendaNombre: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="apellido" className="sr-only">Apellido</label>
+                            <input
+                                id="direccion"
+                                name="direccion"
+                                type="text"
+                                required
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+                                placeholder="Direccion de la tienda"
+                                value={formData.direccion}
+                                onChange={(e) => setFormData({ ...formData, direccion: e.target.value })}
                             />
                         </div>
                         <div>
