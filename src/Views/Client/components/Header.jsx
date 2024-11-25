@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ShoppingCart, Percent, User, Search, MessageCircleDashed, FilterIcon } from 'lucide-react';
 import { Hits, Menu, SearchBox } from 'react-instantsearch';
-import { useNavigate } from "react-router-dom";
+import lamaLogo from '../../../assets/img/appLogo.jpeg'
+import { useNavigate } from 'react-router';
 
 function Hit({ hit }) {
   return (
@@ -20,7 +21,10 @@ const Header = () => {
   const [showHits, setShowHits] = useState(false); // Estado para controlar si los hits se muestran
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  const navigate = useNavigate();
+  const navigate=useNavigate();
+  const handleAddToCart = () => {
+    navigate("/transacciones", { state: { mostrarCarrito: true } });
+  };
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setIsMenuOpen(false);
@@ -39,9 +43,6 @@ const Header = () => {
       setShowHits(false); // Oculta los hits al presionar Enter
     }
   };
-  const handleAddToCart = () => {
-    navigate("/transacciones", { state: { mostrarCarrito: true } });
-  };
 
   const handleBlur = () => {
     setShowHits(false); // Oculta los hits cuando se hace clic fuera del SearchBox
@@ -58,12 +59,14 @@ const Header = () => {
     <header className="border-b border-gray-200 bg-white sticky top-0 z-50">
       <div className="max-w-[1920px] mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <img
-              src="src\interfaz\components\ICONLLAMA.png"
-              alt="ChalitaOE Logo"
-              className="w-14 h-14"
-            />
+          <div className="flex items-center gap-4 ">
+            <div className="w-32 h-32">
+              <img
+                src={lamaLogo}
+                alt="ChalitaOE Logo"
+                className="w-full h-full"
+              />
+            </div>
             <div className="flex flex-col">
               <h1 className="text-3xl font-bold text-gray-800">ChalitaOE</h1>
               <p className="text-sm text-gray-600 mt-1">Bienvenido Cliente</p>
@@ -130,4 +133,3 @@ const Header = () => {
 };
 
 export default Header;
-
