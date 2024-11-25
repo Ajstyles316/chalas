@@ -12,6 +12,7 @@ export const RegisterProvider = () => {
         nombre: '',
         apellido: '',
         celular: '',
+        tiendaNombre: '',
         nroCarnet: '',
         correo: '',
         contrasena: '',
@@ -44,7 +45,7 @@ export const RegisterProvider = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { nombre, apellido, celular, nroCarnet, correo, contrasena, confirmarContrasena, metodoPago, numeroTarjeta, vcc, fechaVencimiento } = formData;
+        const { nombre, apellido, tiendaNombre, celular, nroCarnet, correo, contrasena, confirmarContrasena, metodoPago, numeroTarjeta, vcc, fechaVencimiento } = formData;
         if (!vcc) {
             alert("Debe aceptar la suscripción mensual para continuar.");
             return;
@@ -67,6 +68,7 @@ export const RegisterProvider = () => {
                 pid: user.uid,
                 firstName: nombre,
                 lastName: apellido,
+                storeName: tiendaNombre,
                 phone: celular,
                 idNumber: nroCarnet,
                 email: correo,
@@ -128,6 +130,19 @@ export const RegisterProvider = () => {
                                 placeholder="Apellido"
                                 value={formData.apellido}
                                 onChange={(e) => setFormData({ ...formData, apellido: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="apellido" className="sr-only">Apellido</label>
+                            <input
+                                id="tiendaNombre"
+                                name="tiendaNombre"
+                                type="text"
+                                required
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+                                placeholder="Nombre de la tienda"
+                                value={formData.tiendaNombre}
+                                onChange={(e) => setFormData({ ...formData, tiendaNombre: e.target.value })}
                             />
                         </div>
                         <div>
