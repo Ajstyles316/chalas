@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ProductAdministration from "../views/ProductAdministration";
 import "../Styles/sidebar.css";
-import TopBar from "./TopBar";
+import Navbar from "./Navbar"; // Reemplazado TopBar por Navbar
 import LogoApp from "../../../assets/img/appLogo.jpeg";
 
 const Sidebar = () => {
@@ -14,14 +14,15 @@ const Sidebar = () => {
 
   return (
     <div className="admin-container">
-      <TopBar onToggleSidebar={toggleSidebar} /> {/* Barra superior */}
-      <div className="admin-content">
+      <Navbar onToggleSidebar={toggleSidebar} />{" "}
+      {/* Pasamos la función al Navbar */}
+      <div
+        className={`admin-content ${
+          isSidebarVisible ? "sidebar-visible" : "sidebar-hidden"
+        }`}
+      >
         {isSidebarVisible && (
           <aside className="sidebar">
-            <div className="sidebar-header">
-              <img src={LogoApp} alt="Logo de la aplicación" />
-              <h2>Panel de administración de productos</h2>
-            </div>
             <ul className="sidebar-menu">
               <li
                 className={activeView === "productos" ? "active" : ""}
@@ -30,8 +31,8 @@ const Sidebar = () => {
                 Productos
               </li>
               <li
-                className={activeView === "opcion2" ? "active" : ""}
-                onClick={() => setActiveView("opcion2")}
+                className={activeView === "Perfil" ? "active" : ""}
+                onClick={() => setActiveView("Perfil")}
               >
                 Opción 2
               </li>

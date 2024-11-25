@@ -68,7 +68,7 @@ function App() {
 
           <Route path="/admin" element={<AdminLayout />} />
           <Route path="/userList" element={<UsersList />} />
-          <Route path="/test" element={<ProfileForm />} />
+          <Route path="/edit-profile" element={<ProfileForm />} />
 
           <Route path="/clients" element={<UsersView />} />
           <Route path="/orders" element={<OrdersView />} />

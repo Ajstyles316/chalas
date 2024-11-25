@@ -2,17 +2,40 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     height: 100vh;
     background-color: #f7f7f7;
 }
 
 .profile-form {
+    display: flex;
+    flex-direction: column;
     background: #fff;
     padding: 20px 40px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 64%;
+}
+
+.form-profile-container {
+    display: flex;
     width: 100%;
-    max-width: 500px;
+    flex-direction: row;
+
+}
+
+.form-profile-right-side {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 20px;
+}
+
+.form-profile-left-side {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 20px;
 }
 
 .profile-form h1 {
@@ -22,23 +45,22 @@
     color: #333;
 }
 
-.profile-form label {
+.profile-form-label {
     display: block;
     margin-bottom: 5px;
     color: #555;
 }
 
-.profile-form input {
+.profile-form-input {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
 }
 
 .profile-form input[type="file"] {
-    padding: 3px;
+    padding: 7px;
 }
 
 .profile-form span {
@@ -60,18 +82,4 @@
 
 .profile-form button:hover {
     background-color: #2980b9;
-}
-
-.schedule-container label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-.schedule-container input {
-    width: calc(100% - 20px);
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
 }

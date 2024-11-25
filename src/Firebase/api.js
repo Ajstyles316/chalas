@@ -1,17 +1,24 @@
-import { collection, addDoc, updateDoc, doc, getDocs, query, where } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc, getDoc, setDoc, getDocs, query, where, arrayUnion, getFirestore } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./config.js";
+import { getAuth } from "firebase/auth";
+
 
 export const createProduct = async (data, imageFile) => {
   try {
+    const auth = getAuth();
+    const userId = auth.currentUser.uid; 
+    console.log(userId)
     let imageUrl = null;
 
+    // Subir la imagen si se proporciona
     if (imageFile) {
       const imageRef = ref(storage, `product_images/${imageFile.name}`);
       const snapshot = await uploadBytes(imageRef, imageFile);
       imageUrl = await getDownloadURL(snapshot.ref);
     }
 
+    // Crear el producto en la colección "products"
     const docRef = await addDoc(collection(db, "products"), {
       name_product: data.name_product,
       description: data.description,
@@ -19,11 +26,31 @@ export const createProduct = async (data, imageFile) => {
       visible: true,
       deleted: false,
       imageUrl: imageUrl,
+      price: data.price,
       categories: data.categories || []
     });
 
     console.log("Producto registrado con ID: ", docRef.id);
-    return docRef.id;
+
+    // Agregar el producto a la lista del usuario en "listOfProducts"
+    const userProductListRef = doc(db, "listOfProducts", userId);
+
+    // Obtener el documento de la lista de productos del usuario, si no existe se crea
+    const userProductListSnap = await getDoc(userProductListRef);
+    if (userProductListSnap.exists()) {
+      // Si el documento ya existe, se agrega el nuevo producto al array
+      await updateDoc(userProductListRef, {
+        products: arrayUnion(docRef.id) // Utilizamos arrayUnion para agregar sin duplicados
+      });
+    } else {
+      // Si el documento no existe, creamos uno nuevo
+      await setDoc(userProductListRef, {
+        userId: userId,
+        products: [docRef.id] // Inicializamos la lista con el primer producto
+      });
+    }
+
+    return docRef.id; // Devolvemos el ID del producto creado
   } catch (error) {
     console.error("Error al crear el producto:", error);
     throw error;
@@ -53,18 +80,51 @@ export const softDeleteProduct = async (id) => {
 
 export const getVisibleProducts = async () => {
   try {
-    const q = query(
+    const db = getFirestore();
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      throw new Error("Usuario no autenticado.");
+    }
+
+    const userUid = currentUser.uid;
+
+    // Buscar el documento del usuario en listOfProducts
+    const listOfProductsDocRef = doc(db, "listOfProducts", userUid);
+    const listOfProductsDoc = await getDoc(listOfProductsDocRef);
+
+    if (!listOfProductsDoc.exists()) {
+      console.warn("El documento listOfProducts no existe para este usuario.");
+      return []; // Retorna un array vacío si no existe el documento
+    }
+
+    const { products: productIds } = listOfProductsDoc.data();
+
+    if (!Array.isArray(productIds) || productIds.length === 0) {
+      console.warn("El campo 'products' está vacío o no es válido.");
+      return []; // Retorna un array vacío si no hay productos
+    }
+
+    // Consultar los productos en la colección "products" usando los IDs
+    const productsQuery = query(
       collection(db, "products"),
-      where("deleted", "==", false)
+      where("__name__", "in", productIds),
+      where("deleted", "==",false)
     );
-    const querySnapshot = await getDocs(q);
-    const products = [];
-    querySnapshot.forEach((doc) => {
-      products.push({ id: doc.id, ...doc.data() });
-    });
-    return products;
-  } catch (e) {
-    throw new Error("Error al obtener los productos: " + e.message);
+
+    const querySnapshot = await getDocs(productsQuery);
+
+    // Mapear los datos de los productos encontrados
+    const visibleProducts = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return visibleProducts;
+  } catch (error) {
+    console.error("Error al obtener productos:", error.message);
+    throw new Error("Error al obtener productos: " + error.message);
   }
 };
 
@@ -79,7 +139,7 @@ export const getSupplierData = async (supplierId) => {
     const productsQuery = query(
       collection(db, "products"),
       where("deleted", "==", false),
-      where("supplierId", "==", supplierId) // Asegúrate de que los productos tengan esta propiedad
+      where("supplierId", "==", supplierId)
     );
     const productsSnapshot = await getDocs(productsQuery);
     const productsList = productsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -103,7 +163,6 @@ const uploadImage = async (imageFile, folder = "profile_images") => {
   }
 };
 
-// Crear un perfil de proveedor
 export const createProfileProvider = async (data, imageFile) => {
   try {
     const profileImageUrl = await uploadImage(imageFile, "profile_images");
@@ -148,7 +207,7 @@ export const updateProfileProvider = async (id, updatedData, imageFile) => {
   }
 };
 
-// Obtener perfiles visibles de proveedores (por ejemplo, no eliminados)
+// Obtener perfiles visibles de proveedores
 export const getVisibleProfileProviders = async () => {
   try {
     const q = query(collection(db, "profileProvider"), where("deleted", "==", false));
