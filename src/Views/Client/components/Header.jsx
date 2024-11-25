@@ -100,6 +100,7 @@ const Header = () => {
           </div>
 
           <div className="flex items-center gap-6">
+
             <button className="flex flex-col items-center text-gray-600 hover:text-[#8B0000] transition-colors" onClick={handleAddToCart}>
               <ShoppingCart className="w-6 h-6" />
               <span className="text-xs mt-1">Carrito</span>
@@ -131,5 +132,4 @@ const Header = () => {
 
   );
 };
-
 export default Header;
