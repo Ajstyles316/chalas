@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ShoppingCart, Percent, User, Search, MessageCircleDashed, FilterIcon } from 'lucide-react';
 import { Hits, Menu, SearchBox } from 'react-instantsearch';
 import lamaLogo from '../../../assets/img/appLogo.jpeg'
+
 import { FiUser, FiLogOut } from 'react-icons/fi';
 import { signOut, getAuth } from 'firebase/auth';
+
 import { useNavigate } from 'react-router';
 
 function Hit({ hit }) {
@@ -30,7 +32,10 @@ const Header = () => {
   const [isLogoutConfirmationVisible, setIsLogoutConfirmationVisible] = useState(false);
   const [isProfileFormVisible, setIsProfileFormVisible] = useState(false);
   const menuRef = useRef(null);
-
+  const navigate=useNavigate();
+  const handleAddToCart = () => {
+    navigate("/transacciones", { state: { mostrarCarrito: true } });
+  };
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setIsMenuOpen(false);
@@ -141,7 +146,8 @@ const Header = () => {
           </div>
 
           <div className="flex items-center gap-6">
-            <button className="flex flex-col items-center text-gray-600 hover:text-[#8B0000] transition-colors">
+
+            <button className="flex flex-col items-center text-gray-600 hover:text-[#8B0000] transition-colors" onClick={handleAddToCart}>
               <ShoppingCart className="w-6 h-6" />
               <span className="text-xs mt-1">Carrito</span>
             </button>
@@ -210,6 +216,4 @@ const Header = () => {
 
   );
 };
-
 export default Header;
-

@@ -19,3 +19,4 @@ export const ReportsIcon = ({ className = "w-6 h-6" }) => {
 		</svg>
 	);
 };
+
