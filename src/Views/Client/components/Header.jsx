@@ -2,11 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ShoppingCart, Percent, User, Search, MessageCircleDashed, FilterIcon } from 'lucide-react';
 import { Hits, Menu, SearchBox } from 'react-instantsearch';
 import lamaLogo from '../../../assets/img/appLogo.jpeg'
-
 import { FiUser, FiLogOut } from 'react-icons/fi';
 import { signOut, getAuth } from 'firebase/auth';
-
 import { useNavigate } from 'react-router';
+import { useAuth } from '../../../context/AuthContext';
 
 function Hit({ hit }) {
   return (
@@ -24,6 +23,10 @@ const Header = () => {
 
   // const navigate = useNavigate();
   const auth = getAuth();
+
+  const {user} = useAuth();
+
+  console.log({user});
 
   const [hasText, setHasText] = useState(false);
   const [showHits, setShowHits] = useState(false); // Estado para controlar si los hits se muestran
@@ -115,7 +118,7 @@ const Header = () => {
             </div>
             <div className="flex flex-col">
               <h1 className="text-3xl font-bold text-gray-800">ChalitaOE</h1>
-              <p className="text-sm text-gray-600 mt-1">Bienvenido Cliente</p>
+              <p className="text-sm text-gray-600 mt-1">Bienvenido {user.email}!</p>
             </div>
           </div>
 
