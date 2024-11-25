@@ -116,8 +116,7 @@ export const Login = () => {
           >
             Términos y Condiciones
           </button>
-        </div>
-
+        </div>  
         <button
           type="submit"
           disabled={!isHuman}

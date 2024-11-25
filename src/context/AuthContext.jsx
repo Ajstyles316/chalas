@@ -9,7 +9,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { auth, db } from "../Firebase/config"; // Configuración de Firebase
+import { auth, db, facebookProvider } from "../Firebase/config"; // Configuración de Firebase
 import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
@@ -79,7 +79,6 @@ export function AuthProvider({ children }) {
       payment: {
         pay: metodoPago,
         target_number: numeroTarjeta.replace(/.(?=.{4})/g, "*"), // Oculta los números excepto los últimos 4
-        vcc,
         datev: fechaVencimiento,
       },
     };
@@ -125,6 +124,26 @@ export function AuthProvider({ children }) {
     return user;
   };
 
+  const loginWithFacebook = async() => {
+    const facebookProvider = new FacebookAuthProvider(auth, facebookProvider);
+    const result = await signInWithPopup(auth, facebookProvider);
+    const user = result.user;
+
+    const userDocRef = doc(db, "client", user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      await setDoc(userDocRef, {
+        uid: user.uid,
+        email: user.email,
+        role: "client",
+        createdAt: new Date().toISOString(),
+        isActive: true,
+      });
+    }
+    return user;
+  }
+
   const logout = async () => {
     return signOut(auth);
   };
@@ -132,6 +151,29 @@ export function AuthProvider({ children }) {
   const resetPassword = async (email) => {
     return sendPasswordResetEmail(auth, email);
   };
+
+  const register = async (email, password, name) => {
+    try {
+      
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+  
+      
+      const userRef = doc(db, "client", user.uid);
+      await setDoc(userRef, {
+        uid: user.uid, 
+        email: user.email, 
+        role: "client", 
+        isActive: true, 
+        createdAt: new Date().toISOString(), 
+      });
+  
+      setUser(user); 
+    } catch (error) {
+      throw error; 
+    }
+  };
+  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -147,7 +189,9 @@ export function AuthProvider({ children }) {
         signup,
         registerProvider,
         login,
+        register,
         loginWithGoogle,
+        loginWithFacebook,
         logout,
         resetPassword,
         user,

@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, db } from '../../../Firebase/config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { useAuth } from '../../../context/AuthContext'; // Importa el contexto
 import logoL from '../../../assets/img/appLogo.jpeg';
-import '../styles/RegisterProvider.css'
+import '../styles/RegisterProvider.css';
 
 export const RegisterProvider = () => {
     const navigate = useNavigate();
+    const { signup, addProviderData } = useAuth(); // Usa las funciones del contexto
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
         celular: '',
         tiendaNombre: '',
+        direccion: '',
         nroCarnet: '',
         correo: '',
         contrasena: '',
@@ -20,19 +20,18 @@ export const RegisterProvider = () => {
         tipoEvento: [],
         metodoPago: '',
         numeroTarjeta: '',
-        vcc: true,
         fechaVencimiento: '',
     });
 
     const categories = {
-        "Babys": ["Bautizos", "Baby Shower", "Sex Reveal"],
-        "Cumples": ["XV años", "Cumple Infantil", "Cumple Casual"],
-        "Fiestas": ["Corporativas", "Casual"],
-        "Parejas": ["Bodas", "Despedida de Soltero", "Aniversario"]
+        Babys: ['Bautizos', 'Baby Shower', 'Sex Reveal'],
+        Cumples: ['XV años', 'Cumple Infantil', 'Cumple Casual'],
+        Fiestas: ['Corporativas', 'Casual'],
+        Parejas: ['Bodas', 'Despedida de Soltero', 'Aniversario'],
     };
 
     const handleCheckboxChange = (category) => {
-        setFormData(prevState => {
+        setFormData((prevState) => {
             const selectedCategories = [...prevState.tipoEvento];
             if (selectedCategories.includes(category)) {
                 selectedCategories.splice(selectedCategories.indexOf(category), 1);
@@ -45,30 +44,50 @@ export const RegisterProvider = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { nombre, apellido, tiendaNombre, celular, nroCarnet, correo, contrasena, confirmarContrasena, metodoPago, numeroTarjeta, vcc, fechaVencimiento } = formData;
+        const {
+            nombre,
+            apellido,
+            tiendaNombre,
+            direccion,
+            celular,
+            nroCarnet,
+            correo,
+            contrasena,
+            confirmarContrasena,
+            metodoPago,
+            numeroTarjeta,
+            vcc,
+            fechaVencimiento,
+        } = formData;
+
         if (!vcc) {
-            alert("Debe aceptar la suscripción mensual para continuar.");
+            alert('Debe aceptar la suscripción mensual para continuar.');
             return;
         }
+
         if (contrasena !== confirmarContrasena) {
-            alert("Las contraseñas no coinciden.");
+            alert('Las contraseñas no coinciden.');
             return;
         }
+
         const today = new Date();
         const expirationDate = new Date(fechaVencimiento);
         if (expirationDate <= today) {
-            alert("La fecha de vencimiento de la tarjeta no es válida.");
+            alert('La fecha de vencimiento de la tarjeta no es válida.');
             return;
         }
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, correo, contrasena);
-            const user = userCredential.user;
 
-            await setDoc(doc(db, 'provider', user.uid), {
+        try {
+            // Crea el usuario utilizando el contexto
+            const user = await signup(correo, contrasena);
+
+            // Añade datos adicionales del proveedor
+            await addProviderData(user.uid, {
                 pid: user.uid,
                 firstName: nombre,
                 lastName: apellido,
                 storeName: tiendaNombre,
+                address: direccion,
                 phone: celular,
                 idNumber: nroCarnet,
                 email: correo,
@@ -84,16 +103,16 @@ export const RegisterProvider = () => {
                 createdAt: new Date().toISOString(),
             });
 
-            alert("Proveedor registrado exitosamente.");
+            alert('Proveedor registrado exitosamente.');
             navigate('/provider');
         } catch (error) {
-            console.error("Error al registrar el proveedor:", error);
-            alert("Hubo un error al registrar el proveedor.");
+            console.error('Error al registrar el proveedor:', error);
+            alert('Hubo un error al registrar el proveedor.');
         }
     };
 
     return (
-        <div className=" w-screen min-h-screen flex items-center justify-center gap-12 p-4 bg-gradient-to-b from-amber-100 to-orange-300">
+        <div className="w-screen min-h-screen flex items-center justify-center gap-12 p-4 bg-gradient-to-b from-amber-100 to-orange-300">
             <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-2xl">
                 <div>
                     <img className="mx-auto h-24 w-auto rounded-full border-4 border-orange-500" src={logoL} alt="Logo Chalita" />
@@ -271,14 +290,14 @@ export const RegisterProvider = () => {
                                 <label htmlFor="vcc" className="block text-sm font-medium text-gray-700">¿Está de acuerdo con la suscripción mensual de 50 Bs?</label>
                                 <div className="flex items-center mt-2">
                                     <input
-                                      id="suscripcion"
-                                      name="suscripcion"
-                                      type="checkbox"
-                                      checked={formData.suscripcion}
-                                      onChange={(e) => setFormData({ ...formData, suscripcion: e.target.checked })}
-                                      required
-                                      className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
-                                      />
+                                        id="suscripcion"
+                                        name="suscripcion"
+                                        type="checkbox"
+                                        checked={formData.suscripcion}
+                                        onChange={(e) => setFormData({ ...formData, suscripcion: e.target.checked })}
+                                        required
+                                        className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                                    />
                                     <label htmlFor="suscripcion" className="ml-2 text-sm text-gray-600">
                                         Acepto realizar el pago mensual.
                                     </label>
