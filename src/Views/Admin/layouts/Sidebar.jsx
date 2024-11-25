@@ -10,7 +10,7 @@ const itemsFromSideBar = [
     id: 1,
     name: "Clientes",
     icon: <UsersIcon className="w-6 h-6" />, // Tamaño de ícono ajustado
-    to: "/",
+    to: "/clients",
   },
   {
     id: 2,

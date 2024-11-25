@@ -11,7 +11,7 @@ import { UserTerms } from "../components/UserTerms";
 import { SlControlPause } from "react-icons/sl";
 
 export const Login = () => {
-  const { login, register, signInWithGoogle, signInWithFacebook, resetPassword } = useAuth();
+  const { login, register, loginWithGoogle, loginWithFacebook, resetPassword } = useAuth();
   const [formType, setFormType] = useState("login");
   const [isHuman, setIsHuman] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -35,6 +35,8 @@ export const Login = () => {
 
       } else {
         const userData = await login(email, password);
+        setMessage('Inicio de sesión correcto, Cargado Información'.message);
+        setMessageType("success");
 
         if (userData.role === 'client') {
           navigate("/clienthome");
@@ -53,7 +55,7 @@ export const Login = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
+      await loginWithGoogle();
       navigate("/clienthome");
     } catch (error) {
       setMessage(error.message);
@@ -63,7 +65,7 @@ export const Login = () => {
 
   const handleFacebookSignIn = async () => {
     try {
-      await signInWithFacebook();
+      await loginWithFacebook();
       navigate("/clienthome");
     } catch (error) {
       setMessage(error.message);

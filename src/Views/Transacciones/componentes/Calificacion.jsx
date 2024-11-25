@@ -39,7 +39,7 @@ const CalificarCompra = ({ onConfirmar }) => {
       margin: "15px 0",
     },
     estrella: {
-      fontSize: "30px",
+      fontSize: "50px",
       cursor: "pointer",
       margin: "0 5px",
       transition: "color 0.3s ease",
