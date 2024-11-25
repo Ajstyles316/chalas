@@ -19,6 +19,7 @@ export const createProduct = async (data, imageFile) => {
       visible: true,
       deleted: false,
       imageUrl: imageUrl,
+      price: data.price,
       categories: data.categories || []
     });
 
@@ -79,7 +80,7 @@ export const getSupplierData = async (supplierId) => {
     const productsQuery = query(
       collection(db, "products"),
       where("deleted", "==", false),
-      where("supplierId", "==", supplierId) // Asegúrate de que los productos tengan esta propiedad
+      where("supplierId", "==", supplierId)
     );
     const productsSnapshot = await getDocs(productsQuery);
     const productsList = productsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -148,7 +149,7 @@ export const updateProfileProvider = async (id, updatedData, imageFile) => {
   }
 };
 
-// Obtener perfiles visibles de proveedores (por ejemplo, no eliminados)
+// Obtener perfiles visibles de proveedores
 export const getVisibleProfileProviders = async () => {
   try {
     const q = query(collection(db, "profileProvider"), where("deleted", "==", false));
