@@ -2,12 +2,13 @@ import React from 'react';
 import { Hits } from 'react-instantsearch';
 import { useNavigate } from 'react-router-dom';
 
-const navigate = useNavigate();
 const handleCardClick = (provider) => {
   navigate(`/ClientProvider`);
 };
 // Componente para renderizar cada producto
 const ProductCard = ({ hit }) => {
+  const navigate = useNavigate();
+
   return (
     <div onClick={() => handleCardClick(provider)}>
       <img
