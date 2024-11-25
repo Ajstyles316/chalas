@@ -1,11 +1,18 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { FiUser, FiLogOut } from "react-icons/fi"; // Usaremos iconos de react-icons
+import { FiUser, FiLogOut } from "react-icons/fi"; 
+import { useNavigate } from "react-router-dom";
+import { signOut, getAuth } from "firebase/auth";
+// Usaremos iconos de react-icons
 
 export const Navbar = () => {
+
+  const navigate = useNavigate();
+  const auth = getAuth();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileFormVisible, setIsProfileFormVisible] = useState(false);
-  const [adminEmail, setAdminEmail] = useState("admin@chalitaoe.com"); // Correo inicial del administrador
+  const [adminEmail, setAdminEmail] = useState("adminoe@chalitaoe.com"); // Correo inicial del administrador
   const [password, setPassword] = useState(""); // Contraseña actual
   const [isLogoutConfirmationVisible, setIsLogoutConfirmationVisible] = useState(false);
 
@@ -20,30 +27,36 @@ export const Navbar = () => {
 
   // Función para manejar el cierre de sesión
   const handleLogout = () => {
-    setIsLogoutConfirmationVisible(true); // Muestra el cuadro de confirmación
-    setIsMenuOpen(false); // Cierra el menú al pedir confirmación
-  };
+  setIsLogoutConfirmationVisible(true); // Muestra el cuadro de confirmación
+   // Cierra el menú al pedir confirmación
+};
 
-  // Función para confirmar el cierre de sesión
-  const confirmLogout = () => {
-    setIsLogoutConfirmationVisible(false); // Oculta la confirmación
-    console.log("Cerrando sesión...");
-    // Aquí podrías agregar la lógica real para cerrar sesión, por ejemplo:
-    // redirigir al login o borrar datos de sesión
-  };
+// Función para confirmar el cierre de sesión
+const confirmLogout = async() => {
+  setIsLogoutConfirmationVisible(false); // Oculta la confirmación
+  try {
+    await signOut(auth);
+    navigate('/');
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error);
+    alert("Ocurrió un error al cerrar sesión");
+  }
+  // Aquí podrías agregar la lógica real para cerrar sesión, por ejemplo:
+  // redirigir al login o borrar datos de sesión
+};
 
-  // Función para cancelar el cierre de sesión
-  const cancelLogout = () => {
-    setIsLogoutConfirmationVisible(false); // Cancela la confirmación
-  };
+// Función para cancelar el cierre de sesión
+const cancelLogout = () => {
+  setIsLogoutConfirmationVisible(false); // Cancela la confirmación
+};
 
-  // Función para manejar los cambios del formulario
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Nuevo correo del administrador:", adminEmail);
-    console.log("Contraseña ingresada:", password);
-    setIsProfileFormVisible(false); // Cierra el formulario después de guardar
-  };
+// Función para manejar los cambios del formulario
+const handleSubmit = (e) => {
+  e.preventDefault();
+  console.log("Nuevo correo del administrador:", adminEmail);
+  console.log("Contraseña ingresada:", password);
+  setIsProfileFormVisible(false); // Cierra el formulario después de guardar
+};
 
   return (
     <header className="flex bg-white px-3 h-16 xl:h-20 2xl:h-24 shadow-md w-full sm:px-10 xl:px-40 items-center fixed z-10 justify-between">
@@ -77,29 +90,29 @@ export const Navbar = () => {
           <path d="M12 12c2 2 2 6 2 6H10s0-4 2-6z" fill="#FF5722" /> {/* Cuerpo en color naranja */}
         </svg>
 
-        {/* Menú desplegable del perfil */}
-        {isMenuOpen && (
-          <div className="absolute top-full right-0 mt-2 w-40 bg-white shadow-lg rounded-lg border p-3 transition-all ease-in-out duration-300">
-            <ul className="text-gray-700">
-              <li
-                onClick={showProfileForm}
-                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-md transition-all"
-              >
-                <FiUser className="text-xl text-gray-600" /> Ver perfil
-              </li>
-              <li
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-md transition-all"
-              >
-                <FiLogOut className="text-xl text-gray-600" /> Cerrar sesión
-              </li>
-            </ul>
-          </div>
-        )}
+      {/* Menú desplegable del perfil */}
+      {isMenuOpen && (
+        <div className="absolute top-full right-0 mt-2 w-40 bg-white shadow-lg rounded-lg border p-3 transition-all ease-in-out duration-300">
+          <ul className="text-gray-700">
+            <li
+              onClick={showProfileForm}
+              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-md transition-all"
+            >
+              <FiUser className="text-xl text-gray-600" /> Ver perfil
+            </li>
+            <li
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-md transition-all"
+            >
+              <FiLogOut className="text-xl text-gray-600" /> Cerrar sesión
+            </li>
+          </ul>
+        </div>
+      )}
 
-        {/* Correo del administrador */}
-        <p className="hidden sm:block">{adminEmail}</p>
-      </div>
+      {/* Correo del administrador */}
+      <p className="hidden sm:block">{adminEmail}</p>
+    </div>
 
       {/* Formulario de perfil */}
       {isProfileFormVisible && (

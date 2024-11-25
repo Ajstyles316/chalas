@@ -1,7 +1,23 @@
 import React from 'react';
 import { Search, MessageSquare, Bell, User } from 'lucide-react';
+import { getAuth, signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router';
 
+const auth = getAuth();
 export default function Navbar() {
+
+  const navigate = useNavigate();
+
+  const handdleSignOut = async() => {
+    try{
+      await signOut(auth);
+      navigate('/');
+    }catch(error){
+      console.log('error durante el cierre de sesion', error);
+      alert('Hubo un error durante el cierre de sesion');
+    }
+  }
+
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,6 +52,7 @@ export default function Navbar() {
                 <User className="h-5 w-5" />
                 <span>Perfil</span>
               </button>
+              <button  onClick={handdleSignOut} className='flex items-center space-x-2 bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition'>Cerrar Sesión</button>
             </div>
           </div>
 

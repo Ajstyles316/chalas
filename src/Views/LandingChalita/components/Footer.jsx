@@ -35,7 +35,7 @@ export const Footer = () => {
                 </div>
             </div>
             <div className="copy-cont">
-                <span>© 2024 Creado por <a className='font-bold' href="https://main--capysharksdevs.netlify.app/" target="_blank">CapySharks Dev SRL</a> Empresa de Desarrollo de Software
+                <span>© 2024 Desarrollado por <a className='font-bold' href="https://main--capysharksdevs.netlify.app/" target="_blank">CapySharks Dev SRL</a> Empresa de Desarrollo de Software
                 </span>
             </div>
         </div>
