@@ -20,3 +20,4 @@ export const EventsIcon = ({ className = "w-6 h-6" }) => {
 		</svg>
 	);
 };
+
