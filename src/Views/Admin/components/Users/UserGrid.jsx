@@ -15,7 +15,7 @@ export const UserGrid = ({ users, setUsers }) => {
 						<th scope="col" className="px-6 py-3">Nombre</th>
 						<th scope="col" className="px-6 py-3">Correo</th>
 						<th scope="col" className="px-6 py-3">Ultima actividad</th>
-						<th scope="col" className="px-6 py-3">Habilitado</th>
+						<th scope="col" className="px-6 py-3">Gestión</th>
 						<th scope="col" className="px-6 py-3">Rol</th>
 					</tr>
 				</thead>
@@ -25,7 +25,7 @@ export const UserGrid = ({ users, setUsers }) => {
 						users.map(user => <UserCard
 							key={user.uid}
 							id={user.uid}
-							name={user.name}
+							name={user.name?user.name:user.firstName}
 							email={user.email}
 							lastActivity={user.createdAt}
 							role={user.role}
