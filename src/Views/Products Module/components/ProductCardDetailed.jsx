@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../Styles/productCardDetailed.css";
 import { RatingStars } from "./RatingStars";
 import { useState } from "react";
+import { useAuth } from "../../../context/AuthContext";
 
 const ProductCardDetailed = ({
   name_product,
@@ -11,6 +12,9 @@ const ProductCardDetailed = ({
   imageUrl,
   categories = [],
 }) => {
+  const { user } = useAuth();
+  console.log({ user });
+
   const navigate = useNavigate();
 
   const formattedCategories =
@@ -36,7 +40,7 @@ const ProductCardDetailed = ({
       <div className="product-info">
         <h3 className="product-category">{formattedCategories}</h3>
         <h1 className="product-name">{name_product}</h1>
-        <p className="product-supplier">{provider}</p>
+        <p className="product-supplier">{user.profile.storeName}</p>
         <div className="price-rating">
           <div className="product-price">$$</div>
           <RatingStars />
@@ -47,9 +51,9 @@ const ProductCardDetailed = ({
           <hr className="line-white" />
         </div>
 
-        <p className="product-description">{description}</p>
+        <p className="product-description-detailed">{description}</p>
         <div className="product-buttons">
-          <button className="favorite-button">Añadir a favoritos</button>
+          {/* <button className="favorite-button">Añadir a favoritos</button> */}
           <button className="cart-button" onClick={handleAddToCart}>
             Añadir al carrito
           </button>

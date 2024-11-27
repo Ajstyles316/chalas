@@ -10,7 +10,6 @@ import editIcon from "../../../assets/svg/edit_icon.svg";
 import trashIcon from "../../../assets/svg/trash_icon.svg";
 import eyeIcon from "../../../assets/svg/eye_icon.svg";
 import eyeOffIcon from "../../../assets/svg/eye_off_icon.svg";
-import Footer from "../../Client/components/Footer";
 
 function ProductAdministration() {
   const [products, setProducts] = useState([]);
@@ -23,14 +22,13 @@ function ProductAdministration() {
   const [showForm, setShowForm] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showSelectColumn, setShowSelectColumn] = useState(false);
-  const [productsLoaded, setProductsLoaded] = useState(false); // Nuevo estado para controlar si los productos han sido cargados
+  const [productsLoaded, setProductsLoaded] = useState(false);
 
-  // Cargar productos solo cuando se llama explícitamente a fetchProducts
   const fetchProducts = async () => {
     try {
       const visibleProducts = await getVisibleProducts();
       setProducts(visibleProducts);
-      setProductsLoaded(true); // Marcar como cargados cuando se obtienen
+      setProductsLoaded(true);
     } catch (error) {
       console.error("Error al obtener productos:", error);
     }
@@ -140,7 +138,10 @@ function ProductAdministration() {
               <button className="close-button" onClick={handleCloseForm}>
                 X
               </button>
-              <ProductForm product={selectedProduct} onClose={handleCloseForm} />
+              <ProductForm
+                product={selectedProduct}
+                onClose={handleCloseForm}
+              />
             </div>
           </div>
         )}

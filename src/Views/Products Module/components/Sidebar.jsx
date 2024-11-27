@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import ProductAdministration from "../views/ProductAdministration";
 import "../Styles/sidebar.css";
-import Navbar from "./Navbar"; // Reemplazado TopBar por Navbar
-import LogoApp from "../../../assets/img/appLogo.jpeg";
+import Navbar from "./Navbar";
 import Footer from "../../Client/components/Footer";
+import SupplierProfile from "../views/SupplierProfile";
 
 const Sidebar = () => {
   const [activeView, setActiveView] = useState("productos");
@@ -16,7 +16,6 @@ const Sidebar = () => {
   return (
     <div className="admin-container">
       <Navbar onToggleSidebar={toggleSidebar} />{" "}
-      {/* Pasamos la función al Navbar */}
       <div
         className={`admin-content ${
           isSidebarVisible ? "sidebar-visible" : "sidebar-hidden"
@@ -32,8 +31,8 @@ const Sidebar = () => {
                 Productos
               </li>
               <li
-                className={activeView === "Perfil" ? "active" : ""}
-                onClick={() => setActiveView("Perfil")}
+                className={activeView === "opcion2" ? "active" : ""}
+                onClick={() => setActiveView("opcion2")}
               >
                 Opción 2
               </li>
@@ -54,7 +53,7 @@ const Sidebar = () => {
         )}
         <main className="content">
           {activeView === "productos" && <ProductAdministration />}
-          {activeView === "opcion2" && <div>Contenido de Opción 2</div>}
+          {activeView === "opcion2" && <div>Contenido de Opción 3</div>}
           {activeView === "opcion3" && <div>Contenido de Opción 3</div>}
           {activeView === "opcion4" && <div>Contenido de Opción 4</div>}
         </main>
