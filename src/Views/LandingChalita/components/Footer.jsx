@@ -2,6 +2,7 @@
 import facebook from '../../../assets/svg/facebook.svg'
 import instagram from '../../../assets/svg/instagram.svg'
 import twitter from '../../../assets/svg/twitter.svg'
+import capyLogo from '../../../assets/img/companyLogo.png'
 import '../styles/component styles/footer.css'
 import '../../../styles config/tailwind.css'
 export const Footer = () => {
@@ -35,8 +36,11 @@ export const Footer = () => {
                 </div>
             </div>
             <div className="copy-cont">
-                <span>© 2024 Desarrollado por <a className='font-bold' href="https://main--capysharksdevs.netlify.app/" target="_blank">CapySharks Dev SRL</a> Empresa de Desarrollo de Software
+                <div className="flex items-center justify-center">
+                <img className='w-20 h-20' src={capyLogo} alt="no furulo we" />
+                <span>© 2024 Desarrollado por <a className='font-bold' href="https://main--capysharksdevs.netlify.app/" target="_blank">CapySharks Dev SRL</a> Empresa de Desarrollo de Software 
                 </span>
+                </div>
             </div>
         </div>
     )

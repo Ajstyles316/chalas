@@ -216,7 +216,7 @@ export function AuthProvider({ children }) {
 
           if (userDoc.exists()) {
             userRole = role;
-            profileDara = userDoc.data();
+            profileData = userDoc.data();
             break;
           }
         }
