@@ -6,7 +6,7 @@ import '../styles/RegisterProvider.css';
 
 export const RegisterProvider = () => {
     const navigate = useNavigate();
-    const { registerProvider, addProviderData } = useAuth(); // Usa las funciones del contexto
+    const { registerProvider, registerProfile} = useAuth(); // Usa las funciones del contexto
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
@@ -64,15 +64,20 @@ export const RegisterProvider = () => {
     }
 
     try {
-        
-        await registerProvider(formData);
-
+        console.log("Formulario enviado:", formData);
+        const user = await registerProvider(formData);
+    
+        console.log("Usuario creado:", user);
+    
+        await registerProfile(user, formData);
+    
         alert('Proveedor registrado exitosamente.');
-        navigate('/provider');
+        navigate('/DashboardProvider');
     } catch (error) {
         console.error('Error al registrar el proveedor:', error);
         alert('Hubo un error al registrar el proveedor.');
     }
+    
 };
 
 
