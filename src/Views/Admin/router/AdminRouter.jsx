@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { UsersView } from "../views/UsersView"
+import { UsersView } from "src/Views/Admin/views/UsersView.jsx"
 
 import '../index.css'
 import { EventsView } from "../views/EventsView"

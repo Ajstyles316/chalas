@@ -3,7 +3,7 @@ import gracias from "../imagenes/Icon.png";
 import PropTypes from "prop-types";
 import { guardarCalificacion } from "../services/firebaseFunctions";
 
-const CalificarCompra = ({ carrito, onConfirmar }) => {
+const CalificarCompra = ({ onConfirmar }) => {
   const [starc, setCalificacion] = useState(0);
 
   const handleStarClick = (rating) => {
@@ -15,10 +15,11 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
       alert("Por favor, califica tu experiencia antes de confirmar.");
       return;
     }
-
+  
     await guardarCalificacion(starc);
-    onConfirmar();
+    onConfirmar(); // Llama para cerrar el modal después de guardar
   };
+  
 
   const styles = {
     container: {
@@ -38,7 +39,7 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
       margin: "15px 0",
     },
     estrella: {
-      fontSize: "30px",
+      fontSize: "50px",
       cursor: "pointer",
       margin: "0 5px",
       transition: "color 0.3s ease",
@@ -85,9 +86,6 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
       <p>Gracias por tu Compra</p>
       <button style={styles.btnConfirmar} onClick={handleConfirmar}>
         Confirmar
-      </button>
-      <button style={styles.btnCerrar} onClick={onConfirmar}>
-        Cerrar
       </button>
     </div>
   );
