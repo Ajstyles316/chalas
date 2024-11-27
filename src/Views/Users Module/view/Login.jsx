@@ -9,6 +9,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useAuth } from "../../../context/AuthContext";
 import { UserTerms } from "../components/UserTerms";
 import { SlControlPause } from "react-icons/sl";
+import { Eye, EyeOff } from "lucide-react";
 
 export const Login = () => {
   const { login, register, loginWithGoogle, loginWithFacebook, resetPassword } = useAuth();
@@ -95,7 +96,7 @@ export const Login = () => {
         </div>
         <div className="relative">
           <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-            Contraseña
+            Contraseña - Mínimo 6 caractetres
           </label>
           <input
             type={showPassword ? "text" : "password"}
@@ -106,31 +107,35 @@ export const Login = () => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+            className="mt-5 absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
           >
-            {showPassword ? "Ocultar" : "Mostrar"}
+            {showPassword ? <Eye/> : <EyeOff/>}
           </button>
+          
         </div>
         <div className="flex items-center mt-4">
           <ReCAPTCHA sitekey="6Ld134EqAAAAAGDUQXhbFtodSTi8jzJrrwI_bCUz" onChange={() => setIsHuman(true)} />
         </div>
-        <div className="flex items-center mt-4">
-          <input
-            required
-            type="checkbox"
-            id="terms"
-            checked={isChecked}
-            onChange={() => setIsChecked(!isChecked)}
-            className="h-6 w-6  rounded-sm text-orange-600 m-2 "
-          />
-          <button
-            type="button"
-            onClick={() => setShowTerms(true)} // Abre el modal con términos si es necesario
-            className="text-orange-600 underline hover:text-orange-500"
-          >
-            Términos y Condiciones
-          </button>
-        </div>
+        {formType === "register" && (
+          <div className="flex items-center mt-4">
+            <input
+              required
+              type="checkbox"
+              id="terms"
+              checked={isChecked}
+              onChange={() => setIsChecked(!isChecked)}
+              className="h-6 w-6 rounded-sm text-orange-600 m-2"
+            />
+            <button
+              type="button"
+              onClick={() => setShowTerms(true)} // Abre el modal con términos si es necesario
+              className="text-orange-600 underline hover:text-orange-500"
+            >
+              Términos y Condiciones
+            </button>
+          </div>
+        )}
+
         <button
           type="submit"
           disabled={!isHuman}

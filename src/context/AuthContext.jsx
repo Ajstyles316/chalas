@@ -153,24 +153,32 @@ export function AuthProvider({ children }) {
   };
 
   const loginWithFacebook = async () => {
-    const facebookProvider = new FacebookAuthProvider(auth, facebookProvider);
-    const result = await signInWithPopup(auth, facebookProvider);
-    const user = result.user;
-
-    const userDocRef = doc(db, "client", user.uid);
-    const userDoc = await getDoc(userDocRef);
-
-    if (!userDoc.exists()) {
-      await setDoc(userDocRef, {
-        uid: user.uid,
-        email: user.email,
-        role: "client",
-        createdAt: new Date().toISOString(),
-        isActive: true,
-      });
+    try {
+      const facebookProvider = new FacebookAuthProvider();
+      const result = await signInWithPopup(auth, facebookProvider);
+      const user = result.user;
+  
+      
+      const userDocRef = doc(db, "client", user.uid);
+      const userDoc = await getDoc(userDocRef);
+  
+      if (!userDoc.exists()) {
+        
+        await setDoc(userDocRef, {
+          uid: user.uid,
+          email: user.email || null, 
+          role: "client",
+          createdAt: new Date().toISOString(),
+          isActive: true,
+        });
+      }
+  
+      return user;
+    } catch (error) {
+      console.error("Error al iniciar sesión con Facebook:", error);
+      throw error; 
     }
-    return user;
-  }
+  };
 
   const logout = async () => {
     return signOut(auth);
