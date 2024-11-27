@@ -27,11 +27,11 @@ export const obtenerProductosDelCarrito = async () => {
 // Función para actualizar producto en el carrito
 export const actualizarProductoEnCarrito = async (productoId, cantidad) => {
   try {
-    const productoRef = doc(db, "cart", productoId);
-    await updateDoc(productoRef, { cantidad }); // Actualiza la cantidad del producto
-    console.log("Producto actualizado en el carrito");
+    const productoRef = doc(db, 'cart', productoId);
+    await updateDoc(productoRef, { cant: cantidad }); // Asegúrate de que el campo se llama 'cant'
+    console.log(`Cantidad actualizada en Firebase para el producto con ID: ${productoId}`);
   } catch (error) {
-    console.error("Error al actualizar producto en el carrito: ", error);
+    console.error('Error al actualizar producto en el carrito:', error);
   }
 };
 

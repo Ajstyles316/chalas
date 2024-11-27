@@ -2,9 +2,12 @@ import React from 'react';
 import { Search, MessageSquare, Bell, User } from 'lucide-react';
 import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router';
+import { useAuth } from '../../../context/AuthContext';
 
 const auth = getAuth();
 export default function Navbar() {
+
+  const {user} = useAuth();
 
   const navigate = useNavigate();
 
@@ -27,7 +30,7 @@ export default function Navbar() {
               <h1 className="text-2xl font-bold text-black">
                 ChalitaOE
               </h1>
-              <span className="text-xs text-gray-500">Bienvenido Usuario!</span>
+              <span className="text-xs text-gray-500">Bienvenido  e {user.email}!</span>
             </div>
           </div>
 

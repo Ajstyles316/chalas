@@ -5,7 +5,7 @@ import "../Styles/ratingStars.css";
 
 export const RatingStars = () => {
   return (
-    <div className="rating-container">
+    <div className="flex ml-0 items-center">
       <FaStar size={32} />
       <FaStar size={32} />
       <FaStar size={32} />

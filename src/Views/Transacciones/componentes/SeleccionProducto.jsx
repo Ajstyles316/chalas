@@ -1,14 +1,17 @@
 import { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/SeleccionProducto.css';
-import { DataContext } from '../context/context';
+import { CartContext } from '../context/context';
 import { collection, getDocs } from "firebase/firestore"; 
 import { db } from '../../../Firebase/config';
+import CalificarCompra from './Calificacion';
+
 
 const SeleccionProducto = () => {
   const [productos, setProductos] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(0);
-  const { addToCart } = useContext(DataContext);
+  const { addToCart } = useContext(CartContext);
+  const [mostrarCalificacion, setMostrarCalificacion] = useState(false);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -34,10 +37,17 @@ const SeleccionProducto = () => {
     addToCart(productoSeleccionado);
   };
 
+  const abrirCalificacion = () => {
+    setMostrarCalificacion(true);
+  };
+  const cerrarCalificacion = () => {
+    setMostrarCalificacion(false);
+  };
+
   return (
     <div className="transacciones">
       <div className="titulo-container">
-        <h2>Selección de Producto</h2>
+        <h2>¿Quieres escoger algún Producto?</h2>
       </div>
 
       {productos.length > 0 ? (
@@ -71,7 +81,7 @@ const SeleccionProducto = () => {
             <p>{productos[selectedProduct].description}</p>
           </div>
           <div className="product-price">
-            <p>{productos[selectedProduct]?.precio || '75-150'} Bs.</p>
+          <p>Precio: Bs. {productos[selectedProduct]?.price || "No disponible"}</p>
           </div>
         </div>
       )}
@@ -85,7 +95,18 @@ const SeleccionProducto = () => {
             className="btn-icon"
           />
         </button>
+        <button className="btn-calificar" onClick={abrirCalificacion}>
+           Calificar Producto
+        </button>
       </div>
+      {mostrarCalificacion && (
+      <div className="modal">
+        <CalificarCompra
+          producto={productos[selectedProduct]}
+          onConfirmar={cerrarCalificacion}
+        />
+      </div>
+    )}
     </div>
   );
 };

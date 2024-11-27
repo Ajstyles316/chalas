@@ -1,46 +1,78 @@
-.input-codigo {
+.codigo-descuento-container {
+  padding: 20px;
+  max-width: 400px;
+  margin:auto;
+  text-align: center;
+  border: 10px transparent #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  gap: 10px;
+}
+
+.codigo-descuento-titulo {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.codigo-descuento-input-container {
+  margin-bottom: 10px;
+}
+
+.codigo-descuento-input {
+  width: 100%;
   padding: 10px;
-  margin: 10px 0;
-  width: 90%;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
 }
-.input-text{
-  width: 90%;
+
+.codigo-descuento-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
-.btn-aplicar {
-  background-color: #ffcc00;
-  border: none;
+
+.codigo-descuento-boton {
   padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.btn-aplicar:hover {
-  background-color: #ffdd33;
-}
-.transacciones {
-  width: 400px;
-    padding: 20px;
-    border-radius: 15px; /* Bordes redondeados */
-    background: linear-gradient(to bottom, #ffcc66, #ff9966); /* Degradado */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    margin: auto;
-}
-
-.btn-generar {
-  background-color: #4285f4; /* Azul */
+  font-size: 16px;
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.btn-generar:hover {
-  background-color: #357ae8; /* Azul más oscuro */
+.codigo-descuento-boton:hover {
+  background-color: #0056b3;
 }
 
-.codigo-generado {
+.codigo-descuento-mensaje {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.codigo-descuento-mensaje.exito {
+  color: green;
+}
+
+.codigo-descuento-mensaje.error {
+  color: red;
+}
+.codigo-descuento-resumen {
   margin-top: 20px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.codigo-descuento-resumen p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.codigo-descuento-resumen p:last-child {
+  font-weight: bold;
 }

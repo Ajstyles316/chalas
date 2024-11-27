@@ -32,6 +32,8 @@ import ProfileForm from "./Views/Products Module/components/ProfileForm";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoutes } from "./security/ProtectedRoutes";
 import UnauthorizedView from "./Views/Users Module/view/UnauthorizedView";
+import { LoginNew } from "./Views/Users Module/view/LoginNew";
+import { RegisterProviderNew } from "./Views/Users Module/view/RegisterProviderNew";
 
 function App() {
   const auth = getAuth(appFirebase);
@@ -54,47 +56,78 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <UserProvider>
-        <Routes>
-          {/* PUBLICO */}
-          <Route path="/unauthorized" element={<UnauthorizedView />} />
-          <Route path="/" element={<LandingHome />} />
-          <Route path="/aboutus" element={<LandingAboutUs />} />
-          <Route path="/contact" element={<LandingContact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/registerprovider" element={<RegisterProvider />} />
-          <Route path="/ClientProvider" element={<ClientProviderView />} />
+          <Routes>
+            {/* PUBLICO */}
+            <Route path="/unauthorized" element={<UnauthorizedView />} />
+            <Route path="/" element={<LandingHome />} />
+            <Route path="/aboutus" element={<LandingAboutUs />} />
+            <Route path="/contact" element={<LandingContact />} />
+            <Route path="/login" element={<LoginNew />} />
+            <Route path="/registerprovider" element={<RegisterProviderNew />} />
+            <Route path="/ClientProvider" element={<ClientProviderView />} />
 
 
-          {/* PROVVEDORORES */}
-          {/* <Route element={<ProtectedRoutes allowedRoles={['provider']} />}> */}
-          <Route path="/supplier" element={<SupplierProfile />} />
-          <Route path="/DashboardProvider" element={<Sidebar />} />
-          <Route path="/edit-profile" element={<ProfileForm />} />
-          {/* </Route> */}
+            {/* PROVVEDORORES */}
+            {/* <Route element={<ProtectedRoutes allowedRoles={['provider']} />}> */}
+            <Route path="/supplier" element={
+              <ProtectedRoutes allowedRoles={['provider', 'admin']}>
+                <SupplierProfile />
+              </ProtectedRoutes>
+            } />
+            <Route path="/DashboardProvider" element={
+              <ProtectedRoutes allowedRoles={['provider', 'admin']}>
+                <Sidebar />
+              </ProtectedRoutes>
+            } />
+            <Route path="/edit-profile" element={<ProfileForm />} />
+            {/* </Route> */}
 
-          {/* ADMINROUTES */}
-          {/* <Route element={<ProtectedRoutes allowedRoles={['admin']} />}> */}
-            <Route path="/admin" element={<AdminLayout />} />
-            <Route path="/userList" element={<UsersList />} />
-            <Route path="/clients" element={<UsersView />} />
-            <Route path="/orders" element={<OrdersView />} />
-            <Route path="/reports" element={<ReportsView />} />
-            <Route path="/events" element={<EventsView />} />
-          {/* </Route> */}
+            {/* ADMINROUTES */}
+            {/* <Route element={<ProtectedRoutes allowedRoles={['admin']} />}> */}
+            <Route path="/admin" element={
+              <ProtectedRoutes allowedRoles={['admin']}>
+                <AdminLayout />
+              </ProtectedRoutes>
+            } />
+            <Route path="/userList" element={
+              <ProtectedRoutes allowedRoles={['admin']}>
+                <UsersList />
+              </ProtectedRoutes>
+            } />
+            <Route path="/clients" element={
+              <ProtectedRoutes allowedRoles={['admin']}>
+                <UsersView />
+              </ProtectedRoutes>
+            } />
+            <Route path="/orders" element={
+              <ProtectedRoutes allowedRoles={['admin']}>
+                <OrdersView />
+              </ProtectedRoutes>
+            } />
+            <Route path="/reports" element={
+              <ProtectedRoutes allowedRoles={['admin']}>
+                <ReportsView />
+              </ProtectedRoutes>
+            } />
+            <Route path="/events" element={
+              <ProtectedRoutes allowedRoles={['admin']}>
+                <EventsView />
+              </ProtectedRoutes>
+            } />
+            {/* </Route> */}
 
-          {/* </ProtectedRoutes> */}
+            {/* </ProtectedRoutes> */}
 
+            {/* Rutas protegidas para CLIENTES y ADMIN */}
 
-
-          {/* Rutas protegidas para CLIENTES y ADMIN */}
-
-            <Route path="/clienthome" element={<LayoutClient />} />
+            <Route path="/clienthome" element={
+              // <ProtectedRoutes allowedRoles={['client', 'admin']}>
+                <LayoutClient />
+              //</ProtectedRoutes> 
+            } />
             <Route path="/transacciones" element={<Transacciones />} />
 
-
-
-
-        </Routes>
+          </Routes>
 
         </UserProvider>
       </BrowserRouter>

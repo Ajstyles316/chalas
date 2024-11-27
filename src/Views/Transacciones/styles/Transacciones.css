@@ -1,40 +1,54 @@
-.transacciones-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px; /* Espacio entre las secciones */
+.vista-transacciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+.transaccionnombre h1{
+  font-size: 3rem; /* Tamaño grande del texto */
+  font-weight: bold; /* Negrita */
+  color: #333; /* Color del texto (puedes personalizarlo) */
+  text-align: center; /* Centrar el texto horizontalmente */
+  margin-bottom: 20px; /* Espaciado inferior */
+  text-transform: uppercase; /* Opcional: convertir el texto a mayúsculas */
+  letter-spacing: 2px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  background-color: transparent;
+}
+.seccion-productos,
+.seccion-carrito,
+.seccion-descuento {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.seccion-carrito{
+  max-height: 800px; /* Ajusta la altura máxima según necesites */
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #ddd; /* Opcional: para destacar el área */
+  background-color: #f9f9f9;
+}
+.seccion-descuento {
+  text-align: center; /* Centrar el contenido del descuento */
 }
 
-/* Estilos para el botón de Código de Descuento */
-
-
-/* Contenedor para el carrito */
-.carrito-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%; /* Asegura que el carrito esté alineado al centro */
-}
-
-/* Media Queries para dispositivos móviles y tabletas */
 @media (max-width: 768px) {
-    .codigoDescuento {
-        font-size: 14px; /* Ajusta el tamaño del texto */
-        padding: 8px 15px;
-        margin-top: 50px; /* Reduce la separación */
-        max-width: 250px; /* Reduce el ancho máximo en pantallas pequeñas */
-    }
+  .vista-transacciones {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .codigoDescuento img {
-        width: 20px;
-        height: 30px;
-    }
-
-    .transacciones-container {
-        gap: 15px; /* Reduce el espacio entre secciones */
-    }
-
-    .carrito-container {
-        padding: 10px; /* Añade un poco de espacio lateral en pantallas pequeñas */
-    }
+  .seccion-productos,
+  .seccion-carrito,
+  .seccion-descuento {
+    max-width: 100%;
+  }
 }

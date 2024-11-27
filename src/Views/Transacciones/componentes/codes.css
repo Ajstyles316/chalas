@@ -1,0 +1,43 @@
+.discount-codes-container {
+  width: 350px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  right: 5px; /* Espaciado desde la derecha */
+  top: 100px; /* Espaciado desde el top */
+  z-index: 500; /* Prioridad sobre otros elementos */
+  max-height: calc(100vh - 140px); /* Evita que el contenedor se salga de la pantalla */
+  height:480px;
+}
+
+.discount-codes-container h3 {
+  text-align: center;
+  color: #ff6f00;
+  margin-bottom: 20px;
+}
+
+.discount-card {
+  background: #fdf6ec;
+  border: 1px solid #ffcc80;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  transition: transform 0.2s ease; /* Añade un pequeño efecto */
+}
+
+.discount-card:hover {
+  transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el cursor */
+}
+
+.discount-card h4 {
+  font-size: 16px;
+  color: #333;
+  margin: 0 0 5px;
+}
+
+.discount-card p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}

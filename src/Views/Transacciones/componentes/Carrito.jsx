@@ -1,65 +1,135 @@
-import { useContext } from 'react';
-import { DataContext } from '../context/context.jsx';
-import "../styles/Carrito.css"
+import { useContext, useState } from 'react';
+import { CartContext } from '../context/context';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../../../Firebase/config';
+import '../styles/Carrito.css';
+import CalificarCompra from './Calificacion';
 
 const Carrito = () => {
-    const { carrito: [productos, setProductos], total: [total] } = useContext(DataContext);
+  const context = useContext(CartContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [codigoDescuento, setCodigoDescuento] = useState(''); // Estado para mostrar el código generado
 
-    const handleEliminarProducto = (id) => {
-        const nuevosProductos = productos.filter((producto) => producto.id !== id);
-        setProductos(nuevosProductos);
-    };
-
-    return (
-        <div className="carrito-container">
-            <h2 className="carrito-titulo">Carrito de Compras</h2>
-            {productos.length > 0 ? (
-                productos.map((producto) => (
-                    <div className="carrito-item" key={producto.id}>
-                        <img 
-                            src={producto.imagen} 
-                            alt={producto.nombre} 
-                            className="carrito-imagen" 
-                        />
-                        <div className="carrito-precio">
-                            <p className="carrito-nombre">{producto.nombre}</p>
-                            <p className="carrito-costo">Precio: ${producto.precio}</p>
-                            <input
-                                type="number"
-                                className="input-cantidad"
-                                defaultValue={producto.cantidad}
-                                min="1"
-                                onChange={(e) => {
-                                    const nuevosProductos = productos.map((prod) => {
-                                        if (prod.id === producto.id) {
-                                            prod.cantidad = parseInt(e.target.value);
-                                        }
-                                        return prod;
-                                    });
-                                    setProductos(nuevosProductos);
-                                }}
-                            />
-                        </div>
-                        <button
-                            className="btn-eliminar"
-                            onClick={() => handleEliminarProducto(producto.id)}
-                        >
-                            Eliminar
-                        </button>
-                    </div>
-                ))
-            ) : (
-                <p className="carrito-vacio">Tu carrito está vacío.</p>
-            )}
-            <div className="carrito-total">
-                <p className="total-texto">Total: ${total}</p>
-            </div>
-            <div className="codigo-y-aceptar">
-                <button className="btn-codigo">Código de Descuento</button>
-                <button className="btn-aceptar">Aceptar</button>
-            </div>
-        </div>
+  if (!context) {
+    console.error(
+      'CartContext no está disponible. Asegúrate de envolver tu componente en el proveedor de CartContext.'
     );
+    return <p>Hubo un error al cargar el carrito. Por favor, inténtalo de nuevo más tarde.</p>;
+  }
+
+  const { cart, removeFromCart, setCart } = context;
+
+  // Generar un código de descuento aleatorio y agregarlo a Firebase
+  const generarCodigoDescuento = async () => {
+    const codigo = 'DESC' + Math.random().toString(36).substring(2, 8).toUpperCase(); // Código aleatorio
+    const descuento = Math.random() * 0.2; // Genera un porcentaje de descuento entre 0 y 50%
+
+    try {
+      await addDoc(collection(db, 'descount'), {
+        code: codigo,
+        desc: descuento,
+        valid: true,
+      });
+      setCodigoDescuento(codigo); // Guarda el código generado en el estado
+    } catch (error) {
+      console.error('Error guardando el código de descuento:', error);
+    }
+  };
+
+  const guardarEnFirebase = async () => {
+    try {
+      for (const producto of cart) {
+        // Asignar un precio predeterminado si no existe
+        const precioFinal = producto.price || 75;
+
+        const docRef = await addDoc(collection(db, 'cart'), {
+          cant: producto.cantidad,
+          imgURL: producto.imageUrl,
+          name_product: producto.name_product,
+          price: precioFinal,
+        });
+        console.log(`Producto guardado con ID: ${docRef.id}`);
+      }
+      alert('Transacción en el Carrito.');
+      await generarCodigoDescuento(); // Genera el código después de aceptar la transacción
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error('Error guardando el carrito:', error);
+      alert('Hubo un error al guardar el carrito.');
+    }
+  };
+
+  const cerrarModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const actualizarCantidad = async (productoId, nuevaCantidad) => {
+    try {
+      // Actualiza en Firebase y el carrito local
+      setCart((prevCart) =>
+        prevCart.map((producto) =>
+          producto.id === productoId
+            ? { ...producto, cantidad: nuevaCantidad }
+            : producto
+        )
+      );
+    } catch (error) {
+      console.error('Error actualizando cantidad:', error);
+      alert('Hubo un error al actualizar la cantidad.');
+    }
+  };
+
+  return (
+    <div className="carrito-container">
+      <img src="https://cdn-icons-png.flaticon.com/128/2098/2098566.png" alt="Carrito" />
+      {cart.length > 0 ? (
+        <>
+          <div className="carrito-items">
+            {cart.map((producto, index) => (
+              <div className="carrito-item" key={index}>
+                <img src={producto.imageUrl} alt={producto.name_product || 'Producto'} />
+                <div className="carrito-details">
+                  <h4>{producto.name_product || 'Producto sin nombre'}</h4>
+                  <p>Cantidad:</p>
+                  <input
+                    type="number"
+                    min="1"
+                    value={producto.cantidad}
+                    onChange={(e) => {
+                      const nuevaCantidad = parseInt(e.target.value, 10);
+                      if (!isNaN(nuevaCantidad) && nuevaCantidad > 0) {
+                        actualizarCantidad(producto.id, nuevaCantidad);
+                      } else {
+                        alert('Por favor, introduce un número válido.');
+                      }
+                    }}
+                  />
+                  <p>Precio: {producto.price || 75} Bs.</p>
+                  <div className="carrito-actions">
+                    <button className="eliminar-btn" onClick={() => removeFromCart(producto.id)}>
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className="carrito-save" onClick={guardarEnFirebase}>
+            Aceptar
+          </button>
+          <div className="codigo-descuento-container">
+            {codigoDescuento && (
+              <p>
+                Tu código de descuento es: <strong>{codigoDescuento}</strong>
+              </p>
+            )}
+          </div>
+        </>
+      ) : (
+        <p>El carrito está en espera.</p>
+      )}
+    </div>
+  );
 };
 
 export default Carrito;

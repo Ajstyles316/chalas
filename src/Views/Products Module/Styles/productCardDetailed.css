@@ -12,6 +12,8 @@
 .product-image {
     position: relative;
     background-color: #FFFFFF;
+    width: 500px;
+
     flex: 1;
 }
 
@@ -42,7 +44,7 @@
 }
 
 .product-info {
-    /* flex: 1; */
+    flex: 1;
     background-color: #FDD46B;
     display: flex;
     flex-direction: column;

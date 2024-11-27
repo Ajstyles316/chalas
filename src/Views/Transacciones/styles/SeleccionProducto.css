@@ -1,134 +1,134 @@
 .transacciones {
-  position: absolute;
-  top: 128px;
-  /* Y position */
-  left: 329px;
-  /* X position */
-  width: 380px;
-  /* Width */
-  height: 407px;
-  /* Height */
   padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* Sombra suave */
-  margin: auto;
-  color: black;
   text-align: center;
-  background-color: #D9D9D9;
+  background-color: #f9f9f9;
+  font-size: 20px;
 }
 
 .product-selection {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  justify-content: space-between; /* Asegura que las flechas estén en los extremos */
+  gap: 20px; /* Espacio entre la imagen y las flechas */
+}
+
+.titulo-container h2{
+  font-size: 1.5rem; /* Tamaño grande del texto */
+  font-weight: bold; /* Negrita */
+  color: #333; /* Color del texto (puedes personalizarlo) */
+  text-align: center; /* Centrar el texto horizontalmente */
+  margin-bottom: 20px; /* Espaciado inferior */
+  letter-spacing: 2px;
+}
+
+.product-selection img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .arrow-btn {
-  background: none;
-  border: none;
   font-size: 24px;
+  background-color: #f1c54a;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  color: black;
 }
 
-.product-selection-image {
-  width: 200px;
-  height: 150px;
-  object-fit: cover;
-}
-
-/* Centramos el contenido de contexto */
 .contexto {
-  text-align: center;
-  /* Para centrar el texto */
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-.contexto h3 {
+.product-price,
+.boton-container-trac {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.product-name h3{
+  margin: 0;
+  text-align:var(#28a745);
+}
+.product-price p {
+  font-size: 20px;
+  margin: 5px 0;
   color: black;
 }
+.product-description{
+  margin: 0;
+}
+.product-name h3 {
+  margin: 0;
+}
 
-/* Estilos para el botón */
-.btn-agregar {
-  background-color: #FCD05F;
-  opacity: 1;
-  width: 209px;
-  height: 63px;
+.boton-container-trac {
+  display: flex;
+  flex-direction: column; /* Esto los apila verticalmente */
+  gap: 10px;
+}
+
+.btn-agregar-trac {
+  background-color: #28a745;
+  color: white;
   padding: 10px 20px;
-  margin: 10px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  border-radius: 100px;
-  color: black;
-  display: block;
-  /* Para que el botón sea un bloque y fácil de alinear */
-  margin-left: auto;
-  margin-right: auto;
-  /* Centramos el botón */
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.btn-agregar:hover {
-  background-color: #ffdd33;
+.btn-agregar-trac img {
+  width: 20px;
+}
+.btn-calificar {
+  background-color: #f3db06;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.btn-agregar img {
-  /* Espacio entre el texto y el ícono */
-  width: 17px;
-  height: 17px;
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.btn-cancelar {
-  background-color: white;
-  border: 1px solid #ccc;
-}
 
-.btn-cancelar:hover {
-  background-color: #f2f2f2;
-}
-
-/* Para pantallas pequeñas (móviles) */
-@media (max-width: 600px) {
-  .transacciones {
-    padding: 15px;
+@media (max-width: 768px) {
+  .product-selection {
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .btn-agregar {
-    padding: 10px;
-    font-size: 14px;
+  .arrow-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
   }
 
-  img {
-    max-width: 150px;
-  }
-}
-
-/* Para pantallas medianas (tablets) */
-@media (min-width: 601px) and (max-width: 1024px) {
-  .transacciones {
-    padding: 20px;
-  }
-
-  img {
-    max-width: 180px;
-  }
-
-  .btn-agregar {
-    max-width: 180px;
-  }
-}
-
-/* Para pantallas grandes */
-@media (min-width: 1025px) {
-  .transacciones {
-    max-width: 400px;
-  }
-
-  .product-selection-image {
+  .product-selection img {
     max-width: 200px;
-  }
-
-  .btn-agregar {
-    max-width: 209px;
   }
 }
