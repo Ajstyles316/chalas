@@ -32,6 +32,7 @@ import ProfileForm from "./Views/Products Module/components/ProfileForm";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoutes } from "./security/ProtectedRoutes";
 import UnauthorizedView from "./Views/Users Module/view/UnauthorizedView";
+import { LoginNew } from "./Views/Users Module/view/LoginNew";
 
 function App() {
   const auth = getAuth(appFirebase);
@@ -60,7 +61,7 @@ function App() {
             <Route path="/" element={<LandingHome />} />
             <Route path="/aboutus" element={<LandingAboutUs />} />
             <Route path="/contact" element={<LandingContact />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<LoginNew />} />
             <Route path="/registerprovider" element={<RegisterProvider />} />
             <Route path="/ClientProvider" element={<ClientProviderView />} />
 
@@ -119,9 +120,9 @@ function App() {
             {/* Rutas protegidas para CLIENTES y ADMIN */}
 
             <Route path="/clienthome" element={
-              <ProtectedRoutes allowedRoles={['client', 'admin']}>
+              // <ProtectedRoutes allowedRoles={['client', 'admin']}>
                 <LayoutClient />
-              </ProtectedRoutes>
+              //</ProtectedRoutes> 
             } />
             <Route path="/transacciones" element={<Transacciones />} />
 
