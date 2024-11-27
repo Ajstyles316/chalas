@@ -3,6 +3,7 @@ import ProductAdministration from "../views/ProductAdministration";
 import "../Styles/sidebar.css";
 import Navbar from "./Navbar"; // Reemplazado TopBar por Navbar
 import LogoApp from "../../../assets/img/appLogo.jpeg";
+import Footer from "../../Client/components/Footer";
 
 const Sidebar = () => {
   const [activeView, setActiveView] = useState("productos");
@@ -58,6 +59,7 @@ const Sidebar = () => {
           {activeView === "opcion4" && <div>Contenido de Opción 4</div>}
         </main>
       </div>
+      <Footer />
     </div>
   );
 };
