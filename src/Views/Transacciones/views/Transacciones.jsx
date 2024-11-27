@@ -2,14 +2,18 @@ import SeleccionProducto from '../componentes/SeleccionProducto';
 import { CartProvider } from '../context/context';
 import Carrito from '../componentes/Carrito';
 import CodigoDescuento from '../componentes/CodigoDescuento';
-import Navbar from '../../Products Module/components/NavBarClient';
+import NavbarTranc from '../componentes/Tranc'
 import '../styles/Transacciones.css';
 
 const Transacciones = () => {
   return (
     <CartProvider>
-      <Navbar />
+      <NavbarTranc />
+      <div className="transaccionnombre">
+        <h1>Transacciones</h1>
+      </div>
       <div className="vista-transacciones">
+      
         <div className="seccion-productos">
           <SeleccionProducto />
         </div>
@@ -20,6 +24,7 @@ const Transacciones = () => {
           <CodigoDescuento />
         </div>
       </div>
+      
     </CartProvider>
   );
 };

@@ -6,11 +6,12 @@ import SupplierProducts from "../components/SupplierProducts";
 import { useNavigate } from "react-router-dom";
 import ProductCardDetailed from "../components/ProductCardDetailed";
 import { useUser } from "../../../Firebase/UserContext";
-import Navbar from "../components/Navbar";
+import Navbar from '../components/Navbar'
 import { Pencil } from "lucide-react";
 import { db } from "../../../Firebase/config";
 import { doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth"; // Asegúrate de importar esto para obtener el auth
+import Footer from "../../Client/components/Footer";
 
 const SupplierProfile = () => {
   const { user, loading, error } = useUser();
@@ -133,6 +134,7 @@ const SupplierProfile = () => {
           </div>
         </div>
       )}
+      <Footer/>
     </div>
   );
 };

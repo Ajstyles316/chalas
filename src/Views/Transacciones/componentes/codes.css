@@ -1,14 +1,14 @@
 .discount-codes-container {
-  width: 300px;
+  width: 350px;
   background: #fff;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  right: 20px; /* Espaciado desde la derecha */
-  top: 120px; /* Espaciado desde el top */
-  z-index: 1000; /* Prioridad sobre otros elementos */
-  overflow-y: auto; /* Permite scroll interno si el contenido crece */
+  right: 5px; /* Espaciado desde la derecha */
+  top: 100px; /* Espaciado desde el top */
+  z-index: 500; /* Prioridad sobre otros elementos */
   max-height: calc(100vh - 140px); /* Evita que el contenedor se salga de la pantalla */
+  height:480px;
 }
 
 .discount-codes-container h3 {

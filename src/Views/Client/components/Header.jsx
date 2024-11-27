@@ -7,6 +7,7 @@ import { signOut, getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../../context/AuthContext';
 import UnauthorizedView from '../../Users Module/view/UnauthorizedView';
+import DiscountCodes from '../../Transacciones/componentes/DiscountCodes';
 
 function Hit({ hit }) {
   return (
@@ -28,7 +29,7 @@ const Header = () => {
   const { user } = useAuth();
 
   console.log({ user });
-
+  const [isDiscountCodesVisible, setIsDiscountCodesVisible] = useState(false); 
   const [hasText, setHasText] = useState(false);
   const [showHits, setShowHits] = useState(false); // Estado para controlar si los hits se muestran
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -53,6 +54,9 @@ const Header = () => {
   const toggleMenuClient = () => {
     setIsMenuClientOpen((prevState) => !prevState)
   }
+  const toggleDiscountCodes = () => {
+    setIsDiscountCodesVisible((prevState) => !prevState);
+  };
   const handleInputChange = (event) => {
     setShowHits(true); // Oculta los hits al presionar Enter
     setHasText(event.target.value.trim().length > 0);
@@ -157,6 +161,13 @@ const Header = () => {
                 <ShoppingCart className="w-6 h-6" />
                 <span className="text-xs mt-1">Carrito</span>
               </button>
+              <button
+              className="flex flex-col items-center text-gray-600 hover:text-[#8B0000] transition-colors"
+              onClick={toggleDiscountCodes}
+            >
+              <Percent className="w-6 h-6" />
+              <span className="text-xs mt-1">Descuentos</span>
+            </button>
               <div className="relative">
                 <button onClick={toggleMenu} className="flex flex-col items-center text-gray-600 hover:text-[#8B0000] transition-colors">
                   <FilterIcon className="w-6 h-6" />
@@ -218,6 +229,11 @@ const Header = () => {
             </div>
           </div>
         </div>
+        {isDiscountCodesVisible && (
+        <div className="absolute top-20 right-4 w-100 h-96 bg-white border border-gray-300 rounded-lg shadow-lg overflow-y-auto z-20 p-4">
+          <DiscountCodes />
+        </div>
+      )}
       </header>
 
     );

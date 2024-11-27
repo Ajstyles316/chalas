@@ -419,4 +419,3 @@ export const RegisterProvider = () => {
         </div>
     );
 };
-

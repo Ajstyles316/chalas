@@ -6,7 +6,6 @@ import {
   softDeleteProduct,
   updateProduct,
 } from "../../../Firebase/api.js";
-import "../Styles/supplierProducts.css";
 
 const SupplierProducts = ({ onCardClick }) => {
   const [products, setProducts] = useState([]);
@@ -64,23 +63,32 @@ const SupplierProducts = ({ onCardClick }) => {
   };
 
   if (loading) {
-    return <div className="loading-message">Cargando productos...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen text-lg font-semibold text-gray-500">
+        Cargando productos...
+      </div>
+    );
   }
 
   return (
-    <div className="products-container">
-      <h1 className="title-products">Productos</h1>
-      <button className="add-product" onClick={handleAddProductClick}>
+    <div className="flex flex-col w-4/5 mx-auto bg-white rounded-2xl overflow-hidden">
+      <h1 className="text-center font-poppins font-semibold text-2xl mt-8 mb-5">
+        Productos
+      </h1>
+      <button
+        className="w-48 h-14 ml-9 bg-orange-400 rounded-xl border-2 border-black shadow-lg hover:scale-105 transition-all"
+        onClick={handleAddProductClick}
+      >
         Añadir nuevo producto
       </button>
       {showForm && (
-        <div className="overlay">
-          <div className="modal">
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg w-11/12 max-w-lg p-5 animate-fade-in">
             <ProductForm product={selectedProduct} onClose={handleFormClose} />
           </div>
         </div>
       )}
-      <div className="products-grid">
+      <div className="grid grid-cols-3 gap-9 p-9 justify-items-center overflow-x-auto sm:grid-cols-2 xs:grid-cols-1">
         {products.map((product) => (
           <ProductCard
             key={product.id}
