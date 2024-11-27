@@ -33,6 +33,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoutes } from "./security/ProtectedRoutes";
 import UnauthorizedView from "./Views/Users Module/view/UnauthorizedView";
 import { LoginNew } from "./Views/Users Module/view/LoginNew";
+import { RegisterProviderNew } from "./Views/Users Module/view/RegisterProviderNew";
 
 function App() {
   const auth = getAuth(appFirebase);
@@ -62,7 +63,7 @@ function App() {
             <Route path="/aboutus" element={<LandingAboutUs />} />
             <Route path="/contact" element={<LandingContact />} />
             <Route path="/login" element={<LoginNew />} />
-            <Route path="/registerprovider" element={<RegisterProvider />} />
+            <Route path="/registerprovider" element={<RegisterProviderNew />} />
             <Route path="/ClientProvider" element={<ClientProviderView />} />
 
 
