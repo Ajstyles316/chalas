@@ -5,7 +5,19 @@
   padding: 20px;
   background-color: #f4f4f4;
 }
-
+.transaccionnombre h1{
+  font-size: 3rem; /* Tamaño grande del texto */
+  font-weight: bold; /* Negrita */
+  color: #333; /* Color del texto (puedes personalizarlo) */
+  text-align: center; /* Centrar el texto horizontalmente */
+  margin-bottom: 20px; /* Espaciado inferior */
+  text-transform: uppercase; /* Opcional: convertir el texto a mayúsculas */
+  letter-spacing: 2px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  background-color: transparent;
+}
 .seccion-productos,
 .seccion-carrito,
 .seccion-descuento {
@@ -17,7 +29,13 @@
   padding: 20px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+.seccion-carrito{
+  max-height: 800px; /* Ajusta la altura máxima según necesites */
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #ddd; /* Opcional: para destacar el área */
+  background-color: #f9f9f9;
+}
 .seccion-descuento {
   text-align: center; /* Centrar el contenido del descuento */
 }

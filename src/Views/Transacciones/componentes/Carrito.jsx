@@ -124,13 +124,6 @@ const Carrito = () => {
               </p>
             )}
           </div>
-          {isModalOpen && (
-            <div className="modal">
-              <div className="modal-content">
-                <CalificarCompra carrito={[]} onConfirmar={cerrarModal} />
-              </div>
-            </div>
-          )}
         </>
       ) : (
         <p>El carrito está en espera.</p>
