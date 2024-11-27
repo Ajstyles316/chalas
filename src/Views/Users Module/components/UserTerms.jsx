@@ -22,9 +22,15 @@ export const UserTerms = ({ onAccept = () => { } }) => {
                 </div>
                 <div className="p-6 max-h-96 overflow-y-auto">
                     <p className="text-gray-700 mb-4">
-                        {textTerms.parragraph}
+                        {textTerms.parragraph.split('\n').map((line, index) => (
+                            <React.Fragment key={index}>
+                                {line}
+                                <br />
+                            </React.Fragment>
+                        ))}
                     </p>
                 </div>
+
                 <div className="p-6 border-t">
                     <label className="flex items-center mb-4 cursor-pointer">
                         <div className="mr-2 bg-gray-200 rounded-full p-1" onClick={() => setAccepted(!accepted)}>

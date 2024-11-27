@@ -4,11 +4,14 @@ import '../styles/SeleccionProducto.css';
 import { CartContext } from '../context/context';
 import { collection, getDocs } from "firebase/firestore"; 
 import { db } from '../../../Firebase/config';
+import CalificarCompra from './Calificacion';
+
 
 const SeleccionProducto = () => {
   const [productos, setProductos] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(0);
   const { addToCart } = useContext(CartContext);
+  const [mostrarCalificacion, setMostrarCalificacion] = useState(false);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -32,6 +35,13 @@ const SeleccionProducto = () => {
   const agregarProducto = () => {
     const productoSeleccionado = { ...productos[selectedProduct], cantidad: 1 };
     addToCart(productoSeleccionado);
+  };
+
+  const abrirCalificacion = () => {
+    setMostrarCalificacion(true);
+  };
+  const cerrarCalificacion = () => {
+    setMostrarCalificacion(false);
   };
 
   return (
@@ -85,7 +95,18 @@ const SeleccionProducto = () => {
             className="btn-icon"
           />
         </button>
+        <button className="btn-calificar" onClick={abrirCalificacion}>
+           Calificar Producto
+        </button>
       </div>
+      {mostrarCalificacion && (
+      <div className="modal">
+        <CalificarCompra
+          producto={productos[selectedProduct]}
+          onConfirmar={cerrarCalificacion}
+        />
+      </div>
+    )}
     </div>
   );
 };

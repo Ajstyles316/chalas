@@ -3,7 +3,7 @@ import gracias from "../imagenes/Icon.png";
 import PropTypes from "prop-types";
 import { guardarCalificacion } from "../services/firebaseFunctions";
 
-const CalificarCompra = ({ onConfirmar }) => {
+const CalificarCompra = ({ producto, onConfirmar }) => {
   const [starc, setCalificacion] = useState(0);
 
   const handleStarClick = (rating) => {
@@ -39,7 +39,7 @@ const CalificarCompra = ({ onConfirmar }) => {
       margin: "15px 0",
     },
     estrella: {
-      fontSize: "30px",
+      fontSize: "50px",
       cursor: "pointer",
       margin: "0 5px",
       transition: "color 0.3s ease",
@@ -65,7 +65,7 @@ const CalificarCompra = ({ onConfirmar }) => {
 
   return (
     <div style={styles.container}>
-      <h2 style={{ marginBottom: "15px" }}>Califica tu Experiencia</h2>
+      <h2 style={{ marginBottom: "15px" }}>Califica tu Experiencia con {producto.name_product}</h2>
       <div style={styles.estrellas}>
         {[1, 2, 3, 4, 5].map((star) => (
           <span
@@ -80,10 +80,6 @@ const CalificarCompra = ({ onConfirmar }) => {
           </span>
         ))}
       </div>
-      <div className="gracias">
-        <img src={gracias} alt="Gracias" />
-      </div>
-      <p>Gracias por tu Compra</p>
       <button style={styles.btnConfirmar} onClick={handleConfirmar}>
         Confirmar
       </button>

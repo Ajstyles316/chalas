@@ -90,9 +90,9 @@ export default function Chatbot() {
       {isOpen ? (
         <div className="bg-white rounded-lg shadow-xl w-80 h-96 flex flex-col">
           <div className="bg-gradient-to-r from-gray-500 to-gray-800 text-black p-4 rounded-t-lg flex justify-between items-center">
-            <h3 className="font-semibold">Asistente Virtual</h3>
+            <h3 className="font-semibold text-white">Asistente Virtual</h3>
             <button onClick={() => setIsOpen(false)}>
-              <X className="h-5 w-5 text-black" />
+              <X className="h-5 w-5 text-white" />
             </button>
           </div>
           <div className="flex-1 p-4 overflow-y-auto">
