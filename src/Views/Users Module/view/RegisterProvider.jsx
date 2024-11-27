@@ -78,6 +78,20 @@ export const RegisterProvider = () => {
             alert('Hubo un error al registrar el proveedor.');
         }
     };
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: type === 'checkbox' ? checked : value
+        }));
+    };
+
+    const handleCardNumberChange = (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 16) value = value.slice(0, 16);
+        value = value.replace(/(\d{4})/g, '$1 ').trim();
+        setFormData(prevData => ({ ...prevData, numeroTarjeta: value }));
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 to-amber-200 p-4">
@@ -288,69 +302,101 @@ export const RegisterProvider = () => {
 
                             <div className="space-y-4 mt-6">
                                 <h3 className="text-lg font-medium text-gray-900">Información de Pago</h3>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label htmlFor="metodoPago" className="block text-sm font-medium text-gray-700">Método de Pago</label>
-                                        <select
-                                            id="metodoPago"
-                                            name="metodoPago"
-                                            value={formData.metodoPago}
-                                            onChange={(e) => setFormData({ ...formData, metodoPago: e.target.value })}
-                                            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md"
-                                        >
-                                            <option value="">Seleccione un método</option>
-                                            <option value="Visa">Visa</option>
-                                            <option value="MasterCard">MasterCard</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="numeroTarjeta" className="block text-sm font-medium text-gray-700">Número de Tarjeta VCC</label>
-                                        <div className="mt-1 relative rounded-md shadow-sm">
-                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <CreditCard className="h-5 w-5 text-gray-400" />
+                                <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                                    <div className="p-8">
+                                        <h2 className="text-2xl font-bold text-gray-800 mb-6">Información de Pago</h2>
+
+                                        <div className='space-y-6'>
+                                            <label htmlFor="metodoPago" className="block text-sm font-medium text-gray-700 mb-1">
+                                                Método de Pago
+                                            </label>
+                                            <div className="relative">
+                                                <select
+                                                    id="metodoPago"
+                                                    name="metodoPago"
+                                                    value={formData.metodoPago}
+                                                    onChange={handleChange}
+                                                    className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md"
+                                                    required
+                                                >
+                                                    <option value="">Seleccione un método</option>
+                                                    <option value="Visa">Visa</option>
+                                                    <option value="MasterCard">MasterCard</option>
+                                                </select>
+                                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className='p-5'>
+                                            <label htmlFor="numeroTarjeta" className="block text-sm font-medium text-gray-700 mb-1">
+                                                Número de Tarjeta
+                                            </label>
+                                            <div className="mt-1 relative rounded-md shadow-sm">
+                                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                    <CreditCard className="h-5 w-5 text-gray-400" />
+                                                </div>
                                                 <input
                                                     id="numeroTarjeta"
                                                     name="numeroTarjeta"
-                                                    type="password"
-                                                    placeholder="•••• •••• •••• ••••"
-                                                    value={formData.numeroTarjeta}
-                                                    onChange={(e) => setFormData({ ...formData, numeroTarjeta: e.target.value })}
+                                                    type="text"
+                                                    inputMode="numeric"
+                                                    autoComplete="cc-number"
                                                     required
+                                                    placeholder="1234 5678 9012 3456"
+                                                    value={formData.numeroTarjeta}
+                                                    onChange={handleCardNumberChange}
+                                                    className="focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 pr-12 sm:text-sm border-gray-300 rounded-md"
+                                                />
+                                                <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                                                    {formData.metodoPago === 'Visa' && (
+                                                        <span className="text-gray-500 sm:text-sm">Visa</span>
+                                                    )}
+                                                    {formData.metodoPago === 'MasterCard' && (
+                                                        <span className="text-gray-500 sm:text-sm">MC</span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className='p-5'>
+                                            <label htmlFor="fechaVencimiento" className="block text-sm font-medium text-gray-700 mb-1">
+                                                Fecha de Vencimiento
+                                            </label>
+                                            <div className="mt-1 relative rounded-md shadow-sm">
+                                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                    <Calendar className="h-5 w-5 text-gray-400" />
+                                                </div>
+                                                <input
+                                                    id="fechaVencimiento"
+                                                    name="fechaVencimiento"
+                                                    type="month"
+                                                    required
+                                                    value={formData.fechaVencimiento}
+                                                    onChange={handleChange}
                                                     className="focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
                                                 />
                                             </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="fechaVencimiento" className="block text-sm font-medium text-gray-700">Fecha de Vencimiento</label>
-                                        <div className="mt-1 relative rounded-md shadow-sm">
-                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <Calendar className="h-5 w-5 text-gray-400" />
-                                            </div>
+
+                                        <div className="flex items-center">
                                             <input
-                                                id="fechaVencimiento"
-                                                name="fechaVencimiento"
-                                                type="month"
-                                                value={formData.fechaVencimiento}
-                                                onChange={(e) => setFormData({ ...formData, fechaVencimiento: e.target.value })}
+                                                id="vcc"
+                                                name="vcc"
+                                                type="checkbox"
+                                                checked={formData.vcc}
+                                                onChange={handleChange}
                                                 required
-                                                className="focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                                                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
                                             />
+                                            <label htmlFor="vcc" className="ml-2 block text-sm text-gray-900">
+                                                Acepto realizar el pago mensual de 50 Bs.
+                                            </label>
                                         </div>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <input
-                                            id="suscripcion"
-                                            name="suscripcion"
-                                            type="checkbox"
-                                            checked={formData.vcc}
-                                            onChange={(e) => setFormData({ ...formData, vcc: e.target.checked })}
-                                            required
-                                            className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
-                                        />
-                                        <label htmlFor="suscripcion" className="ml-2 block text-sm text-gray-900">
-                                            Acepto realizar el pago mensual de 50 Bs.
-                                        </label>
+
                                     </div>
                                 </div>
 
