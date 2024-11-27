@@ -120,9 +120,9 @@ function App() {
             {/* Rutas protegidas para CLIENTES y ADMIN */}
 
             <Route path="/clienthome" element={
-              <ProtectedRoutes allowedRoles={['client', 'admin']}>
+              // <ProtectedRoutes allowedRoles={['client', 'admin']}>
                 <LayoutClient />
-              </ProtectedRoutes>
+              //</ProtectedRoutes> 
             } />
             <Route path="/transacciones" element={<Transacciones />} />
 
