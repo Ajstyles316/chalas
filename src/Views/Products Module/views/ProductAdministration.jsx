@@ -10,6 +10,7 @@ import editIcon from "../../../assets/svg/edit_icon.svg";
 import trashIcon from "../../../assets/svg/trash_icon.svg";
 import eyeIcon from "../../../assets/svg/eye_icon.svg";
 import eyeOffIcon from "../../../assets/svg/eye_off_icon.svg";
+import Footer from "../../Client/components/Footer";
 
 function ProductAdministration() {
   const [products, setProducts] = useState([]);
@@ -116,123 +117,125 @@ function ProductAdministration() {
   };
 
   return (
-    <div className="admin-product-view">
-      <div className="menu">
-        <button onClick={handleAddProductClick}>Crear Nuevo</button>
-        <button onClick={toggleSelectionMode}>
-          {showSelectColumn ? "Cancelar selección" : "Seleccionar"}
-        </button>
-        {showSelectColumn && (
-          <button
-            onClick={handleDeleteSelected}
-            disabled={selectedProducts.length === 0}
-          >
-            Eliminar seleccionados
+    <>
+      <div className="admin-product-view">
+        <div className="menu">
+          <button onClick={handleAddProductClick}>Crear Nuevo</button>
+          <button onClick={toggleSelectionMode}>
+            {showSelectColumn ? "Cancelar selección" : "Seleccionar"}
           </button>
-        )}
-        <button onClick={fetchProducts}>Listar</button>
-      </div>
-      {showForm && (
-        <div className="overlay">
-          <div className="modal">
-            <button className="close-button" onClick={handleCloseForm}>
-              X
+          {showSelectColumn && (
+            <button
+              onClick={handleDeleteSelected}
+              disabled={selectedProducts.length === 0}
+            >
+              Eliminar seleccionados
             </button>
-            <ProductForm product={selectedProduct} onClose={handleCloseForm} />
-          </div>
+          )}
+          <button onClick={fetchProducts}>Listar</button>
         </div>
-      )}
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Buscar por nombre"
-          name="name"
-          value={filters.name}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          placeholder="Buscar por descripción"
-          name="description"
-          value={filters.description}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          placeholder="Buscar por categoría"
-          name="category"
-          value={filters.category}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className="product-table">
-        {!productsLoaded ? (
-          <p>No hay productos cargados. Presiona "Listar" para verlos.</p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                {showSelectColumn && <th>Seleccionar</th>}
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Categoría(s)</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((product) => (
-                  <tr key={product.id}>
-                    {showSelectColumn && (
-                      <td>
-                        <input
-                          className="check"
-                          type="checkbox"
-                          checked={selectedProducts.includes(product.id)}
-                          onChange={() => handleProductSelect(product.id)}
-                        />
+        {showForm && (
+          <div className="overlay">
+            <div className="modal">
+              <button className="close-button" onClick={handleCloseForm}>
+                X
+              </button>
+              <ProductForm product={selectedProduct} onClose={handleCloseForm} />
+            </div>
+          </div>
+        )}
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Buscar por nombre"
+            name="name"
+            value={filters.name}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            placeholder="Buscar por descripción"
+            name="description"
+            value={filters.description}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            placeholder="Buscar por categoría"
+            name="category"
+            value={filters.category}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="product-table">
+          {!productsLoaded ? (
+            <p>No hay productos cargados. Presiona "Listar" para verlos.</p>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  {showSelectColumn && <th>Seleccionar</th>}
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Categoría(s)</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((product) => (
+                    <tr key={product.id}>
+                      {showSelectColumn && (
+                        <td>
+                          <input
+                            className="check"
+                            type="checkbox"
+                            checked={selectedProducts.includes(product.id)}
+                            onChange={() => handleProductSelect(product.id)}
+                          />
+                        </td>
+                      )}
+                      <td>{product.name_product}</td>
+                      <td>{product.description}</td>
+                      <td>{(product.categories || []).join(", ")}</td>
+                      <td className="actions">
+                        <button
+                          className="edit-button"
+                          onClick={() => handleEditProduct(product)}
+                        >
+                          <img src={editIcon} alt="Editar" />
+                        </button>
+                        <button
+                          className="delete-button"
+                          onClick={() => handleDeleteProduct(product.id)}
+                        >
+                          <img src={trashIcon} alt="Eliminar" />
+                        </button>
+                        <button
+                          className="visibility-button"
+                          onClick={() => handleToggleVisibility(product)}
+                        >
+                          <img
+                            src={product.visible ? eyeIcon : eyeOffIcon}
+                            alt="Visibilidad"
+                          />
+                        </button>
                       </td>
-                    )}
-                    <td>{product.name_product}</td>
-                    <td>{product.description}</td>
-                    <td>{(product.categories || []).join(", ")}</td>
-                    <td className="actions">
-                      <button
-                        className="edit-button"
-                        onClick={() => handleEditProduct(product)}
-                      >
-                        <img src={editIcon} alt="Editar" />
-                      </button>
-                      <button
-                        className="delete-button"
-                        onClick={() => handleDeleteProduct(product.id)}
-                      >
-                        <img src={trashIcon} alt="Eliminar" />
-                      </button>
-                      <button
-                        className="visibility-button"
-                        onClick={() => handleToggleVisibility(product)}
-                      >
-                        <img
-                          src={product.visible ? eyeIcon : eyeOffIcon}
-                          alt="Visibilidad"
-                        />
-                      </button>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={showSelectColumn ? 5 : 4}>
+                      No se encontraron productos
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={showSelectColumn ? 5 : 4}>
-                    No se encontraron productos
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        )}
+                )}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

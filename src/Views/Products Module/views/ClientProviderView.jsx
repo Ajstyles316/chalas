@@ -5,6 +5,9 @@ import { RatingStars } from "../components/RatingStars";
 import SupplierProductsClient from "../components/SupplierProductsClient";
 import ProductCardDetailed from "../components/ProductCardDetailed";
 import Navbar from "../components/NavBarClient"; // Asegúrate de importar el Navbar
+import Footer from "../../Client/components/Footer";
+import NavBarClient from "../components/NavBarClient";
+import Header from "../../Client/components/Header";
 
 const ClientProviderView = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -19,7 +22,7 @@ const ClientProviderView = () => {
 
   return (
     <div className="profile-page">
-      <Navbar /> {/* Incluye el Navbar aquí */}
+      <Header/> {/* Incluye el Navbar aquí */}
       <div className="profile-container">
         <div className="banner-profile"></div>
         <div className="content-client">
@@ -66,6 +69,7 @@ const ClientProviderView = () => {
           </div>
         </div>
       )}
+      <Footer/>
     </div>
   );
 };

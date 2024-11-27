@@ -45,7 +45,7 @@ const CategoryTag = ({ selectedCategories, setSelectedCategories }) => {
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Create or select"
+        placeholder="Seleccione una categoría"
         className="input-field"
         onKeyDown={(e) => {
           if (e.key === "Enter") {

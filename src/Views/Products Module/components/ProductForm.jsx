@@ -3,8 +3,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../../Firebase/config";
 import { useForm } from "react-hook-form";
 import { createProduct, updateProduct } from "../../../Firebase/api.js";
-import "../Styles/productForm.css";
-import CategoryTag from "./CategoryTag.jsx"; // Ajusta la ruta de acuerdo a tu estructura de carpetas
+import CategoryTag from "./CategoryTag.jsx";
 
 const ProductForm = ({ product, onClose }) => {
   const {
@@ -29,7 +28,6 @@ const ProductForm = ({ product, onClose }) => {
 
   const onSubmit = async (data) => {
     try {
-      // Subir la imagen si se proporcionó un archivo nuevo
       const imageUrl = imageFile
         ? await uploadImage(imageFile)
         : product?.imageUrl;
@@ -37,15 +35,13 @@ const ProductForm = ({ product, onClose }) => {
       const productData = {
         ...data,
         categories,
-        imageUrl, // Guardar solo la URL de la imagen
+        imageUrl,
       };
 
       if (product) {
-        // Actualizar el producto existente
         await updateProduct(product.id, productData);
         console.log("Producto actualizado con éxito");
       } else {
-        // Crear un nuevo producto
         await createProduct(productData, imageFile);
         console.log("Producto registrado con éxito");
       }
@@ -77,41 +73,104 @@ const ProductForm = ({ product, onClose }) => {
   };
 
   return (
-    <div className="form-container">
-      <button className="close-button-form" onClick={onClose}>
-        X
-      </button>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="name-product">Nombre del producto</label>
-        <input type="text" {...register("name_product", { required: true })} />
-        {errors.name_product && (
-          <span>El nombre del producto es requerido</span>
-        )}
-
-        <label htmlFor="description">Descripción</label>
-        <textarea {...register("description")} />
-
-        <label htmlFor="price">Precio</label>
-        <input
-          type="number"
-          step="1.00"
-          {...register("price", { required: true })}
-        />
-        {errors.price && <span>El precio es requerido</span>}
-
-        <label htmlFor="categories">Categorías</label>
-        <CategoryTag
-          selectedCategories={categories}
-          setSelectedCategories={setCategories}
-        />
-
-        <label htmlFor="image">Imagen del producto</label>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-
-        <button type="submit">
-          {product ? "Actualizar producto" : "Registrar producto"}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div
+        className="relative flex flex-col w-[90%] max-w-lg bg-white p-6 rounded-lg shadow-lg 
+           transition-all duration-300 ease-out animate-modal"
+      >
+        <button
+          className="absolute top-3 right-3 flex items-center justify-center w-8 h-8 bg-red-500 text-white text-sm rounded-full hover:bg-red-600"
+          onClick={onClose}
+        >
+          X
         </button>
-      </form>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label
+              htmlFor="name-product"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Nombre del producto
+            </label>
+            <input
+              type="text"
+              {...register("name_product", { required: true })}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500"
+            />
+            {errors.name_product && (
+              <p className="mt-1 text-sm text-red-500">
+                El nombre del producto es requerido
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Descripción
+            </label>
+            <textarea
+              {...register("description")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm resize-none focus:ring-yellow-500 focus:border-yellow-500"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="price"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Precio
+            </label>
+            <input
+              type="number"
+              step="0.01"
+              {...register("price", { required: true })}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500"
+            />
+            {errors.price && (
+              <p className="mt-1 text-sm text-red-500">El precio es requerido</p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="categories"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Categorías
+            </label>
+            <CategoryTag
+              selectedCategories={categories}
+              setSelectedCategories={setCategories}
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="image"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Imagen del producto
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="mt-1 block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer focus:ring-yellow-500 focus:border-yellow-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-yellow-600 text-white py-2 px-4 rounded-lg hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          >
+            {product ? "Actualizar producto" : "Registrar producto"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,23 +1,24 @@
 import React from "react";
-import "../Styles/Navbar.css";
-
-import Logo from "../../../assets/img/llama_bufanda.png";
+import Logo from "../../../assets/img/appLogo.jpeg";
 import Profile from "./Profile";
 import { Menu } from "lucide-react";
+
 const Navbar = ({ onToggleSidebar }) => {
   return (
-    <header className="navbar-container-new">
-      <div className="navbar-right-side">
-        <Menu onClick={onToggleSidebar} />{" "}
-        {/* Al hacer clic en el ícono de Menu, se llama a onToggleSidebar */}
-        <a href="/" className="logo-new">
-          <img src={Logo} alt="" className="logo-image-new" />
+    <header className="flex bg-white px-3 h-16 xl:h-20 2xl:h-24 shadow-md w-full sm:px-10 xl:px-40 items-center fixed z-10 justify-between">
+      <div className="flex items-center">
+        <Menu className="cursor-pointer" onClick={onToggleSidebar} />
+        <a href="/" className="ml-10 w-15 h-15">
+          <img src={Logo} alt="Logo" className="w-20 h-20 " />
         </a>
       </div>
-      <nav className="navbar-new">
-        <a href="/">Inicio</a>
-        <a href="/DashboardProvider">Dashboard</a>
-        <a href="/">Notificaciones</a>
+      <nav className="flex">
+        <a href="/clienthome" className="mr-9 flex items-center">
+          Inicio
+        </a>
+        <a href="/DashboardProvider" className="mr-9 flex items-center">
+          Productos
+        </a>
         <Profile />
       </nav>
     </header>
