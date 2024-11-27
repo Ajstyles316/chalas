@@ -27,9 +27,13 @@
     "react-router": "^6.26.2",
     "react-router-dom": "^6.26.2",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "recharts": "^2.13.3",
     "rough-viz": "^2.0.5",
     "xlsx": "^0.18.5"
+=======
+    "recharts": "^2.13.3"
+>>>>>>> 85f2fc35a7ca1fd51573d0ce7d4b4129b683c5b8
 =======
     "recharts": "^2.13.3"
 >>>>>>> 85f2fc35a7ca1fd51573d0ce7d4b4129b683c5b8
