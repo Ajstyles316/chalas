@@ -1,15 +1,27 @@
 import { useState, useEffect } from "react";
-import { db } from '../../../Firebase/config';
-import { collection, getDocs } from "firebase/firestore";
-import './codes.css'
+import { useAuth } from "../../../context/AuthContext"; // Importa el contexto de autenticación
+import { db } from "../../../Firebase/config";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import "./codes.css";
 
 const DiscountCodes = () => {
+  const { user } = useAuth(); 
   const [discounts, setDiscounts] = useState([]);
 
   useEffect(() => {
     const fetchDiscounts = async () => {
+      if (!user) {
+        console.error("Usuario no autenticado. No se pueden cargar los descuentos.");
+        return;
+      }
+
       try {
-        const querySnapshot = await getDocs(collection(db, "descount"));
+        const discountsQuery = query(
+          collection(db, "descount"),
+          where("userId", "==", user.uid)
+        );
+
+        const querySnapshot = await getDocs(discountsQuery);
         const discountData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -21,22 +33,22 @@ const DiscountCodes = () => {
     };
 
     fetchDiscounts();
-  }, []);
+  }, [user]);
 
   return (
     <div className="discount-codes-container">
       <h3>Códigos de Descuento</h3>
       {discounts.length > 0 ? (
         discounts.map((discount) => (
-          discount.valid && ( // Solo mostrar descuentos válidos
+          discount.valid && ( 
             <div key={discount.id} className="discount-card">
               <h4>Código: {discount.code}</h4>
-              <p>Descuento: {discount.desc * 100}%</p> {/* Convertir el decimal a porcentaje */}
+              <p>Descuento: {discount.desc * 100}%</p> 
             </div>
           )
         ))
       ) : (
-        <p>No hay códigos de descuento disponibles.</p>
+        <p>Aún no tienes Códigos de descuento.</p>
       )}
     </div>
   );

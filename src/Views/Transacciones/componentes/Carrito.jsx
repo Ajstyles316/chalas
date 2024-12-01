@@ -4,8 +4,11 @@ import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../../Firebase/config';
 import '../styles/Carrito.css';
 import CalificarCompra from './Calificacion';
+import { useAuth } from '../../../context/AuthContext';
 
 const Carrito = () => {
+
+  const { user } = useAuth();
   const context = useContext(CartContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [codigoDescuento, setCodigoDescuento] = useState(''); // Estado para mostrar el código generado
@@ -21,25 +24,30 @@ const Carrito = () => {
 
   // Generar un código de descuento aleatorio y agregarlo a Firebase
   const generarCodigoDescuento = async () => {
-    const codigo = 'DESC' + Math.random().toString(36).substring(2, 8).toUpperCase(); // Código aleatorio
-    const descuento = Math.random() * 0.2; // Genera un porcentaje de descuento entre 0 y 50%
+    if (!user) {
+      console.error("No se puede generar el código: usuario no autenticado.");
+      return;
+    }
+
+    const codigo = 'DESC' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const descuento = Math.random() * 0.2;
 
     try {
       await addDoc(collection(db, 'descount'), {
         code: codigo,
         desc: descuento,
         valid: true,
+        userId: user.uid, 
       });
-      setCodigoDescuento(codigo); // Guarda el código generado en el estado
+      setCodigoDescuento(codigo);
     } catch (error) {
-      console.error('Error guardando el código de descuento:', error);
+      console.error("Error guardando el código de descuento:", error);
     }
   };
 
   const guardarEnFirebase = async () => {
     try {
       for (const producto of cart) {
-        // Asignar un precio predeterminado si no existe
         const precioFinal = producto.price || 75;
 
         const docRef = await addDoc(collection(db, 'cart'), {
