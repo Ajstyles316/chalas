@@ -6,6 +6,7 @@ import { InstantSearch } from 'react-instantsearch';
 import FeaturedAds from './components/FeaturedAds';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
+import CodigoDescuento from '../Transacciones/componentes/CodigoDescuento';
 
 const APPLICATION_ID = 'DSW1VSW9MM';
 const SEARCH_API_KEY = 'f23cb9d50b6a40127c3a77ee34d81775';
@@ -64,6 +65,8 @@ const Client = () => {
         <main className="container mx-auto px-4 py-8">
           <FeaturedAds />
           <ProductGallery />
+          <CodigoDescuento />
+
         </main>
         <Footer />
         <Chatbot />
