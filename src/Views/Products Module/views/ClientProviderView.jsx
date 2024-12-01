@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/clientProviderView.css";
 import profileImage from "../assets_test/Enterprise_logo.png";
 import { RatingStars } from "../components/RatingStars";
@@ -8,9 +8,29 @@ import Navbar from "../components/NavBarClient"; // Asegúrate de importar el Na
 import Footer from "../../Client/components/Footer";
 import NavBarClient from "../components/NavBarClient";
 import Header from "../../Client/components/Header";
+import { useNavigate, useParams } from "react-router";
+import { getProviderDetails, getProviders } from "../../../Firebase/fireStoreService";
 
 const ClientProviderView = () => {
+  const { providerId } = useParams(); // Obtenemos el ID del proveedor de la URL
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [provider, setProvider] = useState(null); // Almacenamos la información del proveedor
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Obtener los detalles del proveedor desde Firebase
+    console.log(providerId);
+    const fetchProviders = async () => {
+      const provider = await getProviders();
+      console.log(provider);
+    };
+    const fetchProviderDetails = async () => {
+      const fetchedProvider = await getProviderDetails(providerId);
+      setProvider(fetchedProvider);
+    };
+    fetchProviders();
+    fetchProviderDetails();
+  }, [providerId]);
 
   const handleCardClick = (product) => {
     setSelectedProduct(product);
@@ -20,9 +40,10 @@ const ClientProviderView = () => {
     setSelectedProduct(null);
   };
 
+  if (!provider) return <div>Loading...</div>; // Mostrar "Loading..." mientras se obtienen los datos del proveedor
   return (
     <div className="profile-page">
-      <Header/> {/* Incluye el Navbar aquí */}
+      <Header /> {/* Incluye el Navbar aquí */}
       <div className="profile-container">
         <div className="banner-profile"></div>
         <div className="content-client">
@@ -69,7 +90,7 @@ const ClientProviderView = () => {
           </div>
         </div>
       )}
-      <Footer/>
+      <Footer />
     </div>
   );
 };

@@ -64,7 +64,7 @@ function App() {
             <Route path="/contact" element={<LandingContact />} />
             <Route path="/login" element={<LoginNew />} />
             <Route path="/registerprovider" element={<RegisterProviderNew />} />
-            <Route path="/ClientProvider" element={<ClientProviderView />} />
+            <Route path="/client-provider/:providerId" element={<ClientProviderView />} />
 
 
             {/* PROVVEDORORES */}
@@ -122,7 +122,7 @@ function App() {
 
             <Route path="/clienthome" element={
               // <ProtectedRoutes allowedRoles={['client', 'admin']}>
-                <LayoutClient />
+              <LayoutClient />
               //</ProtectedRoutes> 
             } />
             <Route path="/transacciones" element={<Transacciones />} />

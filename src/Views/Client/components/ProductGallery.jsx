@@ -7,7 +7,7 @@ const ProductCard = ({ hit }) => {
   const navigate = useNavigate();
 
   const handleCardClick = (provider) => {
-    navigate(`/ClientProvider`);
+    navigate(`/client-provider/${provider}`);
   };
   return (
     <div onClick={() => handleCardClick(hit.provider)}>
