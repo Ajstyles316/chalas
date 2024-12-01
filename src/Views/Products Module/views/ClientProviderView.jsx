@@ -11,8 +11,10 @@ import ProductList from "../components/ProductList";
 import ProductCardDetailed from "../components/ProductCardDetailed";
 import SupplierProducts from "../components/SupplierProducts";
 import Header from "../../Client/components/Header";
+import { getProviderDetails, getProviders } from "../../../Firebase/fireStoreService";
 
 const ClientProviderView = () => {
+  const { providerId } = useParams(); // Obtenemos el ID del proveedor de la URL
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);

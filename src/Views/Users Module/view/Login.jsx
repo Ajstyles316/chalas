@@ -260,3 +260,5 @@ export const Login = () => {
     </div>
   );
 };
+
+{/* <Route path="/client-provider/:providerId" element={<ClientProviderView />} /> */}
