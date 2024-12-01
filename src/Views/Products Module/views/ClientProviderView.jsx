@@ -11,7 +11,6 @@ import ProductList from "../components/ProductList";
 import ProductCardDetailed from "../components/ProductCardDetailed";
 import SupplierProducts from "../components/SupplierProducts";
 import Header from "../../Client/components/Header";
-import { useNavigate, useParams } from "react-router";
 import { getProviderDetails, getProviders } from "../../../Firebase/fireStoreService";
 
 const ClientProviderView = () => {
