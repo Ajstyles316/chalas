@@ -32,7 +32,7 @@ function ProductAdministration() {
 
   const fetchProducts = async () => {
     try {
-      console.log({user})
+      // console.log({user})
       const visibleProducts = await getVisibleProducts(user.uid);
       setProducts(visibleProducts);
       setProductsLoaded(true);

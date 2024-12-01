@@ -98,7 +98,7 @@ export const getVisibleProducts = async (supplierId) => {
     const listOfProductsDocRef = doc(db, "listOfProducts", supplierId);
     const listOfProductsDoc = await getDoc(listOfProductsDocRef);
 
-    console.log("Datos del documento listOfProducts:", listOfProductsDoc.data());
+    // console.log("Datos del documento listOfProducts:", listOfProductsDoc.data());
 
     if (!listOfProductsDoc.exists()) {
       console.warn("El documento listOfProducts no existe para este proveedor.");
