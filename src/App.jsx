@@ -64,7 +64,7 @@ function App() {
             <Route path="/contact" element={<LandingContact />} />
             <Route path="/login" element={<LoginNew />} />
             <Route path="/registerprovider" element={<RegisterProviderNew />} />
-            <Route path="/ClientProvider" element={<ClientProviderView />} />
+            <Route path="/client-provider/:providerId" element={<ClientProviderView />} />
 
             {/* PROVVEDORORES */}
             {/* <Route element={<ProtectedRoutes allowedRoles={['provider']} />}> */}
@@ -143,14 +143,11 @@ function App() {
 
             {/* Rutas protegidas para CLIENTES y ADMIN */}
 
-            <Route
-              path="/clienthome"
-              element={
-                // <ProtectedRoutes allowedRoles={['client', 'admin']}>
-                <LayoutClient />
-                //</ProtectedRoutes>
-              }
-            />
+            <Route path="/clienthome" element={
+              // <ProtectedRoutes allowedRoles={['client', 'admin']}>
+              <LayoutClient />
+              //</ProtectedRoutes> 
+            } />
             <Route path="/transacciones" element={<Transacciones />} />
 
             <Route path="/test" element={<ProductList />} />
