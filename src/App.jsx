@@ -111,6 +111,10 @@ function App() {
           {/* CLIENTES Y ADMIN */}
           <Route path="/clienthome" element={<LayoutClient />} />
           <Route path="/transacciones" element={<Transacciones />} />
+          <Route
+            path="/supplier-profile/:id?"
+            element={<ClientProviderView />}
+          />
         </Routes>
       </BrowserRouter>
     </GeneralContext>
