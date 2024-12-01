@@ -33,7 +33,8 @@ export const createProduct = async (data, imageFile) => {
     const docRef = await addDoc(collection(db, "products"), {
       name_product: data.name_product,
       description: data.description,
-      provider: storeName, // Asignar el nombre de la tienda al campo "provider"
+      provider: storeName,
+      provider_id: userId,
       visible: true,
       deleted: false,
       imageUrl: imageUrl,
@@ -89,24 +90,16 @@ export const softDeleteProduct = async (id) => {
   }
 };
 
-export const getVisibleProducts = async () => {
+export const getVisibleProducts = async (supplierId) => {
   try {
     const db = getFirestore();
-    const auth = getAuth();
-    const currentUser = auth.currentUser;
 
-    if (!currentUser) {
-      throw new Error("Usuario no autenticado.");
-    }
-
-    const userUid = currentUser.uid;
-
-    // Buscar el documento del usuario en listOfProducts
-    const listOfProductsDocRef = doc(db, "listOfProducts", userUid);
+    // Buscar el documento del proveedor en 'listOfProducts' usando el 'supplierId'
+    const listOfProductsDocRef = doc(db, "listOfProducts", supplierId);
     const listOfProductsDoc = await getDoc(listOfProductsDocRef);
 
     if (!listOfProductsDoc.exists()) {
-      console.warn("El documento listOfProducts no existe para este usuario.");
+      console.warn("El documento listOfProducts no existe para este proveedor.");
       return []; // Retorna un array vacío si no existe el documento
     }
 
@@ -121,12 +114,11 @@ export const getVisibleProducts = async () => {
     const productsQuery = query(
       collection(db, "products"),
       where("__name__", "in", productIds),
-      where("deleted", "==",false)
+      where("deleted", "==", false) // Asegúrate de que solo se traen los productos no eliminados
     );
 
+    // Ejecuta la consulta y devuelve los productos
     const querySnapshot = await getDocs(productsQuery);
-
-    // Mapear los datos de los productos encontrados
     const visibleProducts = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -218,7 +210,7 @@ export const updateProfileProvider = async (id, updatedData, imageFile) => {
   }
 };
 
-// Obtener perfiles visibles de proveedores
+
 export const getVisibleProfileProviders = async () => {
   try {
     const q = query(collection(db, "profileProvider"), where("deleted", "==", false));

@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "../Styles/supplierProfile.css";
 import profileImage from "../assets_test/Enterprise_logo.png";
 import { RatingStars } from "../components/RatingStars";
 import SupplierProducts from "../components/SupplierProducts";
-import { useNavigate } from "react-router-dom";
 import ProductCardDetailed from "../components/ProductCardDetailed";
 import { useUser } from "../../../Firebase/UserContext";
 import Navbar from "../components/Navbar";
 import { Pencil } from "lucide-react";
+import { getAuth } from "firebase/auth";
 import { db } from "../../../Firebase/config";
 import { doc, getDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth"; // Asegúrate de importar esto para obtener el auth
 import Footer from "../../Client/components/Footer";
+import ProductList from "../components/ProductList";
 
 const SupplierProfile = () => {
-  const { user, loading, error } = useUser();
+  const { loading, error } = useUser();
+  const auth = getAuth();
+  const user = auth.currentUser ? auth.currentUser.uid : null;
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const navigate = useNavigate();
-
-  // Función para obtener el uid usando getAuth
-  const getUserId = () => {
-    const auth = getAuth();
-    return auth.currentUser ? auth.currentUser.uid : null;
-  };
+  const { id } = useParams();
 
   const handleCardClick = (product) => {
     setSelectedProduct(product);
@@ -39,10 +37,10 @@ const SupplierProfile = () => {
 
   useEffect(() => {
     const fetchProfileData = async () => {
-      const userId = getUserId(); // Usamos el uid del usuario autenticado
+      const userId = id || user;
       if (userId) {
         try {
-          const docRef = doc(db, "profileProvider", userId); // Utilizamos el uid para obtener los datos
+          const docRef = doc(db, "profileProvider", userId);
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             setProfileData(docSnap.data());
@@ -55,7 +53,7 @@ const SupplierProfile = () => {
       }
     };
     fetchProfileData();
-  }, [user]);
+  }, [id, user]);
 
   if (loading) {
     return <div>Cargando datos del usuario...</div>;
@@ -65,19 +63,23 @@ const SupplierProfile = () => {
     return <div>Error: {error}</div>;
   }
 
-  if (!user) {
-    return <div>No se encontró un usuario autenticado.</div>;
+  if (!user && !id) {
+    return <div>No se encontró un usuario autenticado o ID de proveedor.</div>;
   }
 
   return (
     <div className="profile-provider-page">
-      <Navbar />
       <div className="profile-provider-container">
         <div className="banner-profile-provider">
-          <button onClick={handleEditProfile} className="provider-edit-button">
-            <Pencil />
-            Editar Perfil
-          </button>
+          {id ? null : (
+            <button
+              onClick={handleEditProfile}
+              className="provider-edit-button"
+            >
+              <Pencil />
+              Editar Perfil
+            </button>
+          )}
         </div>
         <div className="content-supplier">
           <div className="profile-info-container">

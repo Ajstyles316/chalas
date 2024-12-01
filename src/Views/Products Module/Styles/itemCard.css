@@ -1,0 +1,79 @@
+.item-card-container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    background-color: #FFFFFF;
+    width: 21vw;
+    height: 42vh;
+    overflow: hidden;
+    /* Evita que cualquier contenido se desborde */
+}
+
+/* Imagen dentro de la tarjeta */
+.item-card-image {
+    width: 100%;
+    height: 62%;
+    border-radius: 4px;
+    margin: 0px 0px 4px;
+    object-fit: cover;
+    /* Asegura que la imagen cubra completamente el área */
+}
+
+/* Información dentro de la tarjeta */
+.item-information {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+}
+
+/* Estilo para el nombre del producto */
+.item-name {
+    color: #1f2937;
+    font-family: Poppins;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: left;
+}
+
+/* Estilo para el proveedor */
+.item-provider {
+    color: #FB9153;
+    margin: 0px 0px 4px;
+    width: fit-content;
+    cursor: pointer;
+}
+
+/* Estilo para la descripción del producto */
+.item-description {
+    color: #4b5563;
+    font-family: Poppins;
+    line-height: 24px;
+    text-align: left;
+}
+
+/* Overlay de la vista detallada */
+.overlay-item {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Modal de la vista detallada */
+.modal-item {
+    background: white;
+    width: 64%;
+    height: 88%;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}

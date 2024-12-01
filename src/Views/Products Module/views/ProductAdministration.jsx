@@ -10,6 +10,7 @@ import editIcon from "../../../assets/svg/edit_icon.svg";
 import trashIcon from "../../../assets/svg/trash_icon.svg";
 import eyeIcon from "../../../assets/svg/eye_icon.svg";
 import eyeOffIcon from "../../../assets/svg/eye_off_icon.svg";
+import Footer from "../../Client/components/Footer";
 
 function ProductAdministration() {
   const [products, setProducts] = useState([]);
@@ -236,6 +237,7 @@ function ProductAdministration() {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 }

@@ -4,6 +4,7 @@ import "../Styles/sidebar.css";
 import Navbar from "./Navbar";
 import Footer from "../../Client/components/Footer";
 import SupplierProfile from "../views/SupplierProfile";
+import ProfileForm from "../components/ProfileForm";
 
 const Sidebar = () => {
   const [activeView, setActiveView] = useState("productos");
@@ -31,16 +32,16 @@ const Sidebar = () => {
                 Productos
               </li>
               <li
-                className={activeView === "opcion2" ? "active" : ""}
-                onClick={() => setActiveView("opcion2")}
+                className={activeView === "perfil" ? "active" : ""}
+                onClick={() => setActiveView("perfil")}
               >
-                Opción 2
+                Perfil
               </li>
               <li
-                className={activeView === "opcion3" ? "active" : ""}
-                onClick={() => setActiveView("opcion3")}
+                className={activeView === "editar" ? "active" : ""}
+                onClick={() => setActiveView("editar")}
               >
-                Opción 3
+                Editar perfil
               </li>
               <li
                 className={activeView === "opcion4" ? "active" : ""}
@@ -53,12 +54,11 @@ const Sidebar = () => {
         )}
         <main className="content">
           {activeView === "productos" && <ProductAdministration />}
-          {activeView === "opcion2" && <div>Contenido de Opción 3</div>}
-          {activeView === "opcion3" && <div>Contenido de Opción 3</div>}
+          {activeView === "perfil" && <SupplierProfile />}
+          {activeView === "editar" && <ProfileForm />}
           {activeView === "opcion4" && <div>Contenido de Opción 4</div>}
         </main>
       </div>
-      <Footer />
     </div>
   );
 };
