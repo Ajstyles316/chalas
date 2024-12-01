@@ -1,47 +1,63 @@
+import facebook from '../../../assets/svg/facebook.svg';
+import instagram from '../../../assets/svg/instagram.svg';
+import twitter from '../../../assets/svg/twitter.svg';
+import capyLogo from '../../../assets/img/companyLogo.png';
 
-import facebook from '../../../assets/svg/facebook.svg'
-import instagram from '../../../assets/svg/instagram.svg'
-import twitter from '../../../assets/svg/twitter.svg'
-import capyLogo from '../../../assets/img/companyLogo.png'
-import '../styles/component styles/footer.css'
-import '../../../styles config/tailwind.css'
 export const Footer = () => {
     return (
-        <div className="footer-container">
-            <div className="ft-cnt">
-                <div className="services-cnt">
-                    <span>Servicios</span>
-                    <div className="services">
-                        <span>Eventos Sociales</span>
-                        <span>Venta de productos</span>
-                        <span>Marketing</span>
+        <div className="w-full font-tittles">
+            {/* Main Footer Content */}
+            <div className="flex flex-col items-center justify-evenly text-white bg-[rgba(151,95,124,1)] 
+                lg:flex-row lg:h-[200px]">
+                
+                {/* Services Section */}
+                <div className="flex flex-col pt-5 text-center lg:pt-0">
+                    <span className="text-lg font-bold">Servicios</span>
+                    <div className="flex flex-col pt-5 space-y-2">
+                        <span className="hover:font-bold hover:cursor-pointer">Eventos Sociales</span>
+                        <span className="hover:font-bold hover:cursor-pointer">Venta de productos</span>
+                        <span className="hover:font-bold hover:cursor-pointer">Marketing</span>
                     </div>
                 </div>
-                <div className="company-cnt">
-                    <span>Compañía</span>
-                    <div className="company">
-                        <span>Inicio</span>
-                        <span>Sobre Nosotros</span>
-                        <span>Contáctanos</span>
+
+                {/* Company Section */}
+                <div className="flex flex-col pt-5 text-center lg:pt-0">
+                    <span className="text-lg font-bold">Compañía</span>
+                    <div className="flex flex-col pt-5 space-y-2">
+                        <span className="hover:font-bold hover:cursor-pointer">Inicio</span>
+                        <span className="hover:font-bold hover:cursor-pointer">Sobre Nosotros</span>
+                        <span className="hover:font-bold hover:cursor-pointer">Contáctanos</span>
                     </div>
                 </div>
-                <div className="social-cnt">
-                    <span>Social</span>
-                    <span>@ChalitaOe</span>
-                    <div className="social">
-                        <img src={instagram} alt="nofurulowe" />
-                        <img className='fb' src={facebook} alt="nofurulowe" />
-                        <img src={twitter} alt="nofurulowe" />
+
+                {/* Social Section */}
+                <div className="flex flex-col pt-5 text-center lg:pt-0">
+                    <span className="text-lg font-bold">Social</span>
+                    <span className="pt-2">@ChalitaOe</span>
+                    <div className="flex items-center justify-center pt-5 space-x-3">
+                        <img src={instagram} alt="Instagram" className="hover:cursor-pointer" />
+                        <img src={facebook} alt="Facebook" className="w-[30px] h-[30px] hover:cursor-pointer" />
+                        <img src={twitter} alt="Twitter" className="hover:cursor-pointer" />
                     </div>
                 </div>
             </div>
-            <div className="copy-cont">
-                <div className="flex items-center justify-center">
-                <img className='w-20 h-20' src={capyLogo} alt="no furulo we" />
-                <span>© 2024 Desarrollado por <a className='font-bold' href="https://main--capysharksdevs.netlify.app/" target="_blank">CapySharks Dev SRL</a> Empresa de Desarrollo de Software 
+
+            {/* Copyright Section */}
+            <div className="flex  items-center justify-center py-5 text-center space-y-2">
+                <img src={capyLogo} alt="CapyLogo" className="w-20 h-20" />
+                <span>
+                    © 2024 Desarrollado por{' '}
+                    <a
+                        href="https://main--capysharksdevs.netlify.app/"
+                        target="_blank"
+                        className="font-bold hover:underline"
+                        rel="noopener noreferrer"
+                    >
+                        CapySharks Dev SRL
+                    </a>{' '}
+                    Empresa de Desarrollo de Software
                 </span>
-                </div>
             </div>
         </div>
-    )
-}
+    );
+};

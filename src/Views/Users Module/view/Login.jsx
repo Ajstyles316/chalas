@@ -114,7 +114,7 @@ export const Login = () => {
           
         </div>
         <div className="flex items-center mt-4">
-          <ReCAPTCHA sitekey="6Ld134EqAAAAAGDUQXhbFtodSTi8jzJrrwI_bCUz" onChange={() => setIsHuman(true)} />
+          <ReCAPTCHA sitekey="6LdI5Y4qAAAAAKgLLqGgxczG9f9Azj2Aj8-7SQZU" onChange={() => setIsHuman(true)} />
         </div>
         {formType === "register" && (
           <div className="flex items-center mt-4">

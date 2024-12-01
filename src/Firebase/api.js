@@ -3,12 +3,23 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./config.js";
 import { getAuth } from "firebase/auth";
 
-
 export const createProduct = async (data, imageFile) => {
   try {
     const auth = getAuth();
     const userId = auth.currentUser.uid; 
-    console.log(userId)
+    console.log("User ID:", userId);
+
+    // Obtener el nombre de la tienda del proveedor actual
+    const profileRef = doc(db, "profileProvider", userId);
+    const profileSnap = await getDoc(profileRef);
+
+    if (!profileSnap.exists()) {
+      throw new Error("No se encontró el perfil del proveedor.");
+    }
+
+    const storeName = profileSnap.data().companyName;
+    console.log("Store Name:", storeName);
+
     let imageUrl = null;
 
     // Subir la imagen si se proporciona
@@ -22,12 +33,12 @@ export const createProduct = async (data, imageFile) => {
     const docRef = await addDoc(collection(db, "products"), {
       name_product: data.name_product,
       description: data.description,
-      provider: "Coconut Bakery",
+      provider: storeName, // Asignar el nombre de la tienda al campo "provider"
       visible: true,
       deleted: false,
       imageUrl: imageUrl,
       price: data.price,
-      categories: data.categories || []
+      categories: data.categories || [],
     });
 
     console.log("Producto registrado con ID: ", docRef.id);
@@ -40,13 +51,13 @@ export const createProduct = async (data, imageFile) => {
     if (userProductListSnap.exists()) {
       // Si el documento ya existe, se agrega el nuevo producto al array
       await updateDoc(userProductListRef, {
-        products: arrayUnion(docRef.id) // Utilizamos arrayUnion para agregar sin duplicados
+        products: arrayUnion(docRef.id), // Utilizamos arrayUnion para agregar sin duplicados
       });
     } else {
       // Si el documento no existe, creamos uno nuevo
       await setDoc(userProductListRef, {
         userId: userId,
-        products: [docRef.id] // Inicializamos la lista con el primer producto
+        products: [docRef.id], // Inicializamos la lista con el primer producto
       });
     }
 

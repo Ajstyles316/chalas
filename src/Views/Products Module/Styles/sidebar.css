@@ -8,7 +8,6 @@
     display: flex;
     flex-grow: 1;
     transition: margin-left 0.3s ease;
-    /* Transición suave cuando el sidebar se muestra/oculta */
 }
 
 .sidebar {
@@ -23,7 +22,6 @@
     transition: transform 0.3s ease;
     color: black;
     font-weight: bold;
-    /* Transición para el sidebar */
 }
 
 .sidebar-header {
@@ -43,16 +41,21 @@
     transition: background 0.3s;
 }
 
-.sidebar-menu li:hover,
+.sidebar-menu li:hover {
+    color: #EA580C;
+    background-color: #FFEDD5;
+    border-radius: 8px;
+}
+
 .sidebar-menu .active {
-    background-color: rgb(169, 169, 169);
+    background-color: #FFEDD5;
     border-radius: 8px;
 }
 
 .content {
     flex-grow: 1;
     padding: 20px;
-    background-color: #FDD46B;
+    background-color: #FFFFFF;
     height: 88vh;
     transition: margin-left 0.3s ease;
 }
@@ -69,5 +72,4 @@
 
 .sidebar-hidden .sidebar {
     display: none;
-    /* Ocultar el sidebar cuando está en el estado 'hidden' */
 }

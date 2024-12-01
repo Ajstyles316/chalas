@@ -5,7 +5,6 @@ import trash from "../../../assets/svg/trash_icon.svg";
 import eye from "../../../assets/svg/eye_icon.svg";
 import eye_off from "../../../assets/svg/eye_off_icon.svg";
 import { useAuth } from "../../../context/AuthContext";
-import cart from "../../../assets/svg/cart.svg";
 
 const ProductCard = ({
   id,
@@ -21,16 +20,16 @@ const ProductCard = ({
   onToggleVisibility,
   onAddToCart,
 }) => {
-
-  const {user} = useAuth();
-  console.log({user});
+  const { user } = useAuth();
+  console.log({ user });
   const handleAddToCart = () => {
     navigate("/transacciones", { state: { mostrarCarrito: true } });
   };
   return (
     <div
-      className={`flex flex-col items-center h-[540px] w-[400px] bg-[#FDD46B] rounded-[28px] border-t-2 border-r-2 border-b-8 border-l-2 border-black ${!visible ? "bg-gray-200 opacity-60" : ""
-        }`}
+      className={`flex flex-col items-center h-[540px] w-[400px] bg-[#FFFFFF] rounded-[28px] border-t-2 border-r-2 border-b-8 border-l-2 border-black ${
+        !visible ? "bg-gray-200 opacity-60" : ""
+      }`}
       onClick={onClick}
     >
       <img
@@ -50,7 +49,7 @@ const ProductCard = ({
         </p>
       </div>
       {!isClient && (
-        <div className="flex w-full px-[26px] justify-end mt-auto">
+        <div className="buttons-container">
           <button
             className="flex justify-center items-center ml-5 w-11 h-11 bg-[#1375C0] rounded-lg border-t-2 border-r-2 border-b-4 border-l-2 border-black"
             onClick={(e) => {
@@ -76,7 +75,11 @@ const ProductCard = ({
               onToggleVisibility(id, !visible);
             }}
           >
-            <img src={visible ? eye : eye_off} alt="Visibilidad" className="w-5" />
+            <img
+              src={visible ? eye : eye_off}
+              alt="Visibilidad"
+              className="w-5"
+            />
           </button>
         </div>
       )}
