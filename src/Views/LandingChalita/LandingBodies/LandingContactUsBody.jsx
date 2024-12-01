@@ -26,22 +26,38 @@ export const LandingContactUsBody = () => {
             <span className="flex items-center justify-center text-3xl p-6 text-[#975F7C] font-bold">Brindanos información sobre el problema</span>
             <Contact />
             <p className="flex items-center justify-center text-lg text-[#975F7C] font-bold">¿Tu queja es importante? ¡Visítanos en nuestras oficinas <br /> de atención al cliente y te ayudaremos personalmente!</p>
-            <div className="flex items-center justify-center ">
-                <img src={lamaMoto} alt="No furulo we" className="w-[400px] h-[400px]" />
-                <p>Edificio Guadalquivir, ubicado en la Av. 20 de Octubre esquina Rosendo Gutiérrez en Sopocachi <br />
-                    La Paz, Bolivia<br />
-                    Teléfonos:<br />
-                    + 591 701-02184<br />
-                    + 591 601-48447<br />
-                    E.com.bo<br />
-                    Web:www.ChalitaOE.com.bo<br/>
-                 Horarios:Lunes - Viernes: 9:30am a 19:00pm<br/>
-                    ado: 10:00am a 13:00pm<br/>
-                  </p>
+            <div className="flex flex-col md:flex-row items-center justify-center bg-white shadow-lg rounded-lg p-6 md:p-12 space-y-6 md:space-y-0 md:space-x-8">
+                <img
+                    src={lamaMoto}
+                    alt="No furulo we"
+                    className="w-60 h-60 md:w-[400px] md:h-[400px] rounded-lg object-cover shadow-md"
+                />
+                <div className="text-gray-700 text-center md:text-left">
+                    <p className="mb-4">
+                        <strong>Edificio Guadalquivir</strong>, ubicado en la Av. 20 de Octubre esquina Rosendo Gutiérrez en Sopocachi,
+                        <strong> La Paz, Bolivia</strong>
+                    </p>
+                    <p className="mb-4">
+                        <strong>Teléfonos:</strong><br />
+                        +591 701-02184<br />
+                        +591 601-48447
+                    </p>
+                    <p className="mb-4">
+                        <strong>Email:</strong> E.com.bo<br />
+                        <strong>Web:</strong> <a href="http://www.ChalitaOE.com.bo" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                            www.ChalitaOE.com.bo
+                        </a>
+                    </p>
+                    <p>
+                        <strong>Horarios:</strong><br />
+                        Lunes - Viernes: 9:30am a 7:00pm<br />
+                        Sábado: 10:00am a 1:00pm
+                    </p>
+                </div>
             </div>
             <span className="flex items-center justify-center text-3xl p-8 text-[#975F7C] font-bold">Nuestra ubicación</span>
             <div className="flex items-center justify-center text-lg">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d337.3872885344611!2d-68.12753677832839!3d-16.509074389956886!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f20623e358e65%3A0x42157ac0bd97364f!2sEDIFICIO%20GUADALQUIVIR%20%232332%20MEZANINE%20OFICINA%20104!5e0!3m2!1ses-419!2sbo!4v1731338578792!5m2!1ses-419!2sbo" width="800" height="450"  loading="lazy" className="p-2">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d337.3872885344611!2d-68.12753677832839!3d-16.509074389956886!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f20623e358e65%3A0x42157ac0bd97364f!2sEDIFICIO%20GUADALQUIVIR%20%232332%20MEZANINE%20OFICINA%20104!5e0!3m2!1ses-419!2sbo!4v1731338578792!5m2!1ses-419!2sbo" width="800" height="450" loading="lazy" className="p-2">
                 </iframe>
             </div>
 
