@@ -5,7 +5,7 @@ import lamaBanio from '../../../assets/img/llama_audifono.png';
 import lamaEsquizo from '../../../assets/img/llama_esquizo.png';
 import lamaStupid from '../../../assets/img/llama_stupid.png';
 import lamahistory from '../../../assets/img/llama_bufanda.png';
-import lamamission from '../../../assets/img/lamaprubea.png'
+import lamamission from '../../../assets/img/lamaprubea.png';
 
 export const LandingAboutUsBody = () => {
   const teamMembers = [
@@ -18,48 +18,49 @@ export const LandingAboutUsBody = () => {
 
   return (
     <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-[#975F7C] mb-8 text-center">Acerca de Nosotros</h1>
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-4xl font-bold text-[#975F7C] mb-12 text-center">Acerca de Nosotros</h1>
 
-        <section className="bg-white shadow-lg rounded-lg p-6 mb-12">
-          <h2 className="text-3xl font-semibold text-[#975F7C] mb-4">Nuestra Historia</h2>
-          <div className="flex">
-            <p className="text-gray-600 mb-4">
+        {/* Sección Nuestra Historia */}
+        <section className="bg-white shadow-lg rounded-lg p-8 mb-12">
+          <h2 className="text-3xl font-semibold text-[#975F7C] mb-6">Nuestra Historia</h2>
+          <div className="flex flex-col-reverse md:flex-row items-center md:space-x-8">
+            <p className="text-gray-600 leading-relaxed mb-6 md:mb-0 md:w-2/3">
               Fundada en 2010, nuestra empresa ha estado a la vanguardia de la innovación tecnológica durante más de una década.
-              Comenzamos con una visión simple: hacer que la tecnología sea accesible para todos. <br />
-              Nuestro viaje ha estado marcado por hitos significativos, desde el lanzamiento de nuestro primer producto en 2012 hasta nuestra expansión internacional en 2018.
+              Comenzamos con una visión simple: hacer que la tecnología sea accesible para todos. <br /><br />
+              Nuestro viaje ha estado marcado por hitos significativos, desde el lanzamiento de nuestro primer producto en 2012
+              hasta nuestra expansión internacional en 2018.
             </p>
             <img
               src={lamahistory}
               alt="llama Historiadora"
-              width={200}
-              height={200}
-              className="rounded-full mx-auto mb-4"
+              className="w-40 h-40 rounded-full object-cover shadow-md"
             />
           </div>
-
         </section>
 
-        <section className="bg-white shadow-lg rounded-lg p-6 mb-12 flex ">
-          <div className="">
-            <h2 className="text-3xl font-semibold text-[#975F7C] mb-4">Nuestra Misión</h2>
-
-            <p className="text-gray-600 mb-4">
-              Nuestra misión es proporcionar soluciones tecnológicas innovadoras que mejoren la vida cotidiana de las personas y las empresas.
-              Nos esforzamos por crear productos que sean intuitivos, eficientes y sostenibles.
-            </p>
-            <ul className="list-disc list-inside text-gray-600 mb-4">
-              <li>Innovación constante en nuestros productos y servicios</li>
-              <li>Compromiso con la satisfacción del cliente</li>
-              <li>Fomento de un ambiente de trabajo colaborativo y diverso</li>
-              <li>Responsabilidad social y ambiental en todas nuestras operaciones</li>
-            </ul>
+        {/* Sección Nuestra Misión */}
+        <section className="bg-white shadow-lg rounded-lg p-8 mb-12">
+          <div className="flex flex-col md:flex-row items-center md:space-x-8">
+            <div className="md:w-2/3">
+              <h2 className="text-3xl font-semibold text-[#975F7C] mb-6">Nuestra Misión</h2>
+              <p className="text-gray-600 leading-relaxed mb-4">
+                Nuestra misión es proporcionar soluciones tecnológicas innovadoras que mejoren la vida cotidiana de las personas y las empresas.
+                Nos esforzamos por crear productos que sean intuitivos, eficientes y sostenibles.
+              </p>
+              <ul className="list-disc list-inside text-gray-600 space-y-2">
+                <li>Innovación constante en nuestros productos y servicios</li>
+                <li>Compromiso con la satisfacción del cliente</li>
+                <li>Fomento de un ambiente de trabajo colaborativo y diverso</li>
+                <li>Responsabilidad social y ambiental en todas nuestras operaciones</li>
+              </ul>
+            </div>
+            <img
+              src={lamamission}
+              alt="llama en misión"
+              className="w-40 h-40 rounded-full object-cover shadow-md"
+            />
           </div>
-          <img
-            src={lamamission}
-            alt="llama en mision"
-            className="rounded-full mx-auto mb-4"
-          />
         </section>
 
         <section className="bg-white shadow-lg rounded-lg p-6 mb-12">

@@ -11,15 +11,15 @@
 
 .menu button {
     padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
+    background-color: #FB9153;
+    color: #000000;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .menu button:hover {
-    background-color: #0056b3;
+    background-color: #EA580C;
 }
 
 .search-bar {
@@ -60,18 +60,17 @@
     box-shadow: none;
 }
 
-/* Cubre toda la pantalla cuando el modal está activo */
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999; /* Asegúrate de que esté por encima de todo */
+    z-index: 9999;
 }
 
 /* Estilo para el contenedor del modal */
@@ -98,5 +97,5 @@
 }
 
 .close-button:hover {
-    color: #ff0000; /* Cambia de color al pasar el cursor */
+    color: #ff0000;
 }

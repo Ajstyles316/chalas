@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, LabelList } from 'recharts';
 
 export const EventsChart = () => {
   // Datos del gráfico
@@ -17,14 +17,41 @@ export const EventsChart = () => {
       margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
     >
       {/* Opciones de diseño */}
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="tipo" label={{ value: "Tipo de evento", position: "insideBottom", dy: 10 }} />
-      <YAxis label={{ value: "Cantidad de eventos", angle: -90, position: "insideLeft", dx: -10 }} />
-      <Tooltip />
-      <Legend />
+      <CartesianGrid stroke="#555555" strokeDasharray="4 4" /> {/* Líneas punteadas en gris oscuro */}
+      <XAxis 
+        dataKey="tipo" 
+        stroke="#555555" // Eje X en gris oscuro
+        label={{
+          value: "Tipo de evento",
+          position: "insideBottom",
+          dy: 10,
+          style: { fill: "#000000", fontSize: 14, fontWeight: "bold" }, // Texto en negro y negrilla
+        }} 
+      />
+      <YAxis 
+        stroke="#555555" // Eje Y en gris oscuro
+        label={{
+          value: "Cantidad de eventos",
+          angle: -90,
+          position: "insideLeft",
+          dx: -10,
+          style: { fill: "#000000", fontSize: 14, fontWeight: "bold" }, // Texto en negro y negrilla
+        }} 
+      />
+      <Legend verticalAlign="top" height={36} /> {/* Coloca la leyenda arriba */}
 
-      {/* Barra */}
-      <Bar dataKey="cantidad" fill="#8884d8" barSize={40} />
+      {/* Barra con etiquetas */}
+      <Bar 
+        dataKey="cantidad" 
+        fill="#8884d8" // Color morado
+        barSize={40}
+      >
+        <LabelList 
+          dataKey="cantidad" 
+          position="top" 
+          style={{ fill: '#000000', fontSize: 14, fontWeight: 'bold' }} // Etiquetas en negrilla
+        />
+      </Bar>
     </BarChart>
   );
 };
