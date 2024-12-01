@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import ProductForm from "./ProductForm";
+import { getAuth } from "firebase/auth";
+
 import {
   getVisibleProducts,
   softDeleteProduct,
@@ -8,6 +11,7 @@ import {
 } from "../../../Firebase/api.js";
 
 const SupplierProducts = ({ onCardClick }) => {
+  const { id } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -15,7 +19,15 @@ const SupplierProducts = ({ onCardClick }) => {
 
   const fetchProducts = async () => {
     try {
-      const visibleProducts = await getVisibleProducts();
+      // Intentar usar el id de los parámetros o, si no está disponible, el del usuario autenticado
+      const supplierId = id || getAuth().currentUser?.uid;
+
+      if (!supplierId) {
+        console.error("No se pudo determinar el ID del proveedor o usuario.");
+        return;
+      }
+
+      const visibleProducts = await getVisibleProducts(supplierId);
       setProducts(visibleProducts);
     } catch (error) {
       console.error("Error al obtener productos:", error);
@@ -26,7 +38,7 @@ const SupplierProducts = ({ onCardClick }) => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [id]);
 
   const handleDeleteProduct = async (productId) => {
     try {

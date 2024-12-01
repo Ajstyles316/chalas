@@ -131,7 +131,9 @@ const ProductForm = ({ product, onClose }) => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500"
             />
             {errors.price && (
-              <p className="mt-1 text-sm text-red-500">El precio es requerido</p>
+              <p className="mt-1 text-sm text-red-500">
+                El precio es requerido
+              </p>
             )}
           </div>
 

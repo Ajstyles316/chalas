@@ -11,10 +11,11 @@ type Product = {
   imageUrl: string;
   name_product: string;
   provider: string;
+  provider_id: string;
 };
 
 export default function Products() {
-  const [products, setProducts] = useState<Product[]>([]); // Se define el tipo explícito
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,8 +29,9 @@ export default function Products() {
           imageUrl: doc.data().imageUrl || "https://via.placeholder.com/150",
           name_product: doc.data().name_product || "Producto sin nombre",
           provider: doc.data().provider || "Proveedor desconocido",
+          provider_id: doc.data().provider_id
         }));
-        setProducts(fetchedProviders); // Actualiza el estado con el array de productos
+        setProducts(fetchedProviders);
       } catch (error) {
         console.error("Error fetching providers:", error);
       } finally {

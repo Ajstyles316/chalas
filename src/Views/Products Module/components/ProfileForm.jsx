@@ -132,7 +132,6 @@ const ProfileForm = () => {
 
   return (
     <div className="profile-form-container">
-      <Navbar />
       <form onSubmit={handleSubmit(onSubmit)} className="profile-form">
         <h1>Registro de Perfil</h1>
         <div className="form-profile-container">
