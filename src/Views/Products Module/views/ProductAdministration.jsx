@@ -11,8 +11,13 @@ import trashIcon from "../../../assets/svg/trash_icon.svg";
 import eyeIcon from "../../../assets/svg/eye_icon.svg";
 import eyeOffIcon from "../../../assets/svg/eye_off_icon.svg";
 import Footer from "../../Client/components/Footer";
+import { useAuth } from "../../../context/AuthContext";
 
 function ProductAdministration() {
+
+  const {user} = useAuth();
+
+
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState({
     name: "",
@@ -27,11 +32,12 @@ function ProductAdministration() {
 
   const fetchProducts = async () => {
     try {
-      const visibleProducts = await getVisibleProducts();
+      // console.log({user})
+      const visibleProducts = await getVisibleProducts(user.uid);
       setProducts(visibleProducts);
       setProductsLoaded(true);
     } catch (error) {
-      console.error("Error al obtener productos:", error);
+      console.error("Error al obtener productos :", error);
     }
   };
 
