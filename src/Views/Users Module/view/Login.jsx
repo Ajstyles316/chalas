@@ -12,7 +12,8 @@ import { SlControlPause } from "react-icons/sl";
 import { Eye, EyeOff } from "lucide-react";
 
 export const Login = () => {
-  const { login, register, loginWithGoogle, loginWithFacebook, resetPassword } = useAuth();
+  const { login, register, loginWithGoogle, loginWithFacebook, resetPassword } =
+    useAuth();
   const [formType, setFormType] = useState("login");
   const [isHuman, setIsHuman] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -32,25 +33,24 @@ export const Login = () => {
       if (formType === "register") {
         await register(email, password);
         navigate("/clienthome");
-        console.log('login god')
-
+        console.log("login god");
       } else {
         const userData = await login(email, password);
-        setMessage('Inicio de sesión correcto, Cargado Información'.message);
+        setMessage("Inicio de sesión correcto, Cargado Información".message);
         setMessageType("success");
 
-        if (userData.role === 'client') {
+        if (userData.role === "client") {
           navigate("/clienthome");
-        } else if (userData.role === 'provider') {
-          navigate("/supplier");
-        } else if (userData.role === 'admin') {
+        } else if (userData.role === "provider") {
+          navigate("/DashoboardProvider");
+        } else if (userData.role === "admin") {
           navigate("/admin");
         }
       }
     } catch (error) {
       setMessage(error.message);
       setMessageType("error");
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -82,7 +82,10 @@ export const Login = () => {
     return (
       <form onSubmit={authentication} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
             Correo electrónico
           </label>
           <input
@@ -95,7 +98,10 @@ export const Login = () => {
           />
         </div>
         <div className="relative">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700"
+          >
             Contraseña - Mínimo 6 caractetres
           </label>
           <input
@@ -109,12 +115,14 @@ export const Login = () => {
             onClick={() => setShowPassword(!showPassword)}
             className="mt-5 absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
           >
-            {showPassword ? <Eye/> : <EyeOff/>}
+            {showPassword ? <Eye /> : <EyeOff />}
           </button>
-          
         </div>
         <div className="flex items-center mt-4">
-          <ReCAPTCHA sitekey="6LdI5Y4qAAAAAKgLLqGgxczG9f9Azj2Aj8-7SQZU" onChange={() => setIsHuman(true)} />
+          <ReCAPTCHA
+            sitekey="6LdI5Y4qAAAAAKgLLqGgxczG9f9Azj2Aj8-7SQZU"
+            onChange={() => setIsHuman(true)}
+          />
         </div>
         {formType === "register" && (
           <div className="flex items-center mt-4">
@@ -145,26 +153,30 @@ export const Login = () => {
         </button>
         {showTerms && <UserTerms />}
       </form>
-
     );
   };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       <div className="w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16">
-        <img className="w-32 h-32 mx-auto mb-8" src={logoL} alt="ChalitaOE Logo" />
+        <img
+          className="w-32 h-32 mx-auto mb-8"
+          src={logoL}
+          alt="ChalitaOE Logo"
+        />
         <h1 className="text-2xl font-medium text-primary mt-4 mb-12 text-center">
           {formType === "login"
             ? "Ingresa a ChalitaOE la app de Eventos Sociales"
             : formType === "register"
-              ? "Regístrate en ChalitaOE"
-              : "Recupera tu contraseña"}
+            ? "Regístrate en ChalitaOE"
+            : "Recupera tu contraseña"}
         </h1>
 
         {message && (
           <div
-            className={`mb-4 p-4 text-white rounded ${messageType === "error" ? "bg-red-500" : "bg-green-500"
-              }`}
+            className={`mb-4 p-4 text-white rounded ${
+              messageType === "error" ? "bg-red-500" : "bg-green-500"
+            }`}
           >
             {message}
           </div>
@@ -197,7 +209,11 @@ export const Login = () => {
                   onClick={handleFacebookSignIn}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  <img className="w-5 h-5 mr-2" src={facebook} alt="Facebook Logo" />
+                  <img
+                    className="w-5 h-5 mr-2"
+                    src={facebook}
+                    alt="Facebook Logo"
+                  />
                   Facebook
                 </button>
               </div>

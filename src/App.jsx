@@ -33,6 +33,8 @@ import { ProtectedRoutes } from "./security/ProtectedRoutes";
 import UnauthorizedView from "./Views/Users Module/view/UnauthorizedView";
 import { LoginNew } from "./Views/Users Module/view/LoginNew";
 import { RegisterProviderNew } from "./Views/Users Module/view/RegisterProviderNew";
+import ItemCard from "./Views/Products Module/components/ItemCard";
+import ProductList from "./Views/Products Module/components/ProductList";
 
 function App() {
   const auth = getAuth(appFirebase);
@@ -150,6 +152,12 @@ function App() {
               }
             />
             <Route path="/transacciones" element={<Transacciones />} />
+
+            <Route path="/test" element={<ProductList />} />
+            <Route
+              path="/supplier-profile/:id?"
+              element={<ClientProviderView />}
+            />
           </Routes>
         </UserProvider>
       </BrowserRouter>
