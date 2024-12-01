@@ -9,6 +9,7 @@ const ProductCardDetailed = ({
   name_product,
   description,
   provider,
+  provider_id,
   imageUrl,
   categories = [],
 }) => {
@@ -16,6 +17,11 @@ const ProductCardDetailed = ({
   console.log({ user });
 
   const navigate = useNavigate();
+
+  const handleProviderClick = (e) => {
+    e.stopPropagation();
+    navigate(`/supplier-profile/${provider_id}`);
+  };
 
   const formattedCategories =
     categories.length > 0 ? categories.join(", ") : "Sin categoría";
@@ -40,7 +46,9 @@ const ProductCardDetailed = ({
       <div className="product-info">
         <h3 className="product-category">{formattedCategories}</h3>
         <h1 className="product-name">{name_product}</h1>
-        <p className="product-supplier">{user.profile.storeName}</p>
+        <p className="product-supplier" onClick={handleProviderClick}>
+          {provider}
+        </p>
         <div className="price-rating">
           <div className="product-price">$$</div>
           <RatingStars />
@@ -53,7 +61,6 @@ const ProductCardDetailed = ({
 
         <p className="product-description-detailed">{description}</p>
         <div className="product-buttons">
-          {/* <button className="favorite-button">Añadir a favoritos</button> */}
           <button className="cart-button" onClick={handleAddToCart}>
             Añadir al carrito
           </button>

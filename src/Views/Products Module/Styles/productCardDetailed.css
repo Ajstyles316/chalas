@@ -6,7 +6,6 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     justify-content: center;
-    /* overflow-x: hidden ; */
 }
 
 .product-image {
@@ -65,12 +64,14 @@
 .product-name {
     color: #000;
     font-family: Poppins;
-    font-size: 46px;
+    font-size: clamp(32px, 2vw, 44px);
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    width: 100%;
     letter-spacing: -1.38px;
     margin: 12px 0 0 72px;
+
 }
 
 .product-supplier {
@@ -79,6 +80,7 @@
     font-family: Poppins;
     font-size: 28px;
     font-style: italic;
+    color: #FB9153;
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.16px;

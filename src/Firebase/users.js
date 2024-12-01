@@ -16,8 +16,6 @@ export const getUserData = async () => {
 
     const userDocRef = doc(db, "provider", currentUser.uid);
     const userDocSnap = await getDoc(userDocRef);
-    console.log(userDocSnap)
-    console.log(userDocRef)
 
     if (userDocSnap.exists()) {
       const userData = userDocSnap.data();
@@ -39,3 +37,4 @@ export const getUserData = async () => {
     throw error;
   }
 };
+
