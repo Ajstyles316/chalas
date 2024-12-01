@@ -7,8 +7,12 @@ import {
   updateProduct,
 } from "../../../Firebase/api.js";
 import "../Styles/supplierProducts.css";
+import { useAuth } from "../../../context/AuthContext.jsx";
 
 const SupplierProductsClient = ({ onCardClick }) => {
+
+  const {user } = useAuth();
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -17,7 +21,7 @@ const SupplierProductsClient = ({ onCardClick }) => {
 
   const fetchProducts = async () => {
     try {
-      const visibleProducts = await getVisibleProducts();
+      const visibleProducts = await getVisibleProducts(user.uid);
       setProducts(visibleProducts);
     } catch (error) {
       console.error("Error al obtener productos:", error);

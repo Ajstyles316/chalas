@@ -6,7 +6,7 @@ import { getAuth } from "firebase/auth";
 export const createProduct = async (data, imageFile) => {
   try {
     const auth = getAuth();
-    const userId = auth.currentUser.uid; 
+    const userId = auth.currentUser.uid;
     console.log("User ID:", userId);
 
     // Obtener el nombre de la tienda del proveedor actual
@@ -98,6 +98,8 @@ export const getVisibleProducts = async (supplierId) => {
     const listOfProductsDocRef = doc(db, "listOfProducts", supplierId);
     const listOfProductsDoc = await getDoc(listOfProductsDocRef);
 
+    console.log("Datos del documento listOfProducts:", listOfProductsDoc.data());
+
     if (!listOfProductsDoc.exists()) {
       console.warn("El documento listOfProducts no existe para este proveedor.");
       return []; // Retorna un array vacío si no existe el documento
@@ -107,8 +109,9 @@ export const getVisibleProducts = async (supplierId) => {
 
     if (!Array.isArray(productIds) || productIds.length === 0) {
       console.warn("El campo 'products' está vacío o no es válido.");
-      return []; // Retorna un array vacío si no hay productos
+      return [];
     }
+
 
     // Consultar los productos en la colección "products" usando los IDs
     const productsQuery = query(
@@ -126,7 +129,7 @@ export const getVisibleProducts = async (supplierId) => {
 
     return visibleProducts;
   } catch (error) {
-    console.error("Error al obtener productos:", error.message);
+    console.error(supplierId + "Error al obtener productos:", error.message);
     throw new Error("Error al obtener productos: " + error.message);
   }
 };
@@ -151,7 +154,7 @@ export const getSupplierData = async (supplierId) => {
   } catch (error) {
     throw new Error("Error al obtener los datos del proveedor y productos: " + error.message);
   }
-  
+
 };
 
 const uploadImage = async (imageFile, folder = "profile_images") => {
